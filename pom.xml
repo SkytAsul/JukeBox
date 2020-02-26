@@ -1,0 +1,57 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>fr.skytasul</groupId>
+	<artifactId>jukebox</artifactId>
+	<version>1.16</version>
+	<name>JukeBox</name>
+
+	<repositories>
+		<repository>
+			<id>placeholderapi</id>
+			<url>http://repo.extendedclip.com/content/repositories/placeholderapi/</url>
+		</repository>
+		<repository>
+			<id>jitpack.io</id>
+			<url>https://jitpack.io</url>
+		</repository>
+		<repository>
+			<id>spigotmc-repo</id>
+			<url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
+		</repository>
+	</repositories>
+
+	<dependencies>
+		<dependency>
+			<groupId>me.clip</groupId>
+			<artifactId>placeholderapi</artifactId>
+			<version>2.10.4</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.github.koca2000</groupId>
+			<artifactId>NoteBlockAPI</artifactId>
+			<version>1.4.4</version>
+		</dependency>
+		<dependency>
+			<groupId>org.spigotmc</groupId>
+			<artifactId>spigot</artifactId>
+			<version>1.15.2-R0.1-SNAPSHOT</version>
+			<scope>provided</scope>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.8.0</version>
+				<configuration>
+					<source>1.8</source>
+					<target>1.8</target>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+</project>

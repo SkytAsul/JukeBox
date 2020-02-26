@@ -1,0 +1,34 @@
+NEXT_PAGE: §bSekantis puslapis
+LATER_PAGE: §bAnkstesnis puslapis
+PLAYER: §cTurite būti žaidėjas, kad galėtumėte naudoti šią komandą.
+RELOAD_MUSIC: §aMuzika perkrauta.
+INV_NAME: §d§lMuzika
+TOGGLE_PLAYING: §6Sustabdyti/Groti
+VOLUME: '§9Muzikos garsas : §b'
+RIGHT_CLICK: '§eDešinysis pelės mygtukas: padidina garsą 10%'
+LEFT_CLICK: '§eKairysis pelės mygtukas: sumažina garsą 10%'
+RANDOM_MUSIC: §3Atsitiktinė daina
+STOP: §cNustoti groti
+MUSIC_STOPPED: §aMuzika nustojo groti.
+ENABLE: Įjungti
+DISABLE: Išjungti
+SHUFFLE_MODE: atsitiktinių dainų rėžimą
+CONNEXION_MUSIC: prisijungimo muziką
+PARTICLES: papuošimus
+MUSIC_PLAYING: '§aDabar groja:'
+INCORRECT_SYNTAX: §cNeteisinga sintaksė.
+RELOAD_LAUNCH: §aBandome perkrauti.
+RELOAD_FINISH: §aPerkrovimas įvykdytas.
+AVAILABLE_COMMANDS: '§aGalimos komandos:'
+INVALID_NUMBER: §cNežinomas numeris.
+PLAYER_MUSIC_STOPPED: '§aMuzika sustabdyta: §b'
+IN_PLAYLIST: §9§oGrojaraštyje
+PLAYLIST_ITEM: §dGrojaraščiai
+OPTIONS_ITEM: §bPasirinkimai
+MENU_ITEM: §6Grįžti į meniu
+CLEAR_PLAYLIST: §cIšvalyti grojaraštį
+NEXT_ITEM: §eSekanti daina
+CHANGE_PLAYLIST: '§6§lPakeisti grojaraštį: §r'
+PLAYLIST: §5Grojaraštis
+FAVORITES: §4Mėgstamiausios
+# Translated by Džeris

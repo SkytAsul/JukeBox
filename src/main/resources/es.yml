@@ -1,0 +1,36 @@
+NEXT_PAGE: §bSiguiente pagina
+LATER_PAGE: §bPagina anterior
+PLAYER: §cDebes ser un jugador para ejecutar este comando.
+RELOAD_MUSIC: §aMusica recargada.
+INV_NAME: §d§lJukebox Musica !
+TOGGLE_PLAYING: §6Pausar/play
+VOLUME: '§9Volumen: §b'
+RIGHT_CLICK: '§eClick derecho: Disminuir un 10%'
+LEFT_CLICK: '§eClick izquierdo: Incrementar un 10%'
+RANDOM_MUSIC: §3Reproducir una cancion aleatoria.
+STOP: §cDetener la musica.
+MUSIC_STOPPED: §aMusica detenida.
+ENABLE: Activar
+DISABLE: Desactivar
+ENABLED: Activado
+DISABLED: Desactivado
+SHUFFLE_MODE: el modo aleatorio
+CONNEXION_MUSIC: música al conectar
+PARTICLES: particulas
+MUSIC_PLAYING: '§aMúsica mientras juegas:'
+INCORRECT_SYNTAX: §cSintaxis incorrecta.
+RELOAD_LAUNCH: §aIntentado recargar...
+RELOAD_FINISH: §aRecarga finalizada!
+AVAILABLE_COMMANDS: '§aComandos disponibles:'
+INVALID_NUMBER: §cNumero invalido.
+PLAYER_MUSIC_STOPPED: '§aMusica detenida por el jugador: §b'
+IN_PLAYLIST: §9§oEn lista de reproducción
+PLAYLIST_ITEM: §dListas de reproducciónes
+OPTIONS_ITEM: §bOpciones
+MENU_ITEM: §6Regresar al menu
+CLEAR_PLAYLIST: §cVaciar la lista de reproducción actual
+NEXT_ITEM: §eSiguiente cancion
+CHANGE_PLAYLIST: '§6§lCambiar lista de reproducción: §r'
+PLAYLIST: §5Lista de reproducción
+FAVORITES: §4Favoritos
+# Traducido por EnchantedCrown

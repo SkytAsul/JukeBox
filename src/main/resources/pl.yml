@@ -1,0 +1,37 @@
+NEXT_PAGE: §bNastępna Strona
+LATER_PAGE: §bPoprzednia Strona
+PLAYER: §cMusisz być graczem by użyć komendy.
+RELOAD_MUSIC: §aMuzyka Odświeżona.
+INV_NAME: §d§lRADIO!
+TOGGLE_PLAYING: §6Pauza/Graj
+VOLUME: '§9Głośność : §b'
+RIGHT_CLICK: '§ePrawy Przycisk: Zmniejsza o 10%'
+LEFT_CLICK: '§eLewy Przycisk: Zwiększa o 10%'
+RANDOM_MUSIC: §3Losowa Muzyka
+STOP: §cZatrzymaj Muzyke
+MUSIC_STOPPED: §aMuzyka zatrzymana.
+ENABLE: Aktywuj
+DISABLE: Dezaktywuj
+SHUFFLE_MODE: Tryb Losowy
+LOOP_MODE: Tryb Zapętlania
+CONNEXION_MUSIC: Muzyka kiedy się zalogujesz
+PARTICLES: Cząsteczki
+MUSIC_PLAYING: '§aMuzyka podczas odtwarzania:'
+INCORRECT_SYNTAX: §cNiepoprawna Składnia.
+RELOAD_LAUNCH: §aSpróbuj odświeżyć.
+RELOAD_FINISH: §aOdświeżanie ukończone.
+AVAILABLE_COMMANDS: '§aDostępne Komendy:'
+INVALID_NUMBER: §cNieprawidłowa Liczba.
+PLAYER_MUSIC_STOPPED: '§aMuzyka zatrzymana dla gracza: §b'
+IN_PLAYLIST: §9§oNa liście odtwarzania
+PLAYLIST_ITEM: §dLista Odtwarzania
+OPTIONS_ITEM: §bOpcje
+MENU_ITEM: §6Powrót do menu
+CLEAR_PLAYLIST: §cWyczyść aktualną playliste
+NEXT_ITEM: §eNastępna Piosenka
+CHANGE_PLAYLIST: '§6§lZmień liste odtwarzania: §r'
+PLAYLIST: §5Listy Odtwarzania
+FAVORITES: §4Ulubione
+RADIO: §3Radio
+UNAVAILABLE_RADIO: §cTa czynność jest niedostępna podczas słuchania radia.
+# Translated by dobiko

@@ -1,0 +1,23 @@
+NEXT_PAGE: §bNästa sida
+LATER_PAGE: §bFörra sidan
+PLAYER: §cDu måste vara en spelare för att kunna använda detta kommando.
+RELOAD_MUSIC: §aReload.
+INV_NAME: §aJukebox
+TOGGLE_PLAYING: §aStart/Stopp
+VOLUME: §9Iq
+RIGHT_CLICK: §aHöger klicka
+LEFT_CLICK: §aVänster klicka
+RANDOM_MUSIC: §9Random Musik
+STOP: §cStoppa musiken
+MUSIC_STOPPED: Du slutade lyssna på musiken.
+ENABLE: §aAktivera
+DISABLE: §cDeaktivera
+SHUFFLE_MODE: §eShuffle Läge
+CONNEXION_MUSIC: music when connecting
+MUSIC_PLAYING: '§aMusiken som spelas: '
+INCORRECT_SYNTAX: §cIncorrect syntax.
+RELOAD_LAUNCH: §aTrying to reload.
+RELOAD_FINISH: §aReload finished.
+AVAILABLE_COMMANDS: '§aAvailable commands:'
+INVALID_NUMBER: §cInvalid number.
+# Translated by chris_

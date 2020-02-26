@@ -1,0 +1,34 @@
+NEXT_PAGE: §bDalší stránka
+LATER_PAGE: §bPředchozí stránka
+PLAYER: §cMusíš být hráč abys mohl tenhle příkaz.
+RELOAD_MUSIC: §aHudba resetována.
+INV_NAME: §d§lJukebox!
+TOGGLE_PLAYING: §6Pauza/hrát
+VOLUME: '§9Hlasitost hudby : §b'
+RIGHT_CLICK: '§ePravým kliknutím: snížit o 10%'
+LEFT_CLICK: '§eLevým kliknutím: zvýšit 10%'
+RANDOM_MUSIC: §3Náhodná hudba.
+STOP: §cZastavit hudbu
+MUSIC_STOPPED: §aHudba zastavena.
+ENABLE: Zapnout
+DISABLE: Vypnout
+SHUFFLE_MODE: náhodný mod
+CONNEXION_MUSIC: hudba při připojení na server
+PARTICLES: doplňky
+MUSIC_PLAYING: '§aHrající hudba:'
+INCORRECT_SYNTAX: §cNeznámý příkaz či zle napsané.
+RELOAD_LAUNCH: §aResetovávání pluginu.
+RELOAD_FINISH: §aReset hotov.
+AVAILABLE_COMMANDS: '§aPovolené příkazy:'
+INVALID_NUMBER: §cNeznáme číslo.
+PLAYER_MUSIC_STOPPED: '§aHudba zastavena pro hráče: §b'
+IN_PLAYLIST: §9§oV playlist
+PLAYLIST_ITEM: §dPlaylisty
+OPTIONS_ITEM: §bNastavení
+MENU_ITEM: §6Zpátky do menu
+CLEAR_PLAYLIST: §cVyprázdnit aktuální playlist
+NEXT_ITEM: §eDalší písnička
+CHANGE_PLAYLIST: '§6§lZměnit playlist: §r'
+PLAYLIST: §5Playlist
+FAVORITES: §4Oblíbené
+# Translated by lovec119

@@ -1,0 +1,39 @@
+NEXT_PAGE: §bPage suivante
+LATER_PAGE: §bPage précédente
+PLAYER: §cVous devez être un joueur pour effectuer cette commande.
+RELOAD_MUSIC: §aMusique relancée.
+INV_NAME: §d§lJukebox !
+TOGGLE_PLAYING: §6Mettre en pause/reprendre
+VOLUME: '§9Volume de la musique : §b'
+RIGHT_CLICK: '§eClic droit : baisser de 10%'
+LEFT_CLICK: '§eClic gauche : monter de 10%'
+RANDOM_MUSIC: §3Musique aléatoire
+STOP: §cArrêter la musique
+MUSIC_STOPPED: §aMusique arrêtée.
+ENABLE: Activer
+DISABLE: Désactiver
+ENABLED: Activé
+DISABLED: Désactivé
+SHUFFLE_MODE: le mode mélange
+LOOP_MODE: le mode boucle
+CONNEXION_MUSIC: la musique lors de la connexion
+PARTICLES: les particules
+MUSIC_PLAYING: '§aMusique en cours de lecture :'
+INCORRECT_SYNTAX: §cSyntaxe incorrecte.
+RELOAD_LAUNCH: §aEssai de rechargement.
+RELOAD_FINISH: §aRechargement terminé.
+AVAILABLE_COMMANDS: '§aCommandes disponibles :'
+INVALID_NUMBER: §cNombre invalide.
+PLAYER_MUSIC_STOPPED: '§aMusique arrêtée pour le joueur : §b'
+IN_PLAYLIST: §9§oDans la Playlist
+PLAYLIST_ITEM: §dPlaylists
+OPTIONS_ITEM: §bOptions
+MENU_ITEM: §6Retourner au menu
+CLEAR_PLAYLIST: §cVider la playlist actuelle
+NEXT_ITEM: §eMusique suivante
+CHANGE_PLAYLIST: '§6§lChanger de playlist : §r'
+CHANGE_PLAYLIST_LORE: '§eClic central sur un disque\n§e pour ajouter/supprimer le morceau";
+PLAYLIST: §5Liste de lecture
+FAVORITES: §4Favoris
+NONE: §cnone
+# Translated by SkytAsul

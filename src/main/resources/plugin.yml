@@ -1,0 +1,31 @@
+name: JukeBox
+author: SkytAsul
+version: 1.16
+description: A plugin who allows you to propose note block songs/musics to your players.
+main: fr.skytasul.music.JukeBox
+api-version: 1.13
+website: https://www.spigotmc.org/resources/jukebox-music-plugin.40580/
+depend: [NoteBlockAPI]
+softdepend: [PlaceholderAPI]
+commands:
+  music:
+    description: Main command for musics
+    aliases: [jukebox]
+    permission: music.command
+  adminmusic:
+    description: Admin command for musics
+    aliases: [amusic]
+    permission: music.command.admin
+
+permissions:
+  music.*:
+    description: Give access to JukeBox whole
+    children:
+      music.command: true
+      music.command.admin: true
+  music.command:
+    description: Give access to /music command
+    default: true
+  music.command.admin:
+    description: Give access to /adminmusic
+    default: op

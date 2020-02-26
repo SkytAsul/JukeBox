@@ -1,0 +1,37 @@
+NEXT_PAGE: §bHalaman selanjutnya
+LATER_PAGE: §bHalaman sebelumnya
+PLAYER: §cConsole tidak bisa melakukan ini.
+RELOAD_MUSIC: §aMusic dimuat ulang.
+INV_NAME: §d§lJukebox !
+TOGGLE_PLAYING: §6Jeda/main
+VOLUME: '§9Volume musik : §b'
+RIGHT_CLICK: '§eKlik kanan: mengurangi 10%'
+LEFT_CLICK: '§eKlik kiri: menambah 10%'
+RANDOM_MUSIC: §3Musik acak
+STOP: §cHentikan musik
+MUSIC_STOPPED: §aMusik berhenti.
+ENABLE: Nyalakan
+DISABLE: Matikan
+SHUFFLE_MODE: mode acak
+LOOP_MODE: mode pengulangan
+CONNEXION_MUSIC: musik saat terhubung
+PARTICLES: partikel
+MUSIC_PLAYING: '§aSedang memutar:'
+INCORRECT_SYNTAX: §cSyntax salah.
+RELOAD_LAUNCH: §aSedang memuat ulang.
+RELOAD_FINISH: §aBerhasil dimuat ulang.
+AVAILABLE_COMMANDS: '§acommands tersedia:'
+INVALID_NUMBER: §cNomor tidak valid.
+PLAYER_MUSIC_STOPPED: '§aMusik dihentikan untuk player: §b'
+IN_PLAYLIST: §9§oDi daftar putar
+PLAYLIST_ITEM: §dDaftar putar
+OPTIONS_ITEM: §bPengaturan
+MENU_ITEM: §6Kembali ke menu
+CLEAR_PLAYLIST: §cMembersihkan playlist sekarang
+NEXT_ITEM: §eMusik selanjutnya
+CHANGE_PLAYLIST: '§6§lGanti daftar putar: §r'
+PLAYLIST: §5Daftar putar
+FAVORITES: §4Faforit
+RADIO: §3Radio
+UNAVAILABLE_RADIO: §cTindakan ini tidak tersedia saat mode radio aktif
+# Translated by wibi9424

@@ -1,0 +1,23 @@
+NEXT_PAGE: §bNächste Seite
+LATER_PAGE: §bÜberspringen
+PLAYER: §cDu musst ein Spieler sein, um diesen Befehl ausführen zu können.
+RELOAD_MUSIC: §aNeuladen
+INV_NAME: §aMusikBox
+TOGGLE_PLAYING: §aStart/Stop
+VOLUME: §9Lautstärke
+RIGHT_CLICK: §aRechtsklick
+LEFT_CLICK: §aLinksklick
+RANDOM_MUSIC: §9Random Musik
+STOP: §cMusik Anhalten
+MUSIC_STOPPED: Die Musik ist Angehalten
+ENABLE: §aAktivieren
+DISABLE: §cDeaktivieren
+SHUFFLE_MODE: §eShuffle Modus
+CONNEXION_MUSIC: music when connecting
+MUSIC_PLAYING: '§aDerzeit Spielt: '
+INCORRECT_SYNTAX: §cIncorrect syntax.
+RELOAD_LAUNCH: §aTrying to reload.
+RELOAD_FINISH: §aReload finished.
+AVAILABLE_COMMANDS: '§aAvailable commands:'
+INVALID_NUMBER: §cInvalid number.
+# Translated by TheFighter86
