@@ -257,7 +257,13 @@ public class CommandAdmin implements CommandExecutor{
 			}
 			pdata = PlayerData.players.get(cp.getUniqueId());
 			try{
-				pdata.setVolume(Byte.parseByte(args[2]));
+				int volume;
+				if (args[2].equals("+")) {
+					volume = pdata.getVolume() + 10;
+				}else if (args[2].equals("-")) {
+					volume = pdata.getVolume() - 10;
+				}else volume = Integer.parseInt(args[2]);
+				pdata.setVolume(volume);
 				sender.sendMessage("§aVolume : " + pdata.getVolume());
 			}catch (NumberFormatException ex){
 				sender.sendMessage(Lang.INVALID_NUMBER);

@@ -1,0 +1,40 @@
+NEXT_PAGE: §b다음 페이지
+LATER_PAGE: §b이전 페이지
+PLAYER: §c해당 명령어는 플레이어만 사용할 수 있습니다.
+RELOAD_MUSIC: §a음악을 새로고침했습니다.
+INV_NAME: §d§lJukebox !
+TOGGLE_PLAYING: §6정지 / 재생
+VOLUME: '§9볼륨 : §b'
+RIGHT_CLICK: '§e우클릭 : 볼륨 10% 감소'
+LEFT_CLICK: '§e좌클릭 : 볼륨 10% 증가'
+RANDOM_MUSIC: §3랜덤 재생 모드
+STOP: §c멈춤
+MUSIC_STOPPED: §a음악 재생을 중지했습니다.
+ENABLE: 켜짐
+DISABLE: 꺼짐
+ENABLED: 활성화됨
+DISABLED: 비활성화됨
+SHUFFLE_MODE: 셔플 재생 모드
+LOOP_MODE: 반복 재생 모드
+CONNEXION_MUSIC: 서버 연결시 음악 재생
+PARTICLES: 파티클 모드
+MUSIC_PLAYING: '§a재생중인 곡명 : '
+INCORRECT_SYNTAX: §c명령어 구문이 올바르지 않습니다.
+RELOAD_LAUNCH: §a리로드 중
+RELOAD_FINISH: §a리로드가 완료되었습니다.
+AVAILABLE_COMMANDS: '§a사용 가능한 명령어 :'
+INVALID_NUMBER: §c잘못된 값입니다.
+PLAYER_MUSIC_STOPPED: '§a플레이어의 음악을 정지했습니다 : §b'
+IN_PLAYLIST: §9§oВ 재생 목록
+PLAYLIST_ITEM: §d재생 목록
+OPTIONS_ITEM: §b설정
+MENU_ITEM: §6메뉴로 돌아가기
+CLEAR_PLAYLIST: §c현재 재생목록 지우기
+NEXT_ITEM: §e다음 음악
+CHANGE_PLAYLIST: '§6§l재생 목록 변경 : §r'
+PLAYLIST: §5재생 목록
+FAVORITES: §4즐겨찾기
+RADIO: §3라디오
+UNAVAILABLE_RADIO: §c라디오 재생중에는 해당 작업을 수행할 수 없습니다.
+NONE: §c없음
+# Translated by s0ngsari

@@ -83,14 +83,8 @@ public class JukeBox extends JavaPlugin implements Listener{
 	public void onEnable(){
 		instance = this;
 		
-		/*if (!getServer().getPluginManager().isPluginEnabled("NoteBlockAPI") || getServer().getPluginManager().getPlugin("NoteBlockAPI") == null){ // Unused since NoteBlockAPI is no longer a softdepend
-			getLogger().severe("NoteBlockAPI isn't loaded. Please install it on your server and restart it.");
-			disable = true;
-			getServer().getPluginManager().disablePlugin(this);
-			return;
-		}*/
 		if (getServer().getPluginManager().isPluginEnabled("PlaceholderAPI")) Placeholders.registerPlaceholders();
-		getLogger().info("This JukeBox version requires NoteBlockAPI version 1.4.3 or more. Please ensure that before using JukeBox (you are using NBAPI ver. " + getPlugin(NoteBlockAPI.class).getDescription().getVersion() + ")");
+		getLogger().info("This JukeBox version requires NoteBlockAPI version 1.5.0 or more. Please ensure you have the right version before using JukeBox (you are using NBAPI ver. " + getPlugin(NoteBlockAPI.class).getDescription().getVersion() + ")");
 		
 		saveDefaultConfig();
 		
@@ -174,6 +168,10 @@ public class JukeBox extends JavaPlugin implements Listener{
 		if (radioEnabled){
 			radio = new JukeBoxRadio(playlist);
 		}else radioOnJoin = false;
+
+		for (Player p : Bukkit.getOnlinePlayers()) {
+			onJoin(new PlayerJoinEvent(p, ""));
+		}
 	}
 	
 	private void loadDatas(){
@@ -242,11 +240,6 @@ public class JukeBox extends JavaPlugin implements Listener{
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
-		
-		for (Player p : Bukkit.getOnlinePlayers()){
-			onJoin(new PlayerJoinEvent(p, ""));
-		}
 	}
 	
 	void setMaxPage(){
@@ -306,7 +299,8 @@ public class JukeBox extends JavaPlugin implements Listener{
 	
 	@EventHandler
 	public void onQuit(PlayerQuitEvent e){
-		PlayerData.players.get(e.getPlayer().getUniqueId()).playerLeave();
+		PlayerData playerData = PlayerData.players.get(e.getPlayer().getUniqueId());
+		if (playerData != null) playerData.playerLeave();
 	}
 	
 	@EventHandler

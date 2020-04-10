@@ -1,6 +1,6 @@
 name: JukeBox
 author: SkytAsul
-version: 1.16
+version: 1.17
 description: A plugin who allows you to propose note block songs/musics to your players.
 main: fr.skytasul.music.JukeBox
 api-version: 1.13
