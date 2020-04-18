@@ -355,11 +355,16 @@ public class JukeBox extends JavaPlugin implements Listener{
 	public static List<Song> getSongs(){
 		return songs;
 	}
-	
-	public static Song getSongByFile(String fileName){
-		return fileNames.get(fileName);
-	}
-	
+
+    public static Song getSongByFile(String fileName) {
+        String fileNameForTest = fileName.replace(" ", "");
+        for (Map.Entry<String, Song> stringSongEntry : fileNames.entrySet()) {
+            if (stringSongEntry.getKey().replace(" ", "").equalsIgnoreCase(fileNameForTest)) {
+                return stringSongEntry.getValue();
+            }
+        }
+        return null;
+    }
 	/*public static Song[] getSongs(){
 		return songsList.toArray(new Song[0]);
 	}*/

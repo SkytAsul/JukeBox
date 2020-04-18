@@ -377,11 +377,11 @@ public class CommandAdmin implements CommandExecutor, TabExecutor {
                 return "§cError on §l" + id + " §r§c(inexistant)";
             }
         } catch (NumberFormatException ex) {
-            String fileName = args[2];
+            StringBuilder fileName = new StringBuilder(args[2]);
             for (int i = 3; i < args.length; i++) {
-                fileName = fileName + args[i] + (i == args.length - 1 ? "" : " ");
+                fileName.append(" ").append(args[i]);
             }
-            song = JukeBox.getSongByFile(fileName);
+            song = JukeBox.getSongByFile(fileName.toString());
             if (song == null) return Lang.INVALID_NUMBER;
         }
         PlayerData pdata = PlayerData.players.get(cp.getUniqueId());
