@@ -160,7 +160,9 @@ public class JukeBox extends JavaPlugin implements Listener{
 	
 	private void finishEnabling(){
 		getCommand("music").setExecutor(new CommandMusic());
-		getCommand("adminmusic").setExecutor(new CommandAdmin());
+		CommandAdmin commandAdmin = new CommandAdmin();
+		getCommand("adminmusic").setExecutor(commandAdmin);
+		getCommand("adminmusic").setTabCompleter(commandAdmin);
 
 		getServer().getPluginManager().registerEvents(this, this);
 		

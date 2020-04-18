@@ -4,6 +4,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.net.URL;
 import java.nio.file.Files;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -11,6 +14,7 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.TabExecutor;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -20,7 +24,8 @@ import com.xxmicloxx.NoteBlockAPI.utils.NBSDecoder;
 import fr.skytasul.music.utils.Lang;
 import fr.skytasul.music.utils.Playlists;
 
-public class CommandAdmin implements CommandExecutor {
+public class CommandAdmin implements CommandExecutor, TabExecutor {
+    private List<String> playerArguments = Arrays.asList("player", "play", "stop", "volume", "random", "next");
 
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
@@ -320,7 +325,7 @@ public class CommandAdmin implements CommandExecutor {
                 sender.sendMessage("/adminmusic stop <player>: stop the currently listening song");
                 sender.sendMessage("/adminmusic setItem: set the radio item");
                 sender.sendMessage("/adminmusic download <url> <destinationFile>: download a song file from the internet and load it");
-                sender.sendMessage("/adminmusic shuffle|particles| <player>: toggle player options");
+                sender.sendMessage("/adminmusic shuffle|particles <player>: toggle player options");
                 sender.sendMessage("/adminmusic volume <player> <value|-|+>: set/decrease/increase the volume");
                 sender.sendMessage("/adminmusic random <player>: play a random song");
                 sender.sendMessage("/adminmusic next <player>: skip the current song");
@@ -330,6 +335,32 @@ public class CommandAdmin implements CommandExecutor {
         }
 
         return false;
+    }
+
+    @Override
+    public List<String> onTabComplete(CommandSender commandSender, Command command, String s, String[] args) {
+        List<String> tabCompletions = new ArrayList<>();
+        if (!commandSender.hasPermission("music.command.admin")) {
+            return tabCompletions;
+        }
+        if (args.length == 1) {
+            tabCompletions.add("reload");
+            tabCompletions.add("download");
+            tabCompletions.add("setItem");
+            tabCompletions.add("shuffle");
+            tabCompletions.addAll(playerArguments);
+        } else if (args.length == 2) {
+            if (playerArguments.contains(args[0])) {
+                Bukkit.getOnlinePlayers().forEach(player -> {
+                    tabCompletions.add(player.getName());
+                });
+            }
+        } else if (args.length == 3) {
+            JukeBox.getSongs().forEach(song -> {
+                tabCompletions.add(song.getPath().getName());
+            });
+        }
+        return tabCompletions;
     }
 
     private String play(String[] args) {
