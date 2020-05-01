@@ -188,10 +188,12 @@ public class PlayerData implements Listener{
 			break;
 		case PLAYLIST:
 			return randomPlaylist.contains(JukeBox.getPlaylist().getIndex(song));
+		case RADIO:
+			return false;
 		}
 		return false;
 	}
-	
+
 	public void clearPlaylist(){
 		switch (listening){
 		case FAVORITES:
@@ -260,10 +262,15 @@ public class PlayerData implements Listener{
 			break;
 		case RADIO:
 			JukeBox.radio.join(p);
+			if (linked != null) linked.playingStarted();
 			break;
 		}
 	}
 	
+	public boolean isListening() {
+		return songPlayer != null || listening == Playlists.RADIO;
+	}
+
 	private void finishPlaying(){
 		if (songPlayer == null) return;
 		songPlayer.setTick((short) (songPlayer.getSong().getLength() + 1));
@@ -298,6 +305,18 @@ public class PlayerData implements Listener{
 		}	
 	}
 	
+	public void togglePlaying() {
+		if (songPlayer != null) {
+			songPlayer.setPlaying(!songPlayer.isPlaying());
+		}else {
+			if (listening == Playlists.RADIO) {
+				if (JukeBox.radio.isListening(p)) {
+					JukeBox.radio.leave(p);
+				}else JukeBox.radio.join(p);
+			}
+		}
+	}
+
 	public void playerLeave(){
 		if (!JukeBox.autoReload) stopPlaying(false);
 	}

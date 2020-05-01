@@ -41,6 +41,7 @@ import com.xxmicloxx.NoteBlockAPI.utils.NBSDecoder;
 import fr.skytasul.music.utils.JukeBoxRadio;
 import fr.skytasul.music.utils.Lang;
 import fr.skytasul.music.utils.Placeholders;
+import fr.skytasul.music.utils.Playlists;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 
@@ -332,6 +333,7 @@ public class JukeBox extends JavaPlugin implements Listener{
 		if (worldsEnabled.contains(e.getTo().getWorld())) return;
 		PlayerData pdata = PlayerData.players.get(e.getPlayer().getUniqueId());
 		if (pdata.songPlayer != null) pdata.stopPlaying(true);
+		if (pdata.getPlaylistType() == Playlists.RADIO) pdata.setPlaylist(Playlists.PLAYLIST, false);
 	}
 	
 	

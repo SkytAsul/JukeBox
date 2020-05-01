@@ -113,7 +113,7 @@ public class JukeBoxInventory implements Listener{
 		switch (menu) {
 		case DEFAULT:
 			inv.setItem(45, stopItem);
-			if (pdata.songPlayer != null) inv.setItem(46, toggleItem);
+			if (pdata.isListening()) inv.setItem(46, toggleItem);
 			if (!JukeBox.getSongs().isEmpty()) inv.setItem(47, randomItem);
 			inv.setItem(49, playlistMenuItem);
 			inv.setItem(50, optionsMenuItem);
@@ -195,7 +195,7 @@ public class JukeBoxInventory implements Listener{
 			case DEFAULT:
 				switch (slot) {
 				case 46:
-					pdata.songPlayer.setPlaying(!pdata.songPlayer.isPlaying());
+					pdata.togglePlaying();
 					break;
 					
 				case 47:

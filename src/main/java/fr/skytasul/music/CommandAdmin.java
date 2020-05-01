@@ -356,8 +356,7 @@ public class CommandAdmin implements CommandExecutor{
 	
 	private void toggle(Player cp){
 		PlayerData pdata = PlayerData.players.get(cp.getUniqueId());
-		if (pdata.songPlayer == null) return;
-		pdata.songPlayer.setPlaying(!pdata.songPlayer.isPlaying());
+		pdata.togglePlaying();
 	}
 	
 	private String shuffle(Player cp){

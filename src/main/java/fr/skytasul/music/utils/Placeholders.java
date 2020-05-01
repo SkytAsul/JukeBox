@@ -33,7 +33,7 @@ public class Placeholders {
 					}
 				}else if (params.equals("active")){
 					if (pdata.songPlayer == null){
-						if (pdata.getPlaylistType() == Playlists.RADIO) return JukeBox.getSongName(JukeBox.radio.songPlayer.getSong());
+						if (pdata.getPlaylistType() == Playlists.RADIO) return JukeBox.getSongName(JukeBox.radio.getSong());
 						return Lang.NONE;
 					}
 					return JukeBox.getSongName(pdata.songPlayer.getSong());
