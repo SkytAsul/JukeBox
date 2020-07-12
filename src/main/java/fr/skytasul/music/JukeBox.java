@@ -17,7 +17,6 @@ import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
-import org.bukkit.World;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
@@ -71,13 +70,14 @@ public class JukeBox extends JavaPlugin implements Listener{
 	public static boolean radioOnJoin = false;
 	public static boolean autoReload = true;
 	public static PlayerData defaultPlayer = null;
-	public static List<World> worldsEnabled;
+	public static List<String> worldsEnabled;
 	public static boolean worlds;
 	public static boolean particles;
 	public static boolean actionBar;
 	public static Material songItem;
 	public static String itemFormat;
 	public static String songFormat;
+	public static boolean savePlayerDatas = true;
 	
 	public ItemStack jukeboxItem;
 	
@@ -101,17 +101,21 @@ public class JukeBox extends JavaPlugin implements Listener{
 			radio.stop();
 			radio = null;
 		}
-		List<Map<String, Object>> list = new ArrayList<>();
-		for (PlayerData pdata : PlayerData.players.values()){
-			if (pdata.songPlayer != null) pdata.stopPlaying(true);
-			if (!pdata.isDefault(defaultPlayer)) list.add(pdata.serialize());
-		}
-		players.set("players", list);
-		players.set("item", (jukeboxItem == null) ? null : jukeboxItem.serialize());
-		try {
-			players.save(playersFile);
-		} catch (IOException e) {
-			e.printStackTrace();
+		if (PlayerData.players != null) {
+			if (savePlayerDatas) {
+				List<Map<String, Object>> list = new ArrayList<>();
+				for (PlayerData pdata : PlayerData.players.values()) {
+					if (pdata.songPlayer != null) pdata.stopPlaying(true);
+					if (!pdata.isDefault(defaultPlayer)) list.add(pdata.serialize());
+				}
+				players.set("players", list);
+			}
+			players.set("item", (jukeboxItem == null) ? null : jukeboxItem.serialize());
+			try {
+				players.save(playersFile);
+			}catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 		HandlerList.unregisterAll((JavaPlugin) this);
 	}
@@ -135,11 +139,11 @@ public class JukeBox extends JavaPlugin implements Listener{
 		songItem = Material.matchMaterial(config.getString("songItem"));
 		itemFormat = config.getString("itemFormat");
 		songFormat = config.getString("songFormat");
+		savePlayerDatas = config.getBoolean("savePlayerDatas");
 		
 		worldsEnabled = new ArrayList<>();
 		for(String name : config.getStringList("enabledWorlds")){
-			World world = Bukkit.getWorld(name);
-			if (world != null) worldsEnabled.add(world);
+			worldsEnabled.add(name);
 		}
 		worlds = !worldsEnabled.isEmpty();
 		
@@ -218,25 +222,18 @@ public class JukeBox extends JavaPlugin implements Listener{
 		PlayerData.players = new HashMap<>();
 		try {
 			playersFile = new File(getDataFolder(), "datas.yml");
-			boolean b = false;
+			boolean created = false;
 			if (!playersFile.exists()){
-				b = true;
+				created = true;
 				playersFile.createNewFile();
 			}
 			players = YamlConfiguration.loadConfiguration(playersFile);
-			boolean last = getConfig().contains("players");
-			if (!b || last){
-				FileConfiguration tmpPlayers = last ? getConfig() : players;
-				for (Map<?, ?> m : tmpPlayers.getMapList("players")){
+			if (!created) {
+				for (Map<?, ?> m : players.getMapList("players")) {
 					PlayerData pdata = PlayerData.deserialize((Map<String, Object>) m, tmpSongs);
 					PlayerData.players.put(pdata.getID(), pdata);
 				}
-				if (tmpPlayers.get("item") != null) jukeboxItem = ItemStack.deserialize(tmpPlayers.getConfigurationSection("item").getValues(false));
-				if (last){
-					getLogger().info("Player datas were saved into config.yml; moved to players.yml"); 
-					getConfig().set("players", null);
-					saveConfig();
-				}
+				if (players.get("item") != null) jukeboxItem = ItemStack.deserialize(players.getConfigurationSection("item").getValues(false));
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -295,13 +292,16 @@ public class JukeBox extends JavaPlugin implements Listener{
 			pdata = PlayerData.create(id);
 			PlayerData.players.put(id, pdata);
 		}
-		pdata.playerJoin(p, worlds ? worldsEnabled.contains(p.getWorld()) : true);
+		pdata.playerJoin(p, worlds ? worldsEnabled.contains(p.getWorld().getName()) : true);
 	}
 	
 	@EventHandler
 	public void onQuit(PlayerQuitEvent e){
 		PlayerData playerData = PlayerData.players.get(e.getPlayer().getUniqueId());
-		if (playerData != null) playerData.playerLeave();
+		if (playerData != null) {
+			playerData.playerLeave();
+			if (!savePlayerDatas) PlayerData.players.remove(e.getPlayer().getUniqueId());
+		}
 	}
 	
 	@EventHandler
@@ -330,7 +330,7 @@ public class JukeBox extends JavaPlugin implements Listener{
 	public void onTeleport(PlayerTeleportEvent e){
 		if (!worlds) return;
 		if (e.getFrom().getWorld() == e.getTo().getWorld()) return;
-		if (worldsEnabled.contains(e.getTo().getWorld())) return;
+		if (worldsEnabled.contains(e.getTo().getWorld().getName())) return;
 		PlayerData pdata = PlayerData.players.get(e.getPlayer().getUniqueId());
 		if (pdata.songPlayer != null) pdata.stopPlaying(true);
 		if (pdata.getPlaylistType() == Playlists.RADIO) pdata.setPlaylist(Playlists.PLAYLIST, false);

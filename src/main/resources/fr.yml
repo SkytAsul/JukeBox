@@ -32,7 +32,7 @@ MENU_ITEM: §6Retourner au menu
 CLEAR_PLAYLIST: §cVider la playlist actuelle
 NEXT_ITEM: §eMusique suivante
 CHANGE_PLAYLIST: '§6§lChanger de playlist : §r'
-CHANGE_PLAYLIST_LORE: '§eClic central sur un disque\n§e pour ajouter/supprimer le morceau";
+CHANGE_PLAYLIST_LORE: '§eClic central sur un disque\n§e pour ajouter/supprimer le morceau'
 PLAYLIST: §5Liste de lecture
 FAVORITES: §4Favoris
 NONE: §cnone

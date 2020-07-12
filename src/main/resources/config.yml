@@ -1,4 +1,4 @@
-# language - available by default : en, fr, de, se, cn, es, ja, sk, lt, hu, pl, id, ru, zh, ko
+# language - available by default : en, fr, de, se, cn, es, ja, sk, lt, hu, pl, id, ru, zh, ko, nl
 lang: en
 
 # force the music played on join (players can't disable it)
@@ -39,6 +39,9 @@ itemFormat: "{NAME}    | {ID}"
 
 # formatted songs name (variables: NAME, ID, AUTHOR)
 songFormat: "\"{NAME}\", {AUTHOR}"
+
+# are player datas kept in a file when they quit
+savePlayerDatas: true
 
 # player options gived to new players
 defaultPlayerOptions:
