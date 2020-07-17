@@ -151,7 +151,8 @@ public class JukeBoxInventory implements Listener{
 		e.setCancelled(true);
 		int slot = e.getSlot();
 		
-		if (e.getCurrentItem().getType().name().contains("RECORD") || e.getCurrentItem().getType().name().contains("DISC")){
+		Material type = e.getCurrentItem().getType();
+		if (JukeBox.songItem == null ? type.name().contains("RECORD") || type.name().contains("DISC") : type == JukeBox.songItem) {
 			Song s = JukeBox.getSongs().get(page * 45 + slot);
 			if (e.getClick() == ClickType.MIDDLE){
 				if (pdata.isInPlaylist(s)) {
