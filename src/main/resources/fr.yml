@@ -1,5 +1,6 @@
 NEXT_PAGE: §bPage suivante
 LATER_PAGE: §bPage précédente
+CURRENT_PAGE: Page %d sur %d
 PLAYER: §cVous devez être un joueur pour effectuer cette commande.
 RELOAD_MUSIC: §aMusique relancée.
 INV_NAME: §d§lJukebox !

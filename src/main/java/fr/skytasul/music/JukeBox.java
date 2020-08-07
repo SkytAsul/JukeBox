@@ -141,10 +141,7 @@ public class JukeBox extends JavaPlugin implements Listener{
 		songFormat = config.getString("songFormat");
 		savePlayerDatas = config.getBoolean("savePlayerDatas");
 		
-		worldsEnabled = new ArrayList<>();
-		for(String name : config.getStringList("enabledWorlds")){
-			worldsEnabled.add(name);
-		}
+		worldsEnabled = config.getStringList("enabledWorlds");
 		worlds = !worldsEnabled.isEmpty();
 		
 		//if (getConfig().getBoolean("database.enabled")) SQLManager.connectDatabase(getConfig().getConfigurationSection("database"), getLogger());

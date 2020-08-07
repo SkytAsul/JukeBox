@@ -23,7 +23,7 @@ public class CommandMusic implements CommandExecutor{
 	}
 	
 	public static void open(Player p){
-		if (JukeBox.worlds && !JukeBox.worldsEnabled.contains(p.getWorld())) return;
+		if (JukeBox.worlds && !JukeBox.worldsEnabled.contains(p.getWorld().getName())) return;
 		PlayerData pdata = PlayerData.players.get(p.getUniqueId());
 		if (pdata.linked != null){
 			JukeBoxInventory inv = pdata.linked;

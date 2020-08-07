@@ -324,7 +324,7 @@ public class CommandAdmin implements CommandExecutor{
 	private String play(String[] args){
 		Player cp = Bukkit.getPlayer(args[1]);
 		if (cp == null) return "§cUnknown player.";
-		if (JukeBox.worlds && !JukeBox.worldsEnabled.contains(cp.getWorld())) return "§cMusic isn't enabled in the world the player is into.";
+		if (JukeBox.worlds && !JukeBox.worldsEnabled.contains(cp.getWorld().getName())) return "§cMusic isn't enabled in the world the player is into.";
 		Song song;
 		try{
 			int id = Integer.parseInt(args[2]);

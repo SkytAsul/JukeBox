@@ -40,8 +40,6 @@ public class JukeBoxInventory implements Listener{
 	public static List<String> discs8 = new ArrayList<>(Arrays.asList("RECORD_10", "RECORD_11", "RECORD_12", "RECORD_3", "RECORD_4", "RECORD_5", "RECORD_6", "RECORD_7", "RECORD_8", "RECORD_9", "GOLD_RECORD", "GREEN_RECORD"));
 	
 	private static ItemStack stopItem = item(Material.BARRIER, Lang.STOP);
-	private static ItemStack laterItem = item(Material.ARROW, Lang.LATER_PAGE);
-	private static ItemStack nextItem = item(Material.ARROW, Lang.NEXT_PAGE);
 	private static ItemStack menuItem = item(Material.TRAPPED_CHEST, Lang.MENU_ITEM);
 	private static ItemStack toggleItem = item(version < 9 ? Material.STONE_BUTTON : Material.valueOf("END_CRYSTAL"), Lang.TOGGLE_PLAYING);
 	private static ItemStack randomItem = item(Material.valueOf(version > 12 ? "FIRE_CHARGE" : "FIREBALL"), Lang.RANDOM_MUSIC);
@@ -77,9 +75,6 @@ public class JukeBoxInventory implements Listener{
 		}
 		
 		this.inv = Bukkit.createInventory(null, 54, Lang.INV_NAME);
-
-		inv.setItem(52, laterItem);
-		inv.setItem(53, nextItem);
 		
 		setSongsPage();
 		
@@ -104,6 +99,8 @@ public class JukeBoxInventory implements Listener{
 			inv.setItem(i, is);
 			if (JukeBox.getSongs().size() - 1 == (page*45) + i) break;
 		}
+		inv.setItem(52, item(Material.ARROW, Lang.LATER_PAGE, String.format(Lang.CURRENT_PAGE, page + 1, JukeBox.maxPage)));
+		inv.setItem(53, item(Material.ARROW, Lang.NEXT_PAGE, String.format(Lang.CURRENT_PAGE, page + 1, JukeBox.maxPage)));
 	}
 	
 	public void setItemsMenu() {

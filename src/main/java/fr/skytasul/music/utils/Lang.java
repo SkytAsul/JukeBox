@@ -13,6 +13,7 @@ public class Lang{
 
 	public static String NEXT_PAGE = ChatColor.AQUA + "Next page";
 	public static String LATER_PAGE = ChatColor.AQUA + "Previous page";
+	public static String CURRENT_PAGE = ChatColor.DARK_AQUA + "§oPage %d of %d";
 	public static String PLAYER = ChatColor.RED + "You must be a player to do this command.";
 	public static String RELOAD_MUSIC = ChatColor.GREEN + "Music reloaded.";
 	public static String INV_NAME = ChatColor.LIGHT_PURPLE + "§lJukebox !";
