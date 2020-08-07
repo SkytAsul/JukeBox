@@ -88,6 +88,9 @@ public class JukeBoxInventory implements Listener{
 	}
 	
 	public void setSongsPage(){
+		inv.setItem(52, item(Material.ARROW, Lang.LATER_PAGE, String.format(Lang.CURRENT_PAGE, page + 1, Math.max(JukeBox.maxPage, 1)))); // max to avoid 0 pages if no songs
+		inv.setItem(53, item(Material.ARROW, Lang.NEXT_PAGE, String.format(Lang.CURRENT_PAGE, page + 1, Math.max(JukeBox.maxPage, 1))));
+		
 		for (int i = 0; i < 45; i++) inv.setItem(i, null);
 		if (pdata.getPlaylistType() == Playlists.RADIO) return;
 		if (JukeBox.getSongs().isEmpty()) return;
@@ -99,8 +102,6 @@ public class JukeBoxInventory implements Listener{
 			inv.setItem(i, is);
 			if (JukeBox.getSongs().size() - 1 == (page*45) + i) break;
 		}
-		inv.setItem(52, item(Material.ARROW, Lang.LATER_PAGE, String.format(Lang.CURRENT_PAGE, page + 1, JukeBox.maxPage)));
-		inv.setItem(53, item(Material.ARROW, Lang.NEXT_PAGE, String.format(Lang.CURRENT_PAGE, page + 1, JukeBox.maxPage)));
 	}
 	
 	public void setItemsMenu() {
