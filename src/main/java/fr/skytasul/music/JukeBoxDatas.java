@@ -38,17 +38,18 @@ public class JukeBoxDatas {
 	public JukeBoxDatas(Database db) throws SQLException {
 		this.db = db;
 		db.getConnection().createStatement().executeUpdate("CREATE TABLE IF NOT EXISTS " + DB_TABLE + "("
-				+ "`player_uuid` VARCHAR(32) NOT NULL"
-				+ "`join` BOOLEAN NOT NULL"
-				+ "`shuffle` BOOLEAN NOT NULL"
-				+ "`particles` BOOLEAN NOT NULL"
-				+ "`repeat` BOOLEAN NOT NULL"
-				+ "`volume` VARINT(3) NOT NULL"
+				+ "`player_uuid` VARCHAR(32) NOT NULL,"
+				+ "`join` TINYINT(1) NOT NULL,"
+				+ "`shuffle` TINYINT(1) NOT NULL,"
+				+ "`particles` TINYINT(1) NOT NULL,"
+				+ "`repeat` TINYINT(1) NOT NULL,"
+				+ "`volume` SMALLINT(3) NOT NULL, "
+				//			+ "`favorites` VARCHAR() NOT NULL, "
 				+ "PRIMARY KEY (`player_uuid`)"
 				+ ")");
 		getStatement = db.new JBStatement("SELECT * FROM " + DB_TABLE + " WHERE `player_uuid` = ?");
-		insertStatement = db.new JBStatement("INSERT INTO " + DB_TABLE + " (`join`, `shuffle`, `volume`, `particles`, `repeat`, `player_uuid`) VALUES (?, ?, ?, ?, ?, ?)");
-		updateStatement = db.new JBStatement("UPDATE " + DB_TABLE + " SET `join` = ?, `shuffle`= ?, `volume` = ?, `particles` = ?, `repeat` = ? WHERE `player_uuid` = ?");
+		insertStatement = db.new JBStatement("INSERT INTO " + DB_TABLE + " (`join`, `shuffle`, `particles`, `repeat`, `volume`, `player_uuid`) VALUES (?, ?, ?, ?, ?, ?)");
+		updateStatement = db.new JBStatement("UPDATE " + DB_TABLE + " SET `join` = ?, `shuffle`= ?, `particles` = ?, `repeat` = ?, `volume` = ? WHERE `player_uuid` = ?");
 	}
 	
 	public PlayerData getDatas(UUID uuid) {
@@ -78,15 +79,15 @@ public class JukeBoxDatas {
 			}
 			pdata.playerJoin(p, !JukeBox.worlds || JukeBox.worldsEnabled.contains(p.getWorld().getName()));
 		}else {
+			PlayerData pdata = PlayerData.create(id);
+			players.put(id, pdata);
 			Bukkit.getScheduler().runTaskAsynchronously(JukeBox.getInstance(), () -> {
 				synchronized (getStatement) {
-					PlayerData pdata = null;
 					try {
 						PreparedStatement statement = getStatement.getStatement();
 						statement.setString(1, id.toString().replace("-", ""));
 						ResultSet resultSet = statement.executeQuery();
 						if (resultSet.next()) {
-							pdata = new PlayerData(id);
 							pdata.setJoinMusic(resultSet.getBoolean("join"));
 							pdata.setShuffle(resultSet.getBoolean("shuffle"));
 							pdata.setParticles(resultSet.getBoolean("particles"));
@@ -97,8 +98,6 @@ public class JukeBoxDatas {
 					}catch (SQLException e) {
 						e.printStackTrace();
 					}
-					if (pdata == null) pdata = PlayerData.create(id);
-					players.put(id, pdata);
 					pdata.playerJoin(p, !JukeBox.worlds || JukeBox.worldsEnabled.contains(p.getWorld().getName()));
 				}
 			});
@@ -112,7 +111,7 @@ public class JukeBoxDatas {
 			pdata.playerLeave();
 			if (db == null) {
 				if (!JukeBox.savePlayerDatas) players.remove(id);
-			}else {
+			}else if (!pdata.created || !pdata.isDefault(JukeBox.defaultPlayer)) {
 				Bukkit.getScheduler().runTaskAsynchronously(JukeBox.getInstance(), () -> {
 					synchronized (updateStatement) {
 						try {

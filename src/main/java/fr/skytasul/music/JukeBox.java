@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
+import java.sql.SQLException;
 import java.text.Collator;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -106,7 +107,7 @@ public class JukeBox extends JavaPlugin implements Listener{
 			radio = null;
 		}
 		if (datas != null) {
-			if (savePlayerDatas) players.set("players", datas.getSerializedList());
+			if (savePlayerDatas && db == null) players.set("players", datas.getSerializedList());
 			players.set("item", (jukeboxItem == null) ? null : jukeboxItem.serialize());
 			try {
 				players.save(playersFile);
@@ -179,7 +180,7 @@ public class JukeBox extends JavaPlugin implements Listener{
 		}else radioOnJoin = false;
 
 		for (Player p : Bukkit.getOnlinePlayers()) {
-			onJoin(new PlayerJoinEvent(p, ""));
+			datas.joins(p);
 		}
 	}
 	
@@ -223,14 +224,20 @@ public class JukeBox extends JavaPlugin implements Listener{
 		if (!songs.isEmpty()) playlist = new Playlist(songs.toArray(new Song[0]));
 
 		/* --------------------------------------------- PLAYERS ------- */
+		try {
+			playersFile = new File(getDataFolder(), "datas.yml");
+			playersFile.createNewFile();
+			players = YamlConfiguration.loadConfiguration(playersFile);
+			if (players.get("item") != null) jukeboxItem = ItemStack.deserialize(players.getConfigurationSection("item").getValues(false));
+		}catch (IOException e) {
+			e.printStackTrace();
+		}
 		if (db == null) {
+			datas = new JukeBoxDatas(players.getMapList("players"), tmpSongs);
+		}else {
 			try {
-				playersFile = new File(getDataFolder(), "datas.yml");
-				playersFile.createNewFile();
-				players = YamlConfiguration.loadConfiguration(playersFile);
-				datas = new JukeBoxDatas(players.getMapList("players"), tmpSongs);
-				if (players.get("item") != null) jukeboxItem = ItemStack.deserialize(players.getConfigurationSection("item").getValues(false));
-			}catch (IOException e) {
+				datas = new JukeBoxDatas(db);
+			}catch (SQLException e) {
 				e.printStackTrace();
 			}
 		}
