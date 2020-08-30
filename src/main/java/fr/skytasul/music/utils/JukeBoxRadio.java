@@ -24,6 +24,7 @@ public class JukeBoxRadio implements Listener {
 	public JukeBoxRadio(Playlist songs){
 		Bukkit.getPluginManager().registerEvents(this, JukeBox.getInstance());
 		songPlayer = new CustomSongPlayer(songs);
+		songPlayer.playNextSong();
 		songPlayer.setRandom(true);
 		songPlayer.setAutoDestroy(false);
 		songPlayer.setRepeatMode(RepeatMode.ALL);

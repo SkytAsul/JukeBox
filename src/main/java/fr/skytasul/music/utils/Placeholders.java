@@ -45,7 +45,7 @@ public class Placeholders extends PlaceholderExpansion {
 	
 	@Override
 	public String onRequest(OfflinePlayer p, String params) {
-		PlayerData pdata = PlayerData.players.get(p.getUniqueId());
+		PlayerData pdata = JukeBox.getInstance().datas.getDatas(p.getUniqueId());
 		if (pdata == null) return "§c§lunknown player data";
 		if (params.startsWith("playeroptions_")) {
 			switch (params.substring(params.indexOf("_") + 1)) {

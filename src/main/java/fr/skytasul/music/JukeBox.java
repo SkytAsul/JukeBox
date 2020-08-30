@@ -13,10 +13,10 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
-import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
@@ -37,6 +37,7 @@ import com.xxmicloxx.NoteBlockAPI.model.Playlist;
 import com.xxmicloxx.NoteBlockAPI.model.Song;
 import com.xxmicloxx.NoteBlockAPI.utils.NBSDecoder;
 
+import fr.skytasul.music.utils.Database;
 import fr.skytasul.music.utils.JukeBoxRadio;
 import fr.skytasul.music.utils.Lang;
 import fr.skytasul.music.utils.Placeholders;
@@ -81,6 +82,9 @@ public class JukeBox extends JavaPlugin implements Listener{
 	
 	public ItemStack jukeboxItem;
 	
+	private Database db;
+	public JukeBoxDatas datas;
+	
 	public void onEnable(){
 		instance = this;
 		
@@ -101,15 +105,8 @@ public class JukeBox extends JavaPlugin implements Listener{
 			radio.stop();
 			radio = null;
 		}
-		if (PlayerData.players != null) {
-			if (savePlayerDatas) {
-				List<Map<String, Object>> list = new ArrayList<>();
-				for (PlayerData pdata : PlayerData.players.values()) {
-					if (pdata.songPlayer != null) pdata.stopPlaying(true);
-					if (!pdata.isDefault(defaultPlayer)) list.add(pdata.serialize());
-				}
-				players.set("players", list);
-			}
+		if (datas != null) {
+			if (savePlayerDatas) players.set("players", datas.getSerializedList());
 			players.set("item", (jukeboxItem == null) ? null : jukeboxItem.serialize());
 			try {
 				players.save(playersFile);
@@ -124,6 +121,7 @@ public class JukeBox extends JavaPlugin implements Listener{
 		reloadConfig();
 		
 		loadLang();
+		if (disable) return;
 		
 		FileConfiguration config = getConfig();
 		jukeboxClick = config.getBoolean("jukeboxClick");
@@ -144,7 +142,16 @@ public class JukeBox extends JavaPlugin implements Listener{
 		worldsEnabled = config.getStringList("enabledWorlds");
 		worlds = !worldsEnabled.isEmpty();
 		
-		//if (getConfig().getBoolean("database.enabled")) SQLManager.connectDatabase(getConfig().getConfigurationSection("database"), getLogger());
+		ConfigurationSection dbConfig = config.getConfigurationSection("database");
+		if (dbConfig.getBoolean("enabled")) {
+			db = new Database(dbConfig);
+			if (db.openConnection()) {
+				getLogger().info("Connected to database.");
+			}else {
+				getLogger().info("Failed to connect to database. Now using YAML system.");
+				db = null;
+			}
+		}
 		
 		if (async){
 			new BukkitRunnable() {
@@ -216,24 +223,16 @@ public class JukeBox extends JavaPlugin implements Listener{
 		if (!songs.isEmpty()) playlist = new Playlist(songs.toArray(new Song[0]));
 
 		/* --------------------------------------------- PLAYERS ------- */
-		PlayerData.players = new HashMap<>();
-		try {
-			playersFile = new File(getDataFolder(), "datas.yml");
-			boolean created = false;
-			if (!playersFile.exists()){
-				created = true;
+		if (db == null) {
+			try {
+				playersFile = new File(getDataFolder(), "datas.yml");
 				playersFile.createNewFile();
-			}
-			players = YamlConfiguration.loadConfiguration(playersFile);
-			if (!created) {
-				for (Map<?, ?> m : players.getMapList("players")) {
-					PlayerData pdata = PlayerData.deserialize((Map<String, Object>) m, tmpSongs);
-					PlayerData.players.put(pdata.getID(), pdata);
-				}
+				players = YamlConfiguration.loadConfiguration(playersFile);
+				datas = new JukeBoxDatas(players.getMapList("players"), tmpSongs);
 				if (players.get("item") != null) jukeboxItem = ItemStack.deserialize(players.getConfigurationSection("item").getValues(false));
+			}catch (IOException e) {
+				e.printStackTrace();
 			}
-		} catch (IOException e) {
-			e.printStackTrace();
 		}
 	}
 	
@@ -264,6 +263,7 @@ public class JukeBox extends JavaPlugin implements Listener{
 				getLogger().severe("This is a fatal error. Now disabling.");
 				disable = true;
 				this.setEnabled(false);
+				return null;
 			}
 		}
 		YamlConfiguration conf = YamlConfiguration.loadConfiguration(lang);
@@ -282,23 +282,12 @@ public class JukeBox extends JavaPlugin implements Listener{
 	
 	@EventHandler
 	public void onJoin(PlayerJoinEvent e){
-		Player p = e.getPlayer();
-		UUID id = p.getUniqueId();
-		PlayerData pdata = PlayerData.players.get(id);
-		if (pdata == null) {
-			pdata = PlayerData.create(id);
-			PlayerData.players.put(id, pdata);
-		}
-		pdata.playerJoin(p, worlds ? worldsEnabled.contains(p.getWorld().getName()) : true);
+		datas.joins(e.getPlayer());
 	}
 	
 	@EventHandler
 	public void onQuit(PlayerQuitEvent e){
-		PlayerData playerData = PlayerData.players.get(e.getPlayer().getUniqueId());
-		if (playerData != null) {
-			playerData.playerLeave();
-			if (!savePlayerDatas) PlayerData.players.remove(e.getPlayer().getUniqueId());
-		}
+		datas.quits(e.getPlayer());
 	}
 	
 	@EventHandler
@@ -328,7 +317,8 @@ public class JukeBox extends JavaPlugin implements Listener{
 		if (!worlds) return;
 		if (e.getFrom().getWorld() == e.getTo().getWorld()) return;
 		if (worldsEnabled.contains(e.getTo().getWorld().getName())) return;
-		PlayerData pdata = PlayerData.players.get(e.getPlayer().getUniqueId());
+		PlayerData pdata = datas.getDatas(e.getPlayer());
+		if (pdata == null) return;
 		if (pdata.songPlayer != null) pdata.stopPlaying(true);
 		if (pdata.getPlaylistType() == Playlists.RADIO) pdata.setPlaylist(Playlists.PLAYLIST, false);
 	}

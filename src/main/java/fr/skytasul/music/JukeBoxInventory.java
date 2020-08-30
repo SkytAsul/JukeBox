@@ -61,11 +61,11 @@ public class JukeBoxInventory implements Listener{
 	
 	private Inventory inv;
 	
-	public JukeBoxInventory(Player p){
+	public JukeBoxInventory(Player p, PlayerData pdata) {
 		Bukkit.getPluginManager().registerEvents(this, JukeBox.getInstance());
-		id = p.getUniqueId();
-		pdata = PlayerData.players.get(p.getUniqueId());
-		pdata.linked = this;
+		this.id = p.getUniqueId();
+		this.pdata = pdata;
+		this.pdata.linked = this;
 
 		Random ran = new Random();
 		Material defaultMat = JukeBox.songItem;

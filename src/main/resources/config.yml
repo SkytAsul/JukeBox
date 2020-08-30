@@ -40,8 +40,18 @@ itemFormat: "{NAME}    | {ID}"
 # formatted songs name (variables: NAME, ID, AUTHOR)
 songFormat: "\"{NAME}\", {AUTHOR}"
 
-# are player datas kept in a file when they quit
+# are player datas kept in a file when they quit - always enabled if database enabled
 savePlayerDatas: true
+
+# database configuration
+database:
+  enabled: false
+  host: "localhost"
+  port: 3306
+  database: "jukebox"
+  username: "unknown"
+  password: "unknown"
+  ssl: false
 
 # player options gived to new players
 defaultPlayerOptions:

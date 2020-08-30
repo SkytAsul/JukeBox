@@ -26,8 +26,8 @@ import fr.skytasul.music.utils.Playlists;
 
 public class PlayerData implements Listener{
 	
-	public static Map<UUID, PlayerData> players;
-
+	boolean created = false;
+	
 	private UUID id;
 	private boolean join = false;
 	private boolean shuffle = false;
@@ -45,13 +45,14 @@ public class PlayerData implements Listener{
 	private List<Integer> randomPlaylist = new ArrayList<>();
 	JukeBoxInventory linked = null;
 
-	private PlayerData(UUID id){
+	PlayerData(UUID id) {
 		this.id = id;
 		Bukkit.getPluginManager().registerEvents(this, JukeBox.getInstance());
 	}
 	
 	private PlayerData(UUID id, PlayerData defaults){
 		this(id);
+		this.created = true;
 		setJoinMusic(defaults.hasJoinMusic());
 		setShuffle(defaults.isShuffle());
 		setVolume(defaults.getVolume());
@@ -423,7 +424,7 @@ public class PlayerData implements Listener{
 		return pdata;
 	}
 
-	public static PlayerData deserialize(Map<String, Object> map, Map<String, Song> songsName){
+	public static PlayerData deserialize(Map<String, Object> map, Map<String, Song> songsName) {
 		PlayerData pdata = new PlayerData(map.containsKey("id") ? UUID.fromString((String) map.get("id")) : null);
 
 		pdata.setJoinMusic((boolean) map.get("join"));
