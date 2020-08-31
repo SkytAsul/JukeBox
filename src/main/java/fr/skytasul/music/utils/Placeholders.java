@@ -5,6 +5,8 @@ import java.util.List;
 
 import org.bukkit.OfflinePlayer;
 
+import com.xxmicloxx.NoteBlockAPI.model.Song;
+
 import fr.skytasul.music.JukeBox;
 import fr.skytasul.music.PlayerData;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
@@ -40,7 +42,7 @@ public class Placeholders extends PlaceholderExpansion {
 	
 	@Override
 	public List<String> getPlaceholders() {
-		return Arrays.asList("playeroptions_volume", "playeroptions_shuffle", "playeroptions_join", "playeroptions_particles", "playeroptions_loop", "active", "playlist");
+		return Arrays.asList("playeroptions_volume", "playeroptions_shuffle", "playeroptions_join", "playeroptions_particles", "playeroptions_loop", "active", "active_title", "active_author", "active_description", "playlist");
 	}
 	
 	@Override
@@ -62,12 +64,17 @@ public class Placeholders extends PlaceholderExpansion {
 			default:
 				return "§c§lunknown option";
 			}
-		}else if (params.equals("active")) {
+		}else if (params.startsWith("active")) {
+			Song song;
 			if (pdata.songPlayer == null) {
-				if (pdata.getPlaylistType() == Playlists.RADIO) return JukeBox.getSongName(JukeBox.radio.getSong());
-				return Lang.NONE;
-			}
-			return JukeBox.getSongName(pdata.songPlayer.getSong());
+				if (pdata.getPlaylistType() == Playlists.RADIO) {
+					song = JukeBox.radio.getSong();
+				}else return Lang.NONE;
+			}else song = pdata.songPlayer.getSong();
+			if (params.equals("active_title")) return song.getTitle();
+			if (params.equals("active_author")) return song.getAuthor();
+			if (params.equals("active_description")) return song.getDescription();
+			return JukeBox.getSongName(song);
 		}else if (params.equals("playlist")) {
 			return pdata.getPlaylistType().name;
 		}

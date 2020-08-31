@@ -273,7 +273,7 @@ public class PlayerData implements Listener{
 	}
 	
 	public boolean isPlaying() {
-		return p != null && songPlayer == null ? listening == Playlists.RADIO : songPlayer.isPlaying();
+		return p != null && (songPlayer == null ? listening == Playlists.RADIO : songPlayer.isPlaying());
 	}
 
 	private void finishPlaying(){
