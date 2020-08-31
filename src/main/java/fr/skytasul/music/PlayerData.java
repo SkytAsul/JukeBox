@@ -104,7 +104,7 @@ public class PlayerData implements Listener{
 
 	public void playList(Playlist list){
 		if (listening == Playlists.RADIO){
-			JukeBox.sendMessage(p, Lang.UNAVAILABLE_RADIO);
+			JukeBox.sendMessage(getPlayer(), Lang.UNAVAILABLE_RADIO);
 			return;
 		}
 		if (songPlayer != null) {
@@ -115,7 +115,7 @@ public class PlayerData implements Listener{
 		songPlayer.setParticlesEnabled(particles);
 		songPlayer.getFadeIn().setFadeDuration(0);
 		songPlayer.setAutoDestroy(true);
-		songPlayer.addPlayer(p);
+		songPlayer.addPlayer(getPlayer());
 		songPlayer.setPlaying(true);
 		songPlayer.setRandom(shuffle);
 		songPlayer.setRepeatMode(repeat ? RepeatMode.ONE : RepeatMode.ALL);
@@ -127,7 +127,7 @@ public class PlayerData implements Listener{
 
 	public boolean playSong(Song song){
 		if (listening == Playlists.RADIO){
-			JukeBox.sendMessage(p, Lang.UNAVAILABLE_RADIO);
+			JukeBox.sendMessage(getPlayer(), Lang.UNAVAILABLE_RADIO);
 			return false;
 		}
 		if (songPlayer != null) stopPlaying(false);
@@ -158,7 +158,7 @@ public class PlayerData implements Listener{
 		case RADIO:
 			return false;
 		}
-		if (songPlayer == null && p != null){
+		if (songPlayer == null && getPlayer() != null){
 			playList(toPlay);
 			return listening == Playlists.FAVORITES;
 		}
@@ -225,7 +225,7 @@ public class PlayerData implements Listener{
 		CustomSongPlayer tmp = songPlayer;
 		this.songPlayer = null;
 		tmp.destroy();
-		if (msg && p.isOnline()) JukeBox.sendMessage(p, Lang.MUSIC_STOPPED);
+		if (msg && getPlayer().isOnline()) JukeBox.sendMessage(getPlayer(), Lang.MUSIC_STOPPED);
 		if (linked != null) linked.playingStopped();
 	}
 	
@@ -234,7 +234,7 @@ public class PlayerData implements Listener{
 	}
 	
 	public void nextPlaylist(){
-		if (listening == Playlists.RADIO) JukeBox.radio.leave(p);
+		if (listening == Playlists.RADIO) JukeBox.radio.leave(getPlayer());
 		
 		switch (listening){
 		case PLAYLIST:
@@ -252,7 +252,7 @@ public class PlayerData implements Listener{
 	public void setPlaylist(Playlists list, boolean play){
 		this.listening = list;
 		if (linked != null) linked.playlistItem();
-		if (!play || p == null) return;
+		if (!play || getPlayer() == null) return;
 		stopPlaying(false);
 		switch (listening){
 		case PLAYLIST:
@@ -262,7 +262,7 @@ public class PlayerData implements Listener{
 			playList(favorites);
 			break;
 		case RADIO:
-			JukeBox.radio.join(p);
+			JukeBox.radio.join(getPlayer());
 			if (linked != null) linked.playingStarted();
 			break;
 		}
@@ -280,7 +280,7 @@ public class PlayerData implements Listener{
 	
 	public void nextSong() {
 		if (listening == Playlists.RADIO){
-			JukeBox.sendMessage(p, Lang.UNAVAILABLE_RADIO);
+			JukeBox.sendMessage(getPlayer(), Lang.UNAVAILABLE_RADIO);
 			return;
 		}
 		if (songPlayer == null) {
@@ -302,7 +302,7 @@ public class PlayerData implements Listener{
 			if (hasJoinMusic()) playRandom();
 		}else if (!songPlayer.adminPlayed && JukeBox.autoReload) {
 			songPlayer.setPlaying(true);
-			JukeBox.sendMessage(p, Lang.RELOAD_MUSIC + " (" + JukeBox.getSongName(songPlayer.getSong()) + ")");
+			JukeBox.sendMessage(getPlayer(), Lang.RELOAD_MUSIC + " (" + JukeBox.getSongName(songPlayer.getSong()) + ")");
 		}	
 	}
 	
@@ -311,14 +311,15 @@ public class PlayerData implements Listener{
 			songPlayer.setPlaying(!songPlayer.isPlaying());
 		}else {
 			if (listening == Playlists.RADIO) {
-				if (JukeBox.radio.isListening(p)) {
-					JukeBox.radio.leave(p);
-				}else JukeBox.radio.join(p);
+				if (JukeBox.radio.isListening(getPlayer())) {
+					JukeBox.radio.leave(getPlayer());
+				}else JukeBox.radio.join(getPlayer());
 			}
 		}
 	}
 
 	public void playerLeave(){
+		p = null;
 		if (!JukeBox.autoReload) stopPlaying(false);
 	}
 	
@@ -326,14 +327,18 @@ public class PlayerData implements Listener{
 		if (listening == Playlists.PLAYLIST && !randomPlaylist.isEmpty()){
 			songPlayer.playSong(randomPlaylist.get(0));
 			int id = randomPlaylist.remove(0);
-			if (next && linked != null) linked.songItem(id);
+			if (next && linked != null) linked.songItem(id, getPlayer());
 		}
-		JukeBox.sendMessage(p, Lang.MUSIC_PLAYING + " " + JukeBox.getSongName(songPlayer.getSong()));
+		JukeBox.sendMessage(getPlayer(), Lang.MUSIC_PLAYING + " " + JukeBox.getSongName(songPlayer.getSong()));
 	}
 	
 
 	public UUID getID(){
 		return id;
+	}
+
+	public Player getPlayer() {
+		return p;
 	}
 
 	public boolean hasJoinMusic(){

@@ -23,9 +23,13 @@ permissions:
     children:
       music.command: true
       music.command.admin: true
+      music.adminItem: true
   music.command:
     description: Give access to /music command
     default: true
   music.command.admin:
     description: Give access to /adminmusic
+    default: op
+  music.adminItem:
+    description: Changes item format
     default: op

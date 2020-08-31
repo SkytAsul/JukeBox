@@ -31,7 +31,7 @@ public class CommandMusic implements CommandExecutor{
 		}
 		if (pdata.linked != null){
 			JukeBoxInventory inv = pdata.linked;
-			inv.setSongsPage();
+			inv.setSongsPage(p);
 			inv.openInventory(p);
 		}else new JukeBoxInventory(p, pdata);
 	}

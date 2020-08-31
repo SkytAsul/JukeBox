@@ -4,6 +4,9 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.nio.charset.StandardCharsets;
 import java.sql.SQLException;
 import java.text.Collator;
@@ -32,6 +35,7 @@ import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.scheduler.BukkitTask;
 
 import com.xxmicloxx.NoteBlockAPI.NoteBlockAPI;
 import com.xxmicloxx.NoteBlockAPI.model.Playlist;
@@ -71,6 +75,7 @@ public class JukeBox extends JavaPlugin implements Listener{
 	public static boolean radioEnabled = true;
 	public static boolean radioOnJoin = false;
 	public static boolean autoReload = true;
+	public static boolean preventVanillaMusic = false;
 	public static PlayerData defaultPlayer = null;
 	public static List<String> worldsEnabled;
 	public static boolean worlds;
@@ -78,6 +83,7 @@ public class JukeBox extends JavaPlugin implements Listener{
 	public static boolean actionBar;
 	public static Material songItem;
 	public static String itemFormat;
+	public static String itemFormatAdmin;
 	public static String songFormat;
 	public static boolean savePlayerDatas = true;
 	
@@ -85,6 +91,8 @@ public class JukeBox extends JavaPlugin implements Listener{
 	
 	private Database db;
 	public JukeBoxDatas datas;
+	
+	private BukkitTask vanillaMusicTask = null;
 	
 	public void onEnable(){
 		instance = this;
@@ -115,6 +123,7 @@ public class JukeBox extends JavaPlugin implements Listener{
 				e.printStackTrace();
 			}
 		}
+		if (vanillaMusicTask != null) vanillaMusicTask.cancel();
 		HandlerList.unregisterAll((JavaPlugin) this);
 	}
 	
@@ -135,8 +144,10 @@ public class JukeBox extends JavaPlugin implements Listener{
 		radioEnabled = config.getBoolean("radio");
 		radioOnJoin = radioEnabled && config.getBoolean("radioOnJoin");
 		autoReload = config.getBoolean("reloadOnJoin");
+		preventVanillaMusic = config.getBoolean("preventVanillaMusic") && JukeBoxInventory.version > 9;
 		songItem = Material.matchMaterial(config.getString("songItem"));
 		itemFormat = config.getString("itemFormat");
+		itemFormatAdmin = config.getString("itemFormatAdmin");
 		songFormat = config.getString("songFormat");
 		savePlayerDatas = config.getBoolean("savePlayerDatas");
 		
@@ -166,6 +177,37 @@ public class JukeBox extends JavaPlugin implements Listener{
 			loadDatas();
 			finishEnabling();
 		}
+		
+		if (preventVanillaMusic) {
+			try {
+				String nms = "net.minecraft.server";
+				String cb = "org.bukkit.craftbukkit";
+				Method getHandle = getVersionedClass(cb, "CraftPlayer").getDeclaredMethod("getHandle");
+				Field playerConnection = getVersionedClass(nms, "EntityPlayer").getDeclaredField("playerConnection");
+				Method sendPacket = getVersionedClass(nms, "PlayerConnection").getDeclaredMethod("sendPacket", getVersionedClass(nms, "Packet"));
+				Object musicCategory = getVersionedClass(nms, "SoundCategory").getDeclaredField("MUSIC");
+				Constructor<?> packetStopSound = getVersionedClass(nms, "PacketPlayOutStopSound").getDeclaredConstructor(getVersionedClass(nms, "MinecraftKey"), musicCategory.getClass());
+				Object packet = packetStopSound.newInstance(null, musicCategory);
+				
+				vanillaMusicTask = Bukkit.getScheduler().runTaskTimerAsynchronously(this, () -> {
+					for (PlayerData pdata : datas.getDatas()) {
+						if (pdata.isListening() && pdata.getPlayer() != null) {
+							try {
+								sendPacket.invoke(playerConnection.get(getHandle.invoke(pdata.getPlayer())), packet);
+							}catch (ReflectiveOperationException e) {
+								e.printStackTrace();
+							}
+						}
+					}
+				}, 20L, 200l); // every 10 seconds
+			}catch (ReflectiveOperationException ex) {
+				ex.printStackTrace();
+			}
+		}
+	}
+	
+	private Class<?> getVersionedClass(String packageName, String className) throws ClassNotFoundException {
+		return Class.forName(packageName + "." + Bukkit.getServer().getClass().getPackage().getName().replace(".", ",").split(",")[3] + "." + className);
 	}
 	
 	private void finishEnabling(){
@@ -366,8 +408,8 @@ public class JukeBox extends JavaPlugin implements Listener{
 		return s.getTitle();
 	}
 	
-	public static String getItemName(Song s){
-		return format(itemFormat, s);
+	public static String getItemName(Song s, Player p) {
+		return format(p.hasPermission("music.adminItem") ? itemFormatAdmin : itemFormat, s);
 	}
 	
 	public static String getSongName(Song song) {

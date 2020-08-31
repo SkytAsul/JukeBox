@@ -76,7 +76,7 @@ public class JukeBoxInventory implements Listener{
 		
 		this.inv = Bukkit.createInventory(null, 54, Lang.INV_NAME);
 		
-		setSongsPage();
+		setSongsPage(p);
 		
 		openInventory(p);
 	}
@@ -87,7 +87,7 @@ public class JukeBoxInventory implements Listener{
 		setItemsMenu();
 	}
 	
-	public void setSongsPage(){
+	public void setSongsPage(Player p) {
 		inv.setItem(52, item(Material.ARROW, Lang.LATER_PAGE, String.format(Lang.CURRENT_PAGE, page + 1, Math.max(JukeBox.maxPage, 1)))); // max to avoid 0 pages if no songs
 		inv.setItem(53, item(Material.ARROW, Lang.NEXT_PAGE, String.format(Lang.CURRENT_PAGE, page + 1, Math.max(JukeBox.maxPage, 1))));
 		
@@ -97,7 +97,7 @@ public class JukeBoxInventory implements Listener{
 		int i = 0;
 		for (; i < 45; i++){
 			Song s = JukeBox.getSongs().get((page*45) + i);
-			ItemStack is = getSongItem(s);
+			ItemStack is = getSongItem(s, p);
 			if (pdata.isInPlaylist(s)) loreAdd(is, playlistLore);
 			inv.setItem(i, is);
 			if (JukeBox.getSongs().size() - 1 == (page*45) + i) break;
@@ -155,11 +155,11 @@ public class JukeBoxInventory implements Listener{
 			if (e.getClick() == ClickType.MIDDLE){
 				if (pdata.isInPlaylist(s)) {
 					pdata.removeSong(s);
-					inv.setItem(slot, getSongItem(s));
+					inv.setItem(slot, getSongItem(s, p));
 				}else {
-					if (pdata.addSong(s, false)) inv.setItem(slot, loreAdd(getSongItem(s), playlistLore));
+					if (pdata.addSong(s, false)) inv.setItem(slot, loreAdd(getSongItem(s, p), playlistLore));
 				}
-			}else if (pdata.playSong(s)) inv.setItem(slot, loreAdd(getSongItem(s), playlistLore));
+			}else if (pdata.playSong(s)) inv.setItem(slot, loreAdd(getSongItem(s, p), playlistLore));
 			return;
 		}
 		 
@@ -175,7 +175,7 @@ public class JukeBoxInventory implements Listener{
 				if (page == 0) return;
 				page--;
 			}
-			setSongsPage();
+			setSongsPage(p);
 			break;
 			
 		default:
@@ -255,12 +255,12 @@ public class JukeBoxInventory implements Listener{
 				
 				case 48:
 					pdata.clearPlaylist();
-					setSongsPage();
+					setSongsPage(p);
 					break;
 					
 				case 50:
 					pdata.nextPlaylist();
-					setSongsPage();
+					setSongsPage(p);
 					break;
 				
 				}
@@ -271,8 +271,8 @@ public class JukeBoxInventory implements Listener{
 		}
 	}
 	
-	public ItemStack getSongItem(Song s){
-		ItemStack is = item(discs[JukeBox.getSongs().indexOf(s)], JukeBox.getItemName(s));
+	public ItemStack getSongItem(Song s, Player p) {
+		ItemStack is = item(discs[JukeBox.getSongs().indexOf(s)], JukeBox.getItemName(s, p));
 		if (!StringUtils.isEmpty(s.getDescription())) loreAdd(is, splitOnSpace(s.getDescription(), 30));
 		return is;
 	}
@@ -312,10 +312,10 @@ public class JukeBoxInventory implements Listener{
 		if (menu == ItemsMenu.PLAYLIST) inv.setItem(50, pdata.getPlaylistType().item);
 	}
 	
-	public void songItem(int id){
+	public void songItem(int id, Player p) {
 		if (!(id > page*45 && id < (page+1)*45) || pdata.getPlaylistType() == Playlists.RADIO) return;
 		Song song = JukeBox.getSongs().get(id);
-		ItemStack is = getSongItem(song);
+		ItemStack is = getSongItem(song, p);
 		if (pdata.isInPlaylist(song)) loreAdd(is, playlistLore);
 		inv.setItem(id - page*45, is);
 	}

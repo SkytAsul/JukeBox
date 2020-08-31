@@ -5,6 +5,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -62,6 +63,10 @@ public class JukeBoxDatas {
 	
 	public PlayerData getDatas(Player p) {
 		return players.get(p.getUniqueId());
+	}
+	
+	public Collection<PlayerData> getDatas() {
+		return players.values();
 	}
 	
 	public Object getSerializedList() {
