@@ -31,17 +31,33 @@ radioOnJoin: false
 # reload the song the player was listening to before it left the server
 reloadOnJoin: true
 
+# periodically stops vanilla music - can cause a bit of lag
+preventVanillaMusic: false
+
 # material of songs in the GUI. Examples: DIRT, GOLD_INGOT. Any invalid material will lead to random records.
 songItem: RANDOM_RECORD
 
-# name of songs items (variables: NAME, ID, AUTHOR)
-itemFormat: "{NAME}    | {ID}"
+# name of songs items for everybody (variables: NAME, ID, AUTHOR)
+itemFormat: "{NAME}"
+
+# name of songs items for players with music.adminItem (variables: NAME, ID, AUTHOR)
+itemFormatAdmin: "{NAME}    | {ID}"
 
 # formatted songs name (variables: NAME, ID, AUTHOR)
 songFormat: "\"{NAME}\", {AUTHOR}"
 
-# are player datas kept in a file when they quit
+# are player datas kept in a file when they quit - always enabled if database enabled
 savePlayerDatas: true
+
+# database configuration
+database:
+  enabled: false
+  host: "localhost"
+  port: 3306
+  database: "jukebox"
+  username: "unknown"
+  password: "unknown"
+  ssl: false
 
 # player options gived to new players
 defaultPlayerOptions:

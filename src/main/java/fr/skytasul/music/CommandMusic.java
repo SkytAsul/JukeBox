@@ -24,12 +24,16 @@ public class CommandMusic implements CommandExecutor{
 	
 	public static void open(Player p){
 		if (JukeBox.worlds && !JukeBox.worldsEnabled.contains(p.getWorld().getName())) return;
-		PlayerData pdata = PlayerData.players.get(p.getUniqueId());
+		PlayerData pdata = JukeBox.getInstance().datas.getDatas(p);
+		if (pdata == null) {
+			p.sendMessage("§cLoading player... Try again!");
+			return;
+		}
 		if (pdata.linked != null){
 			JukeBoxInventory inv = pdata.linked;
-			inv.setSongsPage();
+			inv.setSongsPage(p);
 			inv.openInventory(p);
-		}else new JukeBoxInventory(p);
+		}else new JukeBoxInventory(p, pdata);
 	}
 
 }

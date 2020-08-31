@@ -59,7 +59,7 @@ public class CommandAdmin implements CommandExecutor{
 				sender.sendMessage("§cUnknown player.");
 				return false;
 			}
-			PlayerData pdata = PlayerData.players.get(pp.getUniqueId());
+			PlayerData pdata = JukeBox.getInstance().datas.getDatas(pp.getUniqueId());
 			String s = Lang.MUSIC_PLAYING + " ";
 			if (pdata == null){
 				s = s + "§cx";
@@ -255,7 +255,7 @@ public class CommandAdmin implements CommandExecutor{
 				sender.sendMessage("§cUnknown player.");
 				return false;
 			}
-			pdata = PlayerData.players.get(cp.getUniqueId());
+			pdata = JukeBox.getInstance().datas.getDatas(cp);
 			try{
 				int volume;
 				if (args[2].equals("+")) {
@@ -297,7 +297,7 @@ public class CommandAdmin implements CommandExecutor{
 			if (args[1].equals("@a")) {
 				int i = 0;
 				for (Player p : Bukkit.getOnlinePlayers()) {
-					PlayerData.players.get(p.getUniqueId()).nextSong();
+					JukeBox.getInstance().datas.getDatas(p).nextSong();
 					i++;
 				}
 				sender.sendMessage("§aNext song for " + i + "players.");
@@ -307,7 +307,7 @@ public class CommandAdmin implements CommandExecutor{
 					sender.sendMessage("§cUnknown player.");
 					return false;
 				}
-				PlayerData.players.get(cp.getUniqueId()).nextSong();
+				JukeBox.getInstance().datas.getDatas(cp).nextSong();
 				sender.sendMessage("§aNext song for " + cp.getName());
 			}
 			break;
@@ -341,7 +341,7 @@ public class CommandAdmin implements CommandExecutor{
 			song = JukeBox.getSongByFile(fileName);
 			if (song == null) return Lang.INVALID_NUMBER;
 		}
-		PlayerData pdata = PlayerData.players.get(cp.getUniqueId());
+		PlayerData pdata = JukeBox.getInstance().datas.getDatas(cp);
 		pdata.setPlaylist(Playlists.PLAYLIST, false);
 		pdata.playSong(song);
 		pdata.songPlayer.adminPlayed = true;
@@ -349,38 +349,38 @@ public class CommandAdmin implements CommandExecutor{
 	}
 	
 	private String stop(Player cp){
-		PlayerData pdata = PlayerData.players.get(cp.getUniqueId());
+		PlayerData pdata = JukeBox.getInstance().datas.getDatas(cp);
 		pdata.stopPlaying(true);
 		return Lang.PLAYER_MUSIC_STOPPED + cp.getName();
 	}
 	
 	private void toggle(Player cp){
-		PlayerData pdata = PlayerData.players.get(cp.getUniqueId());
+		PlayerData pdata = JukeBox.getInstance().datas.getDatas(cp);
 		pdata.togglePlaying();
 	}
 	
 	private String shuffle(Player cp){
-		PlayerData pdata = PlayerData.players.get(cp.getUniqueId());
+		PlayerData pdata = JukeBox.getInstance().datas.getDatas(cp);
 		return "§aShuffle: " + pdata.setShuffle(!pdata.isShuffle());
 	}
 	
 	private String join(Player cp){
-		PlayerData pdata = PlayerData.players.get(cp.getUniqueId());
+		PlayerData pdata = JukeBox.getInstance().datas.getDatas(cp);
 		return "§aJoin: " + pdata.setJoinMusic(!pdata.hasJoinMusic());
 	}
 	
 	private String particles(Player cp){
-		PlayerData pdata = PlayerData.players.get(cp.getUniqueId());
+		PlayerData pdata = JukeBox.getInstance().datas.getDatas(cp);
 		return "§aParticles: " + pdata.setParticles(!pdata.hasParticles());
 	}
 	
 	private String loop(Player cp){
-		PlayerData pdata = PlayerData.players.get(cp.getUniqueId());
+		PlayerData pdata = JukeBox.getInstance().datas.getDatas(cp);
 		return "§aLoop: " + pdata.setRepeat(!pdata.isRepeatEnabled());
 	}
 	
 	private String random(Player cp){
-		PlayerData pdata = PlayerData.players.get(cp.getUniqueId());
+		PlayerData pdata = JukeBox.getInstance().datas.getDatas(cp);
 		Song song = pdata.playRandom();
 		if (song == null) return "§aShuffle: §cnothing to play";
 		return "§aShuffle: " + song.getTitle();
