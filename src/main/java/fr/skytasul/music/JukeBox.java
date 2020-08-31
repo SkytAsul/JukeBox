@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.nio.charset.StandardCharsets;
@@ -17,6 +16,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.function.Consumer;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -93,6 +93,7 @@ public class JukeBox extends JavaPlugin implements Listener{
 	public JukeBoxDatas datas;
 	
 	private BukkitTask vanillaMusicTask = null;
+	public Consumer<Player> stopVanillaMusic = null;
 	
 	public void onEnable(){
 		instance = this;
@@ -139,12 +140,12 @@ public class JukeBox extends JavaPlugin implements Listener{
 		async = config.getBoolean("asyncLoading");
 		autoJoin = config.getBoolean("forceJoinMusic");
 		defaultPlayer = PlayerData.deserialize(config.getConfigurationSection("defaultPlayerOptions").getValues(false), null);
-		particles = config.getBoolean("noteParticles") && JukeBoxInventory.version > 8;
-		actionBar = config.getBoolean("actionBar") && JukeBoxInventory.version > 8;
+		particles = config.getBoolean("noteParticles") && JukeBoxInventory.version >= 9;
+		actionBar = config.getBoolean("actionBar") && JukeBoxInventory.version >= 9;
 		radioEnabled = config.getBoolean("radio");
 		radioOnJoin = radioEnabled && config.getBoolean("radioOnJoin");
 		autoReload = config.getBoolean("reloadOnJoin");
-		preventVanillaMusic = config.getBoolean("preventVanillaMusic") && JukeBoxInventory.version > 9;
+		preventVanillaMusic = config.getBoolean("preventVanillaMusic") && JukeBoxInventory.version >= 13;
 		songItem = Material.matchMaterial(config.getString("songItem"));
 		itemFormat = config.getString("itemFormat");
 		itemFormatAdmin = config.getString("itemFormatAdmin");
@@ -182,24 +183,25 @@ public class JukeBox extends JavaPlugin implements Listener{
 			try {
 				String nms = "net.minecraft.server";
 				String cb = "org.bukkit.craftbukkit";
-				Method getHandle = getVersionedClass(cb, "CraftPlayer").getDeclaredMethod("getHandle");
+				Method getHandle = getVersionedClass(cb, "entity.CraftPlayer").getDeclaredMethod("getHandle");
 				Field playerConnection = getVersionedClass(nms, "EntityPlayer").getDeclaredField("playerConnection");
 				Method sendPacket = getVersionedClass(nms, "PlayerConnection").getDeclaredMethod("sendPacket", getVersionedClass(nms, "Packet"));
-				Object musicCategory = getVersionedClass(nms, "SoundCategory").getDeclaredField("MUSIC");
-				Constructor<?> packetStopSound = getVersionedClass(nms, "PacketPlayOutStopSound").getDeclaredConstructor(getVersionedClass(nms, "MinecraftKey"), musicCategory.getClass());
-				Object packet = packetStopSound.newInstance(null, musicCategory);
+				Class<?> soundCategory = getVersionedClass(nms, "SoundCategory");
+				Object packet = getVersionedClass(nms, "PacketPlayOutStopSound").getDeclaredConstructor(getVersionedClass(nms, "MinecraftKey"), soundCategory).newInstance(null, soundCategory.getDeclaredField("MUSIC").get(null));
+				
+				stopVanillaMusic = player -> {
+					try {
+						sendPacket.invoke(playerConnection.get(getHandle.invoke(player)), packet);
+					}catch (ReflectiveOperationException e1) {
+						e1.printStackTrace();
+					}
+				};
 				
 				vanillaMusicTask = Bukkit.getScheduler().runTaskTimerAsynchronously(this, () -> {
 					for (PlayerData pdata : datas.getDatas()) {
-						if (pdata.isListening() && pdata.getPlayer() != null) {
-							try {
-								sendPacket.invoke(playerConnection.get(getHandle.invoke(pdata.getPlayer())), packet);
-							}catch (ReflectiveOperationException e) {
-								e.printStackTrace();
-							}
-						}
+						if (pdata.isPlaying() && pdata.getPlayer() != null) stopVanillaMusic.accept(pdata.getPlayer());
 					}
-				}, 20L, 200l); // every 10 seconds
+				}, 20L, 100l); // every 5 seconds
 			}catch (ReflectiveOperationException ex) {
 				ex.printStackTrace();
 			}

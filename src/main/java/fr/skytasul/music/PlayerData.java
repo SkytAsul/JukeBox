@@ -107,10 +107,9 @@ public class PlayerData implements Listener{
 			JukeBox.sendMessage(getPlayer(), Lang.UNAVAILABLE_RADIO);
 			return;
 		}
-		if (songPlayer != null) {
-			stopPlaying(false);
-		}
+		if (songPlayer != null) stopPlaying(false);
 		if (list == null) return;
+		
 		songPlayer = new CustomSongPlayer(list);
 		songPlayer.setParticlesEnabled(particles);
 		songPlayer.getFadeIn().setFadeDuration(0);
@@ -122,6 +121,7 @@ public class PlayerData implements Listener{
 		
 		playSong(false);
 		
+		if (JukeBox.getInstance().stopVanillaMusic != null) JukeBox.getInstance().stopVanillaMusic.accept(p);
 		if (linked != null) linked.playingStarted();
 	}
 
@@ -271,6 +271,10 @@ public class PlayerData implements Listener{
 	public boolean isListening() {
 		return songPlayer != null || listening == Playlists.RADIO;
 	}
+	
+	public boolean isPlaying() {
+		return p != null && songPlayer == null ? listening == Playlists.RADIO : songPlayer.isPlaying();
+	}
 
 	private void finishPlaying(){
 		if (songPlayer == null) return;
@@ -316,6 +320,7 @@ public class PlayerData implements Listener{
 				}else JukeBox.radio.join(getPlayer());
 			}
 		}
+		if (JukeBox.getInstance().stopVanillaMusic != null && isPlaying()) JukeBox.getInstance().stopVanillaMusic.accept(p);
 	}
 
 	public void playerLeave(){
