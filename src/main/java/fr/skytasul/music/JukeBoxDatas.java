@@ -4,10 +4,12 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -27,6 +29,7 @@ public class JukeBoxDatas {
 	private JBStatement getStatement;
 	private JBStatement insertStatement;
 	private JBStatement updateStatement;
+	private JBStatement deleteStatement;
 	
 	public JukeBoxDatas(List<Map<?, ?>> mapList, Map<String, Song> tmpSongs) {
 		for (Map<?, ?> m : mapList) {
@@ -44,12 +47,13 @@ public class JukeBoxDatas {
 				+ "`particles` TINYINT(1) NOT NULL,"
 				+ "`repeat` TINYINT(1) NOT NULL,"
 				+ "`volume` SMALLINT(3) NOT NULL, "
-				//			+ "`favorites` VARCHAR() NOT NULL, "
+				+ "`favorites` VARCHAR(8000) NOT NULL, "
 				+ "PRIMARY KEY (`player_uuid`)"
 				+ ")");
 		getStatement = db.new JBStatement("SELECT * FROM " + DB_TABLE + " WHERE `player_uuid` = ?");
-		insertStatement = db.new JBStatement("INSERT INTO " + DB_TABLE + " (`join`, `shuffle`, `particles`, `repeat`, `volume`, `player_uuid`) VALUES (?, ?, ?, ?, ?, ?)");
-		updateStatement = db.new JBStatement("UPDATE " + DB_TABLE + " SET `join` = ?, `shuffle`= ?, `particles` = ?, `repeat` = ?, `volume` = ? WHERE `player_uuid` = ?");
+		insertStatement = db.new JBStatement("INSERT INTO " + DB_TABLE + " (`join`, `shuffle`, `particles`, `repeat`, `volume`, `favorites`, `player_uuid`) VALUES (?, ?, ?, ?, ?, ?, ?)");
+		updateStatement = db.new JBStatement("UPDATE " + DB_TABLE + " SET `join` = ?, `shuffle`= ?, `particles` = ?, `repeat` = ?, `volume` = ?, `favorites` = ? WHERE `player_uuid` = ?");
+		deleteStatement = db.new JBStatement("DELETE FROM " + DB_TABLE + " WHERE `player_uuid` = ?");
 	}
 	
 	public PlayerData getDatas(UUID uuid) {
@@ -88,11 +92,14 @@ public class JukeBoxDatas {
 						statement.setString(1, id.toString().replace("-", ""));
 						ResultSet resultSet = statement.executeQuery();
 						if (resultSet.next()) {
+							pdata.created = false;
 							pdata.setJoinMusic(resultSet.getBoolean("join"));
 							pdata.setShuffle(resultSet.getBoolean("shuffle"));
 							pdata.setParticles(resultSet.getBoolean("particles"));
 							pdata.setRepeat(resultSet.getBoolean("repeat"));
 							pdata.setVolume(resultSet.getInt("volume"));
+							String favorites = resultSet.getString("favorites");
+							if (!favorites.isEmpty()) pdata.setFavorites(Arrays.stream(favorites.split("\\|")).map(JukeBox::getSongByInternalName).toArray(Song[]::new));
 						}
 						resultSet.close();
 					}catch (SQLException e) {
@@ -111,24 +118,40 @@ public class JukeBoxDatas {
 			pdata.playerLeave();
 			if (db == null) {
 				if (!JukeBox.savePlayerDatas) players.remove(id);
-			}else if (!pdata.created || !pdata.isDefault(JukeBox.defaultPlayer)) {
-				Bukkit.getScheduler().runTaskAsynchronously(JukeBox.getInstance(), () -> {
-					synchronized (updateStatement) {
-						try {
-							int i = 1;
-							PreparedStatement statement = pdata.created ? insertStatement.getStatement() : updateStatement.getStatement();
-							statement.setBoolean(i++, pdata.hasJoinMusic());
-							statement.setBoolean(i++, pdata.isShuffle());
-							statement.setBoolean(i++, pdata.hasParticles());
-							statement.setBoolean(i++, pdata.isRepeatEnabled());
-							statement.setInt(i++, pdata.getVolume());
-							statement.setString(i++, id.toString().replace("-", ""));
-							statement.executeUpdate();
-						}catch (SQLException e) {
-							e.printStackTrace();
+			}else {
+				boolean isDefault = pdata.isDefault(JukeBox.defaultPlayer);
+				if (!pdata.created || !isDefault) {
+					Bukkit.getScheduler().runTaskAsynchronously(JukeBox.getInstance(), () -> {
+						if (isDefault) {
+							synchronized (deleteStatement) {
+								try {
+									PreparedStatement statement = deleteStatement.getStatement();
+									statement.setString(1, id.toString().replace("-", ""));
+									statement.executeUpdate();
+								}catch (SQLException e) {
+									e.printStackTrace();
+								}
+							}
+						}else {
+							synchronized (updateStatement) {
+								try {
+									int i = 1;
+									PreparedStatement statement = pdata.created ? insertStatement.getStatement() : updateStatement.getStatement();
+									statement.setBoolean(i++, pdata.hasJoinMusic());
+									statement.setBoolean(i++, pdata.isShuffle());
+									statement.setBoolean(i++, pdata.hasParticles());
+									statement.setBoolean(i++, pdata.isRepeatEnabled());
+									statement.setInt(i++, pdata.getVolume());
+									statement.setString(i++, pdata.getFavorites() == null ? "" : pdata.getFavorites().getSongList().stream().map(JukeBox::getInternal).collect(Collectors.joining("|")));
+									statement.setString(i++, id.toString().replace("-", ""));
+									statement.executeUpdate();
+								}catch (SQLException e) {
+									e.printStackTrace();
+								}
+							}
 						}
-					}
-				});
+					});
+				}
 			}
 		}
 	}

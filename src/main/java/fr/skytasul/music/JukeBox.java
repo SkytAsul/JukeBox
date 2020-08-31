@@ -60,7 +60,7 @@ public class JukeBox extends JavaPlugin implements Listener{
 	
 	private static LinkedList<Song> songs;
 	private static Map<String, Song> fileNames;
-	//private static LinkedList<Song> ids;
+	private static Map<String, Song> internalNames;
 	private static Playlist playlist;
 	
 	public static int maxPage;
@@ -188,30 +188,29 @@ public class JukeBox extends JavaPlugin implements Listener{
 		/* --------------------------------------------- SONGS ------- */
 		songs = new LinkedList<>();
 		fileNames = new HashMap<>();
-		//ids = new LinkedList<>();
+		internalNames = new HashMap<>();
 		songsFolder = new File(getDataFolder(), "songs");
 		if (!songsFolder.exists()) songsFolder.mkdirs();
-		Map<String, Song> tmpSongs = new HashMap<>();
 		//Map<String, Song> tmpFiles = new HashMap<>();
 		for (File file : songsFolder.listFiles()){
 			if (file.getName().substring(file.getName().lastIndexOf(".") + 1).equals("nbs")){
 				Song song = NBSDecoder.parse(file);
 				if (song == null) continue;
 				String n = getInternal(song);
-				if (tmpSongs.containsKey(n)){
+				if (internalNames.containsKey(n)) {
 					getLogger().warning("Song \"" + n + "\" is duplicated. Please delete one from the songs directory. File name: " + file.getName());
 					continue;
 				}
 				fileNames.put(file.getName(), song);
-				tmpSongs.put(n, song);
+				internalNames.put(n, song);
 				//tmpFiles.put(file.getName(), song);
 			}
 		}
-		getLogger().info(tmpSongs.size() + " songs loadeds. Sorting by name... ");
-		List<String> names = new ArrayList<>(tmpSongs.keySet());
+		getLogger().info(internalNames.size() + " songs loadeds. Sorting by name... ");
+		List<String> names = new ArrayList<>(internalNames.keySet());
 		Collections.sort(names, Collator.getInstance());
 		for (String str : names){
-			songs.add(tmpSongs.get(str));
+			songs.add(internalNames.get(str));
 		}
 		/*names = new ArrayList<>(tmpFiles.keySet());
 		Collections.sort(names, Collator.getInstance());
@@ -233,7 +232,7 @@ public class JukeBox extends JavaPlugin implements Listener{
 			e.printStackTrace();
 		}
 		if (db == null) {
-			datas = new JukeBoxDatas(players.getMapList("players"), tmpSongs);
+			datas = new JukeBoxDatas(players.getMapList("players"), internalNames);
 		}else {
 			try {
 				datas = new JukeBoxDatas(db);
@@ -352,6 +351,10 @@ public class JukeBox extends JavaPlugin implements Listener{
 	
 	public static Song getSongByFile(String fileName){
 		return fileNames.get(fileName);
+	}
+	
+	public static Song getSongByInternalName(String internalName) {
+		return internalNames.get(internalName);
 	}
 	
 	/*public static Song[] getSongs(){

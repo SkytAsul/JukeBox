@@ -389,6 +389,14 @@ public class PlayerData implements Listener{
 		if (linked != null) linked.repeatItem();
 		return repeat;
 	}
+	
+	public Playlist getFavorites() {
+		return favorites;
+	}
+	
+	public void setFavorites(Song... songs) {
+		favorites = new Playlist(songs);
+	}
 
 	public boolean isDefault(PlayerData base){
 		if (base.hasJoinMusic() != hasJoinMusic()) if (!JukeBox.autoJoin) return false;
