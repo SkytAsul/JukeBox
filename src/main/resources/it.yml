@@ -1,0 +1,44 @@
+NEXT_PAGE: §bPagina successiva
+LATER_PAGE: §bPagina precedente
+CURRENT_PAGE: §3§oPagina %d di %d
+PLAYER: §cDevi essere un player per eseguire questo comando.
+RELOAD_MUSIC: §aMusic ricaricata.
+INV_NAME: §d§lJukebox !
+TOGGLE_PLAYING: §6Pause/play
+VOLUME: '§9Volume musica : §b'
+RIGHT_CLICK: '§eTasto destro: abbassa del 10%'
+LEFT_CLICK: '§eTasto sinistro: aumenta del 10%'
+RANDOM_MUSIC: §3Musica casuale
+STOP: §cFerma la musica
+MUSIC_STOPPED: §aMusica fermata.
+ENABLE: Attiva
+DISABLE: Disattiva
+ENABLED: Attivato
+DISABLED: Disattivato
+SHUFFLE_MODE: la modalità casuale
+LOOP_MODE: modalità senza fine
+CONNEXION_MUSIC: musica durate la connessione
+PARTICLES: particelle
+MUSIC_PLAYING: '§aCanzone in riproduzione:'
+INCORRECT_SYNTAX: §cSintassi incorretta.
+RELOAD_LAUNCH: §aRicaricando il plugin.
+RELOAD_FINISH: §aPlugin ricaricato con successo.
+AVAILABLE_COMMANDS: '§aComandi disponibili:'
+INVALID_NUMBER: §cNumero non valido.
+PLAYER_MUSIC_STOPPED: '§aMusica fermata per il giocatore: §b'
+IN_PLAYLIST: §9§oIn Playlist
+PLAYLIST_ITEM: §dPlaylists
+OPTIONS_ITEM: §bOpzioni
+MENU_ITEM: §6Torna al menu
+CLEAR_PLAYLIST: §cCancella la playlist corrente
+NEXT_ITEM: §eProssima musica
+CHANGE_PLAYLIST: '§6§lCambio playlist: §r'
+CHANGE_PLAYLIST_LORE: |-
+  §eTasto centrale per scegliere un disco
+  §e da agg./rimuovere
+PLAYLIST: §5Playlist
+FAVORITES: §4Preferiti
+RADIO: §3Radio
+UNAVAILABLE_RADIO: §cQuesta opzione non è disponibile durante l'ascolto.
+NONE: §cnone
+# Translated by Giotto88

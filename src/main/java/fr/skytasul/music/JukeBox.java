@@ -235,7 +235,6 @@ public class JukeBox extends JavaPlugin implements Listener{
 		internalNames = new HashMap<>();
 		songsFolder = new File(getDataFolder(), "songs");
 		if (!songsFolder.exists()) songsFolder.mkdirs();
-		//Map<String, Song> tmpFiles = new HashMap<>();
 		for (File file : songsFolder.listFiles()){
 			if (file.getName().substring(file.getName().lastIndexOf(".") + 1).equals("nbs")){
 				Song song = NBSDecoder.parse(file);
@@ -247,7 +246,6 @@ public class JukeBox extends JavaPlugin implements Listener{
 				}
 				fileNames.put(file.getName(), song);
 				internalNames.put(n, song);
-				//tmpFiles.put(file.getName(), song);
 			}
 		}
 		getLogger().info(internalNames.size() + " songs loadeds. Sorting by name... ");
@@ -256,11 +254,6 @@ public class JukeBox extends JavaPlugin implements Listener{
 		for (String str : names){
 			songs.add(internalNames.get(str));
 		}
-		/*names = new ArrayList<>(tmpFiles.keySet());
-		Collections.sort(names, Collator.getInstance());
-		for (String str : names){
-			ids.add(tmpFiles.get(str));
-		}*/
 		
 		setMaxPage();
 		getLogger().info("Songs sorted ! " + songs.size() + " songs. Number of pages : " + maxPage);
@@ -401,10 +394,6 @@ public class JukeBox extends JavaPlugin implements Listener{
 		return internalNames.get(internalName);
 	}
 	
-	/*public static Song[] getSongs(){
-		return songsList.toArray(new Song[0]);
-	}*/
-	
 	public static String getInternal(Song s) {
 		if (s.getTitle() == null || s.getTitle().isEmpty()) return s.getPath().getName();
 		return s.getTitle();
@@ -430,7 +419,7 @@ public class JukeBox extends JavaPlugin implements Listener{
 			if (JukeBox.actionBar){
 				p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(msg));
 			}else {
-				p.sendMessage(msg);
+				p.spigot().sendMessage(TextComponent.fromLegacyText(msg));
 			}
 			return true;
 		}
