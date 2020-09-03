@@ -10,7 +10,6 @@ import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import fr.skytasul.music.JukeBox;
-import fr.skytasul.music.JukeBoxInventory;
 
 public class Lang{
 
@@ -69,9 +68,9 @@ public class Lang{
 			try {
 				String str = cfg.getString(key);
 				str = net.md_5.bungee.api.ChatColor.translateAlternateColorCodes('&', str);
-				if (JukeBoxInventory.version >= 16) str = translateHexColorCodes("(&|§)#", "", str);
+				if (JukeBox.version >= 16) str = translateHexColorCodes("(&|§)#", "", str);
 				Lang.class.getDeclaredField(key).set(key, str);
-			}catch (ReflectiveOperationException e) {
+			}catch (Exception e) {
 				JukeBox.getInstance().getLogger().warning("Error when loading language value \"" + key + "\".");
 				e.printStackTrace();
 				continue;

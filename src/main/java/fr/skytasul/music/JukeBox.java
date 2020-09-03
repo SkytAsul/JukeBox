@@ -140,12 +140,12 @@ public class JukeBox extends JavaPlugin implements Listener{
 		async = config.getBoolean("asyncLoading");
 		autoJoin = config.getBoolean("forceJoinMusic");
 		defaultPlayer = PlayerData.deserialize(config.getConfigurationSection("defaultPlayerOptions").getValues(false), null);
-		particles = config.getBoolean("noteParticles") && JukeBoxInventory.version >= 9;
-		actionBar = config.getBoolean("actionBar") && JukeBoxInventory.version >= 9;
+		particles = config.getBoolean("noteParticles") && version >= 9;
+		actionBar = config.getBoolean("actionBar") && version >= 9;
 		radioEnabled = config.getBoolean("radio");
 		radioOnJoin = radioEnabled && config.getBoolean("radioOnJoin");
 		autoReload = config.getBoolean("reloadOnJoin");
-		preventVanillaMusic = config.getBoolean("preventVanillaMusic") && JukeBoxInventory.version >= 13;
+		preventVanillaMusic = config.getBoolean("preventVanillaMusic") && version >= 13;
 		songItem = Material.matchMaterial(config.getString("songItem"));
 		itemFormat = config.getString("itemFormat");
 		itemFormatAdmin = config.getString("itemFormatAdmin");
@@ -346,7 +346,7 @@ public class JukeBox extends JavaPlugin implements Listener{
 		if (e.getAction() == Action.RIGHT_CLICK_BLOCK && jukeboxClick){
 			if (e.getClickedBlock().getType() == Material.JUKEBOX){
 				String disc = e.getItem().getType().name();
-				if (JukeBoxInventory.version < 13 ? JukeBoxInventory.discs8.contains(disc) : JukeBoxInventory.discs13.contains(disc)){
+				if (version < 13 ? JukeBoxInventory.discs8.contains(disc) : JukeBoxInventory.discs13.contains(disc)) {
 					CommandMusic.open(e.getPlayer());
 					e.setCancelled(true);
 					return;

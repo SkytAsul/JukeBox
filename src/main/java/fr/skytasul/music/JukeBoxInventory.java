@@ -35,21 +35,20 @@ import fr.skytasul.music.utils.Playlists;
  */
 public class JukeBoxInventory implements Listener{
 	
-	public static int version = Integer.parseInt(Bukkit.getServer().getClass().getPackage().getName().replace(".", ",").split(",")[3].split("_")[1]);
 	public static List<String> discs13 = new ArrayList<>(Arrays.asList("MUSIC_DISC_11", "MUSIC_DISC_13", "MUSIC_DISC_BLOCKS", "MUSIC_DISC_CAT", "MUSIC_DISC_CHIRP", "MUSIC_DISC_FAR", "MUSIC_DISC_MALL", "MUSIC_DISC_MELLOHI", "MUSIC_DISC_STAL", "MUSIC_DISC_STRAD", "MUSIC_DISC_WAIT", "MUSIC_DISC_WARD"));
 	public static List<String> discs8 = new ArrayList<>(Arrays.asList("RECORD_10", "RECORD_11", "RECORD_12", "RECORD_3", "RECORD_4", "RECORD_5", "RECORD_6", "RECORD_7", "RECORD_8", "RECORD_9", "GOLD_RECORD", "GREEN_RECORD"));
 	
 	private static ItemStack stopItem = item(Material.BARRIER, Lang.STOP);
 	private static ItemStack menuItem = item(Material.TRAPPED_CHEST, Lang.MENU_ITEM);
-	private static ItemStack toggleItem = item(version < 9 ? Material.STONE_BUTTON : Material.valueOf("END_CRYSTAL"), Lang.TOGGLE_PLAYING);
-	private static ItemStack randomItem = item(Material.valueOf(version > 12 ? "FIRE_CHARGE" : "FIREBALL"), Lang.RANDOM_MUSIC);
+	private static ItemStack toggleItem = item(JukeBox.version < 9 ? Material.STONE_BUTTON : Material.valueOf("END_CRYSTAL"), Lang.TOGGLE_PLAYING);
+	private static ItemStack randomItem = item(Material.valueOf(JukeBox.version > 12 ? "FIRE_CHARGE" : "FIREBALL"), Lang.RANDOM_MUSIC);
 	private static ItemStack playlistMenuItem = item(Material.CHEST, Lang.PLAYLIST_ITEM);
-	private static ItemStack optionsMenuItem = item(Material.valueOf(version > 12 ? "COMPARATOR" : "REDSTONE_COMPARATOR"), Lang.OPTIONS_ITEM);
+	private static ItemStack optionsMenuItem = item(Material.valueOf(JukeBox.version > 12 ? "COMPARATOR" : "REDSTONE_COMPARATOR"), Lang.OPTIONS_ITEM);
 	private static ItemStack nextSongItem = item(Material.FEATHER, Lang.NEXT_ITEM);
 	private static ItemStack clearItem = item(Material.LAVA_BUCKET, Lang.CLEAR_PLAYLIST);
-	private static Material particles = version < 13 ? Material.valueOf("FIREWORK") : Material.valueOf("FIREWORK_ROCKET");
-	private static Material sign = version < 14 ? Material.valueOf("SIGN") : Material.valueOf("OAK_SIGN");
-	private static Material lead = version < 13 ? Material.valueOf("LEASH") : Material.valueOf("LEAD");
+	private static Material particles = JukeBox.version < 13 ? Material.valueOf("FIREWORK") : Material.valueOf("FIREWORK_ROCKET");
+	private static Material sign = JukeBox.version < 14 ? Material.valueOf("SIGN") : Material.valueOf("OAK_SIGN");
+	private static Material lead = JukeBox.version < 13 ? Material.valueOf("LEASH") : Material.valueOf("LEAD");
 	private static List<String> playlistLore = Arrays.asList("", Lang.IN_PLAYLIST);
 	
 	private Material[] discs;
@@ -71,7 +70,7 @@ public class JukeBoxInventory implements Listener{
 		Material defaultMat = JukeBox.songItem;
 		discs = new Material[JukeBox.getSongs().size()];
 		for (int i = 0; i < discs.length; i++){
-			discs[i] = defaultMat != null ? defaultMat : Material.valueOf(version > 12 ? discs13.get(ran.nextInt(12)) : discs8.get(ran.nextInt(12)));
+			discs[i] = defaultMat != null ? defaultMat : Material.valueOf(JukeBox.version > 12 ? discs13.get(ran.nextInt(12)) : discs8.get(ran.nextInt(12)));
 		}
 		
 		this.inv = Bukkit.createInventory(null, 54, Lang.INV_NAME);
@@ -359,7 +358,7 @@ public class JukeBoxInventory implements Listener{
         }
         propertyMap.put("textures", new Property("textures", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMTQ4YThjNTU4OTFkZWM3Njc2NDQ0OWY1N2JhNjc3YmUzZWU4OGEwNjkyMWNhOTNiNmNjN2M5NjExYTdhZiJ9fX0="));
         ItemStack item;
-        if (version < 13){
+        if (JukeBox.version < 13){
         	item = new ItemStack(Material.valueOf("SKULL_ITEM"), 1, (short) 3);
         }else item = new ItemStack(Material.valueOf("PLAYER_HEAD"));
         ItemMeta headMeta = item.getItemMeta();
