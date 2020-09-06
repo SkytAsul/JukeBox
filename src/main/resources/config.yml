@@ -40,11 +40,20 @@ songItem: RANDOM_RECORD
 # name of songs items for everybody (variables: NAME, ID, AUTHOR)
 itemFormat: "{NAME}"
 
+# name of songs items for everybody when no author is found (variables: NAME, ID)
+itemFormatWithoutAuthor: "{NAME}"
+
 # name of songs items for players with music.adminItem (variables: NAME, ID, AUTHOR)
 itemFormatAdmin: "{NAME}    | {ID}"
 
+# name of songs items for players with music.adminItem when no author is found (variables: NAME, ID)
+itemFormatAdminWithoutAuthor: "{NAME}    | {ID}"
+
 # formatted songs name (variables: NAME, ID, AUTHOR)
 songFormat: "\"{NAME}\", {AUTHOR}"
+
+# formatted songs name when no author is found (variables: NAME, ID)
+songFormatWithoutAuthor: "\"{NAME}\""
 
 # are player datas kept in a file when they quit - always enabled if database enabled
 savePlayerDatas: true
