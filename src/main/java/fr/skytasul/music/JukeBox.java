@@ -83,8 +83,11 @@ public class JukeBox extends JavaPlugin implements Listener{
 	public static boolean actionBar;
 	public static Material songItem;
 	public static String itemFormat;
+	public static String itemFormatWithoutAuthor;
 	public static String itemFormatAdmin;
+	public static String itemFormatAdminWithoutAuthor;
 	public static String songFormat;
+	public static String songFormatWithoutAuthor;
 	public static boolean savePlayerDatas = true;
 	
 	public ItemStack jukeboxItem;
@@ -148,8 +151,11 @@ public class JukeBox extends JavaPlugin implements Listener{
 		preventVanillaMusic = config.getBoolean("preventVanillaMusic") && version >= 13;
 		songItem = Material.matchMaterial(config.getString("songItem"));
 		itemFormat = config.getString("itemFormat");
+		itemFormatWithoutAuthor = config.getString("itemFormatWithoutAuthor");
 		itemFormatAdmin = config.getString("itemFormatAdmin");
+		itemFormatAdminWithoutAuthor = config.getString("itemFormatAdminWithoutAuthor");
 		songFormat = config.getString("songFormat");
+		songFormatWithoutAuthor = config.getString("songFormatWithoutAuthor");
 		savePlayerDatas = config.getBoolean("savePlayerDatas");
 		
 		worldsEnabled = config.getStringList("enabledWorlds");
@@ -400,17 +406,27 @@ public class JukeBox extends JavaPlugin implements Listener{
 	}
 	
 	public static String getItemName(Song s, Player p) {
-		return format(p.hasPermission("music.adminItem") ? itemFormatAdmin : itemFormat, s);
+		boolean admin = p.hasPermission("music.adminItem");
+		return format(admin ? itemFormatAdmin : itemFormat, admin ? itemFormatAdminWithoutAuthor : itemFormatWithoutAuthor, s);
 	}
 	
 	public static String getSongName(Song song) {
-		return format(songFormat, song);
+		return format(songFormat, songFormatWithoutAuthor, song);
+	}
+
+	private static String removeFileExtension(String path) {
+		int dot = path.lastIndexOf('.');
+		if(dot == -1) return path;
+		return path.substring(0, dot);
 	}
 	
-	public static String format(String base, Song song) {
-		String name = song.getTitle().isEmpty() ? song.getPath().getName() : song.getTitle();
+	public static String format(String base, String noAuthorBase, Song song) {
+		String name = song.getTitle().isEmpty() ? removeFileExtension(song.getPath().getName()) : song.getTitle();
 		String author = song.getAuthor();
 		String id = String.valueOf(songs.indexOf(song));
+		if(author == null || author.isEmpty()) {
+			return noAuthorBase.replace("{NAME}", name).replace("{ID}", id);
+		}
 		return base.replace("{NAME}", name).replace("{AUTHOR}", author).replace("{ID}", id);
 	}
 	
