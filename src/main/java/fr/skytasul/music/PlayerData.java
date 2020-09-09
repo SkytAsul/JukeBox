@@ -77,7 +77,7 @@ public class PlayerData implements Listener{
 	@EventHandler
 	public void onLoop(SongLoopEvent e){
 		if (e.getSongPlayer() == songPlayer){
-			if (listening == Playlists.FAVORITES && favorites == null){
+			if ((listening == Playlists.FAVORITES && favorites == null) || (listening == Playlists.PLAYLIST && !shuffle)) {
 				songPlayer.destroy();
 				return;
 			}
@@ -456,7 +456,7 @@ public class PlayerData implements Listener{
 			for (String s : (List<String>) map.get("favorites")) {
 				Song song = songsName.get(s);
 				if (song == null) {
-					JukeBox.getInstance().getLogger().warning("Song \"" + s + "\" for playlist of " + pdata.getID().toString());
+					JukeBox.getInstance().getLogger().warning("Unknown song \"" + s + "\" for favorite playlist of " + pdata.getID().toString());
 				}else pdata.addSong(song, false);
 			}
 			pdata.setPlaylist(Playlists.PLAYLIST, false);

@@ -117,15 +117,17 @@ public class JukeBoxInventory implements Listener{
 			break;
 		case OPTIONS:
 			inv.setItem(47, item(Material.BEACON, "§cerror", Lang.RIGHT_CLICK, Lang.LEFT_CLICK));
-			if (JukeBox.particles) inv.setItem(48, item(particles, "§cerror"));
-			inv.setItem(49, item(sign, "§cerror"));
-			inv.setItem(50, item(Material.BLAZE_POWDER, "§cerror"));
-			inv.setItem(51, item(lead, "§cerror"));
 			volumeItem();
-			shuffleItem();
-			joinItem();
-			particlesItem();
-			repeatItem();
+			if (pdata.getPlaylistType() != Playlists.RADIO) {
+				if (JukeBox.particles) inv.setItem(48, item(particles, "§cerror"));
+				particlesItem();
+				inv.setItem(49, item(sign, "§cerror"));
+				joinItem();
+				inv.setItem(50, item(Material.BLAZE_POWDER, "§cerror"));
+				shuffleItem();
+				inv.setItem(51, item(lead, "§cerror"));
+				repeatItem();
+			}
 			break;
 		case PLAYLIST:
 			inv.setItem(47, nextSongItem);
@@ -206,10 +208,6 @@ public class JukeBoxInventory implements Listener{
 					break;
 					
 				case 50:
-					if (pdata.getPlaylistType() == Playlists.RADIO){
-						JukeBox.sendMessage(p, Lang.UNAVAILABLE_RADIO);
-						return;
-					}
 					menu = ItemsMenu.OPTIONS;
 					setItemsMenu();
 					break;
@@ -308,7 +306,9 @@ public class JukeBoxInventory implements Listener{
 	}
 	
 	public void playlistItem(){
-		if (menu == ItemsMenu.PLAYLIST) inv.setItem(50, pdata.getPlaylistType().item);
+		if (menu == ItemsMenu.PLAYLIST)
+			inv.setItem(50, pdata.getPlaylistType().item);
+		else if (menu == ItemsMenu.OPTIONS) setItemsMenu();
 	}
 	
 	public void songItem(int id, Player p) {
