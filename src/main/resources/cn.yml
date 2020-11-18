@@ -8,9 +8,9 @@ TOGGLE_PLAYING: §6暂停/播放
 VOLUME: '§9当前音量 : §b'
 RIGHT_CLICK: §e右击：减少10%音量
 LEFT_CLICK: §e点击：增加10%音量
-RANDOM_MUSIC: §3随机音乐
-STOP: §c停止音乐
-MUSIC_STOPPED: §a你停止播放音乐。
+RANDOM_MUSIC: §3随机播放音乐
+STOP: §c停止音乐播放
+MUSIC_STOPPED: §a您停止了音乐的播放。
 ENABLE: 开启
 DISABLE: 关闭
 ENABLED: 已开启
@@ -20,7 +20,7 @@ LOOP_MODE: 循环播放模式
 CONNEXION_MUSIC: 随机播放模式
 PARTICLES: 粒子效果
 MUSIC_PLAYING: '§a正在播放:'
-INCORRECT_SYNTAX: §c用法错误.
+INCORRECT_SYNTAX: §c指令用法错误。
 RELOAD_LAUNCH: §a尝试重载中.
 RELOAD_FINISH: §a已完成重载.
 AVAILABLE_COMMANDS: '§a可用指令:'
