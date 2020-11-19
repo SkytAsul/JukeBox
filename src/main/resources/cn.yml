@@ -1,5 +1,6 @@
 NEXT_PAGE: §b下一页
 LATER_PAGE: §b上一页
+CURRENT_PAGE: §3§o页 %d 总页数 %d
 PLAYER: §c你必须是玩家才能这么做.
 RELOAD_MUSIC: §a红石音乐已重新加载.
 INV_NAME: §d§l红石音乐
@@ -7,20 +8,23 @@ TOGGLE_PLAYING: §6暂停/播放
 VOLUME: '§9当前音量 : §b'
 RIGHT_CLICK: §e右击：减少10%音量
 LEFT_CLICK: §e点击：增加10%音量
-RANDOM_MUSIC: §3随机音乐
-STOP: §c停止音乐
-MUSIC_STOPPED: §a你停止播放音乐.
+RANDOM_MUSIC: §3随机播放音乐
+STOP: §c停止音乐播放
+MUSIC_STOPPED: §a您停止了音乐的播放。
 ENABLE: 开启
 DISABLE: 关闭
+ENABLED: 已开启
+DISABLED: 已关闭
 SHUFFLE_MODE: 登入游戏时播放音乐
+LOOP_MODE: 循环播放模式
 CONNEXION_MUSIC: 随机播放模式
+PARTICLES: 粒子效果
 MUSIC_PLAYING: '§a正在播放:'
-INCORRECT_SYNTAX: §c用法错误.
+INCORRECT_SYNTAX: §c指令用法错误。
 RELOAD_LAUNCH: §a尝试重载中.
 RELOAD_FINISH: §a已完成重载.
 AVAILABLE_COMMANDS: '§a可用指令:'
 INVALID_NUMBER: §c无效的数字.
-PARTICLES: 粒子
 PLAYER_MUSIC_STOPPED: '§a已停止该玩家的音乐: §b'
 IN_PLAYLIST: §9§o在歌单中
 PLAYLIST_ITEM: §d歌单
@@ -29,8 +33,12 @@ MENU_ITEM: §6返回菜单
 CLEAR_PLAYLIST: §c清空歌单
 NEXT_ITEM: §e下一首
 CHANGE_PLAYLIST: '§6§l切换歌单: §r'
+CHANGE_PLAYLIST_LORE: |-
+  §e在音乐唱片上按鼠标中键以从播放列表
+  §e 添加/移除 歌曲
 PLAYLIST: §5歌单
 FAVORITES: §4喜爱的音乐
 RADIO: §3电台
-UNAVAILABLE_RADIO: §c收听电台时你不能这么做.
+UNAVAILABLE_RADIO: §c收听电台时你不能这么做。
+NONE: §c无
 # Translated by Mr_Liu | Updated by qsefthuopq
