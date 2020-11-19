@@ -42,7 +42,7 @@ public class Placeholders extends PlaceholderExpansion {
 	
 	@Override
 	public List<String> getPlaceholders() {
-		return Arrays.asList("playeroptions_volume", "playeroptions_shuffle", "playeroptions_join", "playeroptions_particles", "playeroptions_loop", "active", "active_title", "active_author", "active_description", "playlist");
+		return Arrays.asList("playeroptions_volume", "playeroptions_shuffle", "playeroptions_join", "playeroptions_particles", "playeroptions_loop", "active", "active_title", "active_author", "active_original_author", "active_description", "playlist");
 	}
 	
 	@Override
@@ -73,6 +73,7 @@ public class Placeholders extends PlaceholderExpansion {
 			}else song = pdata.songPlayer.getSong();
 			if (params.equals("active_title")) return song.getTitle();
 			if (params.equals("active_author")) return song.getAuthor();
+			if (params.equals("active_original_author")) return song.getOriginalAuthor();
 			if (params.equals("active_description")) return song.getDescription();
 			return JukeBox.getSongName(song);
 		}else if (params.equals("playlist")) {

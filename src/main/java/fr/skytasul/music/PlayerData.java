@@ -77,7 +77,7 @@ public class PlayerData implements Listener{
 	@EventHandler
 	public void onLoop(SongLoopEvent e){
 		if (e.getSongPlayer() == songPlayer){
-			if ((listening == Playlists.FAVORITES && favorites == null) || (listening == Playlists.PLAYLIST && !shuffle)) {
+			if ((listening == Playlists.FAVORITES && favorites == null) || (listening == Playlists.PLAYLIST && !(shuffle || repeat))) {
 				songPlayer.destroy();
 				return;
 			}
@@ -221,11 +221,14 @@ public class PlayerData implements Listener{
 	}
 	
 	public void stopPlaying(boolean msg) {
-		if (songPlayer == null) return;
+		if (songPlayer == null) {
+			if (listening == Playlists.RADIO) JukeBox.radio.leave(getPlayer());
+			return;
+		}
 		CustomSongPlayer tmp = songPlayer;
 		this.songPlayer = null;
 		tmp.destroy();
-		if (msg && getPlayer().isOnline()) JukeBox.sendMessage(getPlayer(), Lang.MUSIC_STOPPED);
+		if (msg && p != null && p.isOnline()) JukeBox.sendMessage(getPlayer(), Lang.MUSIC_STOPPED);
 		if (linked != null) linked.playingStopped();
 	}
 	
@@ -234,8 +237,6 @@ public class PlayerData implements Listener{
 	}
 	
 	public void nextPlaylist(){
-		if (listening == Playlists.RADIO) JukeBox.radio.leave(getPlayer());
-		
 		switch (listening){
 		case PLAYLIST:
 			setPlaylist(Playlists.FAVORITES, true);
@@ -250,10 +251,10 @@ public class PlayerData implements Listener{
 	}
 	
 	public void setPlaylist(Playlists list, boolean play){
+		stopPlaying(false);
 		this.listening = list;
 		if (linked != null) linked.playlistItem();
 		if (!play || getPlayer() == null) return;
-		stopPlaying(false);
 		switch (listening){
 		case PLAYLIST:
 			playList(JukeBox.getPlaylist());

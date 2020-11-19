@@ -128,6 +128,7 @@ public class JukeBox extends JavaPlugin implements Listener{
 			}
 		}
 		if (vanillaMusicTask != null) vanillaMusicTask.cancel();
+		if (db != null) db.closeConnection();
 		HandlerList.unregisterAll((JavaPlugin) this);
 	}
 	
