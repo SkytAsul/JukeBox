@@ -65,12 +65,7 @@ public class Placeholders extends PlaceholderExpansion {
 				return "§c§lunknown option";
 			}
 		}else if (params.startsWith("active")) {
-			Song song;
-			if (pdata.songPlayer == null) {
-				if (pdata.getPlaylistType() == Playlists.RADIO) {
-					song = JukeBox.radio.getSong();
-				}else return Lang.NONE;
-			}else song = pdata.songPlayer.getSong();
+			Song song = pdata.getListeningTo();
 			if (params.equals("active_title")) return song.getTitle();
 			if (params.equals("active_author")) return song.getAuthor();
 			if (params.equals("active_original_author")) return song.getOriginalAuthor();

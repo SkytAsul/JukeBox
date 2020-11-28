@@ -67,7 +67,7 @@ public class Lang{
 		for (String key : cfg.getValues(false).keySet()){
 			try {
 				String str = cfg.getString(key);
-				str = net.md_5.bungee.api.ChatColor.translateAlternateColorCodes('&', str);
+				str = ChatColor.translateAlternateColorCodes('&', str);
 				if (JukeBox.version >= 16) str = translateHexColorCodes("(&|§)#", "", str);
 				Lang.class.getDeclaredField(key).set(key, str);
 			}catch (Exception e) {

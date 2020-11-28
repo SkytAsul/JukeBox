@@ -222,7 +222,11 @@ public class PlayerData implements Listener{
 	
 	public void stopPlaying(boolean msg) {
 		if (songPlayer == null) {
-			if (listening == Playlists.RADIO) JukeBox.radio.leave(getPlayer());
+			if (listening == Playlists.RADIO) {
+				JukeBox.radio.leave(getPlayer());
+				this.listening = Playlists.PLAYLIST;
+				setPlaylist(listening, false);
+			}
 			return;
 		}
 		CustomSongPlayer tmp = songPlayer;
@@ -253,7 +257,10 @@ public class PlayerData implements Listener{
 	public void setPlaylist(Playlists list, boolean play){
 		stopPlaying(false);
 		this.listening = list;
-		if (linked != null) linked.playlistItem();
+		if (linked != null) {
+			linked.playlistItem();
+			linked.setSongsPage(p);
+		}
 		if (!play || getPlayer() == null) return;
 		switch (listening){
 		case PLAYLIST:
@@ -295,6 +302,17 @@ public class PlayerData implements Listener{
 		}
 	}
 	
+	public Song getListeningTo() {
+		if (songPlayer != null) return songPlayer.getSong();
+		if (getPlaylistType() == Playlists.RADIO) return JukeBox.radio.getSong();
+		return null;
+	}
+	
+	public String getListeningSongName() {
+		Song song = getListeningTo();
+		return song == null ? null : JukeBox.getSongName(song);
+	}
+	
 	public void playerJoin(Player player, boolean replay){
 		this.p = player;
 		if (!replay) return;
@@ -325,8 +343,8 @@ public class PlayerData implements Listener{
 	}
 
 	public void playerLeave(){
-		p = null;
 		if (!JukeBox.autoReload) stopPlaying(false);
+		p = null;
 	}
 	
 	private void playSong(boolean next){

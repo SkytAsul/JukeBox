@@ -1,7 +1,5 @@
 package fr.skytasul.music.utils;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
@@ -19,7 +17,6 @@ import fr.skytasul.music.JukeBox;
 public class JukeBoxRadio implements Listener {
 
 	private final CustomSongPlayer songPlayer;
-	private List<Player> listening = new ArrayList<>();
 	
 	public JukeBoxRadio(Playlist songs){
 		Bukkit.getPluginManager().registerEvents(this, JukeBox.getInstance());
@@ -47,17 +44,15 @@ public class JukeBoxRadio implements Listener {
 
 	public void join(Player p){
 		songPlayer.addPlayer(p);
-		listening.add(p);
 		JukeBox.sendMessage(p, Lang.MUSIC_PLAYING + " " + JukeBox.getSongName(songPlayer.getSong()));
 	}
 	
 	public void leave(Player p){
 		songPlayer.removePlayer(p);
-		listening.remove(p);
 	}
 
 	public boolean isListening(Player p) {
-		return listening.contains(p);
+		return songPlayer.getPlayerUUIDs().contains(p.getUniqueId());
 	}
 
 	public void stop(){
