@@ -72,6 +72,7 @@ public class JukeBoxDatas {
 	public Object getSerializedList() {
 		List<Map<String, Object>> list = new ArrayList<>();
 		for (PlayerData pdata : players.values()) {
+			if (pdata.getPlayer() != null && !JukeBox.canSaveDatas(pdata.getPlayer())) continue;
 			if (pdata.songPlayer != null) pdata.stopPlaying(true);
 			if (!pdata.isDefault(JukeBox.defaultPlayer)) list.add(pdata.serialize());
 		}
@@ -122,7 +123,7 @@ public class JukeBoxDatas {
 		if (pdata != null) {
 			pdata.playerLeave();
 			if (db == null) {
-				if (!JukeBox.savePlayerDatas) players.remove(id);
+				if (!JukeBox.canSaveDatas(p)) players.remove(id);
 			}else {
 				boolean isDefault = pdata.isDefault(JukeBox.defaultPlayer);
 				if (!pdata.created || !isDefault) {

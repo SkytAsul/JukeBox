@@ -241,17 +241,25 @@ public class PlayerData implements Listener{
 	}
 	
 	public void nextPlaylist(){
-		switch (listening){
+		Playlists toPlay = null;
+		
+		switch (listening) {
 		case PLAYLIST:
-			setPlaylist(Playlists.FAVORITES, true);
+			if (Playlists.FAVORITES.hasPermission(p)) {
+				toPlay = Playlists.FAVORITES;
+			}else if (Playlists.RADIO.hasPermission(p)) toPlay = Playlists.RADIO;
 			break;
 		case FAVORITES:
-			setPlaylist(JukeBox.radioEnabled ? Playlists.RADIO : Playlists.PLAYLIST, true);
+			if (JukeBox.radioEnabled && Playlists.RADIO.hasPermission(p)) {
+				toPlay = Playlists.RADIO;
+			}else toPlay = Playlists.PLAYLIST;
 			break;
 		case RADIO:
-			setPlaylist(Playlists.PLAYLIST, true);
+			toPlay = Playlists.PLAYLIST;
 			break;
 		}
+		if (toPlay == null) return;
+		setPlaylist(toPlay, true);
 	}
 	
 	public void setPlaylist(Playlists list, boolean play){
@@ -445,6 +453,7 @@ public class PlayerData implements Listener{
 		map.put("volume", getVolume());
 		map.put("particles", hasParticles());
 		map.put("repeat", isRepeatEnabled());
+		map.put("playlist", listening.name());
 		
 		if (favorites != null) {
 			List<String> list = new ArrayList<>();
@@ -479,6 +488,9 @@ public class PlayerData implements Listener{
 				}else pdata.addSong(song, false);
 			}
 			pdata.setPlaylist(Playlists.PLAYLIST, false);
+		}
+		if (map.containsKey("playlist")) {
+			pdata.setPlaylist(Playlists.valueOf((String) map.get("playlist")), false);
 		}
 
 		return pdata;

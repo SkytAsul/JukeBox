@@ -21,9 +21,41 @@ permissions:
   music.*:
     description: Give access to JukeBox whole
     children:
+      music.save-datas: true
       music.command: true
       music.command.admin: true
       music.adminItem: true
+      music.random: true
+      music.radio: true
+      music.favorites: true
+      music.particles: true
+      music.play-on-join: true
+      music.shuffle: true
+      music.loop: true
+  music.random:
+    description: Allows player to play random song
+    default: true
+  music.radio:
+    description: Allows player to listen to the Radio
+    default: true
+  music.favorites:
+    description: Allows player to listen and manage their Favorites playlist
+    default: true
+  music.particles:
+    description: Allows player to enable particles effect
+    default: true
+  music.play-on-join:
+    description: Allows player to enable the "play on join" option
+    default: true
+  music.shuffle:
+    description: Allows player to enable the "shuffle" option
+    default: true
+  music.loop:
+    description: Allows player to enable the "loop" option
+    default: true
+  music.save-datas:
+    description: Required for the plugin to save player's data after logout
+    default: true
   music.command:
     description: Give access to /music command
     default: true

@@ -378,6 +378,10 @@ public class JukeBox extends JavaPlugin implements Listener{
 		return instance;
 	}
 	
+	public static boolean canSaveDatas(Player p) {
+		return savePlayerDatas && p.hasPermission("music.save-datas");
+	}
+	
 	private static Random random = new Random();
 	public static Song randomSong() {
 		if (songs.isEmpty()) return null;

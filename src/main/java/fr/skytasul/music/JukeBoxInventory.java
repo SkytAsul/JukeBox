@@ -35,8 +35,9 @@ import fr.skytasul.music.utils.Playlists;
  */
 public class JukeBoxInventory implements Listener{
 	
-	public static List<String> discs13 = new ArrayList<>(Arrays.asList("MUSIC_DISC_11", "MUSIC_DISC_13", "MUSIC_DISC_BLOCKS", "MUSIC_DISC_CAT", "MUSIC_DISC_CHIRP", "MUSIC_DISC_FAR", "MUSIC_DISC_MALL", "MUSIC_DISC_MELLOHI", "MUSIC_DISC_STAL", "MUSIC_DISC_STRAD", "MUSIC_DISC_WAIT", "MUSIC_DISC_WARD"));
-	public static List<String> discs8 = new ArrayList<>(Arrays.asList("RECORD_10", "RECORD_11", "RECORD_12", "RECORD_3", "RECORD_4", "RECORD_5", "RECORD_6", "RECORD_7", "RECORD_8", "RECORD_9", "GOLD_RECORD", "GREEN_RECORD"));
+	public static List<String> discs13 =
+			new ArrayList<>(Arrays.asList(/*"MUSIC_DISC_11", */"MUSIC_DISC_13", "MUSIC_DISC_BLOCKS", "MUSIC_DISC_CAT", "MUSIC_DISC_CHIRP", "MUSIC_DISC_FAR", "MUSIC_DISC_MALL", "MUSIC_DISC_MELLOHI", "MUSIC_DISC_STAL", "MUSIC_DISC_STRAD", "MUSIC_DISC_WAIT", "MUSIC_DISC_WARD"));
+	public static List<String> discs8 = new ArrayList<>(Arrays.asList("RECORD_10", /*"RECORD_11", */"RECORD_12", "RECORD_3", "RECORD_4", "RECORD_5", "RECORD_6", "RECORD_7", "RECORD_8", "RECORD_9", "GOLD_RECORD", "GREEN_RECORD"));
 	
 	private static ItemStack stopItem = item(Material.BARRIER, Lang.STOP);
 	private static ItemStack menuItem = item(Material.TRAPPED_CHEST, Lang.MENU_ITEM);
@@ -70,7 +71,7 @@ public class JukeBoxInventory implements Listener{
 		Material defaultMat = JukeBox.songItem;
 		discs = new Material[JukeBox.getSongs().size()];
 		for (int i = 0; i < discs.length; i++){
-			discs[i] = defaultMat != null ? defaultMat : Material.valueOf(JukeBox.version > 12 ? discs13.get(ran.nextInt(12)) : discs8.get(ran.nextInt(12)));
+			discs[i] = defaultMat != null ? defaultMat : Material.valueOf(JukeBox.version > 12 ? discs13.get(ran.nextInt(discs13.size())) : discs8.get(ran.nextInt(discs8.size())));
 		}
 		
 		this.inv = Bukkit.createInventory(null, 54, Lang.INV_NAME);
@@ -111,7 +112,7 @@ public class JukeBoxInventory implements Listener{
 		case DEFAULT:
 			inv.setItem(45, stopItem);
 			if (pdata.isListening()) inv.setItem(46, toggleItem);
-			if (!JukeBox.getSongs().isEmpty()) inv.setItem(47, randomItem);
+			if (!JukeBox.getSongs().isEmpty() && pdata.getPlayer().hasPermission("music.random")) inv.setItem(47, randomItem);
 			inv.setItem(49, playlistMenuItem);
 			inv.setItem(50, optionsMenuItem);
 			break;
@@ -119,13 +120,13 @@ public class JukeBoxInventory implements Listener{
 			inv.setItem(47, item(Material.BEACON, "§cerror", Lang.RIGHT_CLICK, Lang.LEFT_CLICK));
 			volumeItem();
 			if (pdata.getPlaylistType() != Playlists.RADIO) {
-				if (JukeBox.particles) inv.setItem(48, item(particles, "§cerror"));
+				if (JukeBox.particles && pdata.getPlayer().hasPermission("music.particles")) inv.setItem(48, item(particles, "§cerror"));
 				particlesItem();
-				inv.setItem(49, item(sign, "§cerror"));
+				if (pdata.getPlayer().hasPermission("music.play-on-join")) inv.setItem(49, item(sign, "§cerror"));
 				joinItem();
-				inv.setItem(50, item(Material.BLAZE_POWDER, "§cerror"));
+				if (pdata.getPlayer().hasPermission("music.shuffle")) inv.setItem(50, item(Material.BLAZE_POWDER, "§cerror"));
 				shuffleItem();
-				inv.setItem(51, item(lead, "§cerror"));
+				if (pdata.getPlayer().hasPermission("music.loop")) inv.setItem(51, item(lead, "§cerror"));
 				repeatItem();
 			}
 			break;
@@ -326,6 +327,12 @@ public class JukeBoxInventory implements Listener{
 		ItemStack is = new ItemStack(type);
 		ItemMeta im = is.getItemMeta();
 		im.setDisplayName(name);
+		List<String> loreList = new ArrayList<>(lore.length);
+		for (String loreLine : lore) {
+			for (String loreSplit : StringUtils.splitByWholeSeparator(loreLine, "\\n")) {
+				loreList.add(loreSplit);
+			}
+		}
 		im.setLore(Arrays.asList(lore));
 		im.addItemFlags(ItemFlag.values());
 		is.setItemMeta(im);
@@ -343,6 +350,7 @@ public class JukeBoxInventory implements Listener{
 	}
 
 	public static ItemStack name(ItemStack is, String name) {
+		if (is == null) return null;
 		ItemMeta im = is.getItemMeta();
 		im.setDisplayName(name);
 		is.setItemMeta(im);
