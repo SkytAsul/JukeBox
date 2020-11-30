@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>fr.skytasul</groupId>
 	<artifactId>jukebox</artifactId>
-	<version>1.20</version>
+	<version>1.20.1</version>
 	<name>JukeBox</name>
 
 	<repositories>
@@ -16,6 +16,10 @@
 			<id>jitpack.io</id>
 			<url>https://jitpack.io</url>
 		</repository>
+		<repository>
+			<id>codemc-repo</id>
+			<url>https://repo.codemc.org/repository/maven-public</url>
+		</repository>
 	</repositories>
 
 	<dependencies>
@@ -24,7 +28,7 @@
 			<artifactId>placeholderapi</artifactId>
 			<version>2.10.9</version>
 			<scope>provided</scope>
-		</dependency> 
+		</dependency>
 		<dependency>
 			<groupId>com.github.koca2000</groupId>
 			<artifactId>NoteBlockAPI</artifactId>
@@ -36,6 +40,12 @@
 			<artifactId>spigot</artifactId>
 			<version>1.16.4-R0.1-SNAPSHOT</version>
 			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.bstats</groupId>
+			<artifactId>bstats-bukkit</artifactId>
+			<version>1.7</version>
+			<scope>compile</scope>
 		</dependency>
 	</dependencies>
 
@@ -54,6 +64,27 @@
 					<source>1.8</source>
 					<target>1.8</target>
 				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-shade-plugin</artifactId>
+				<version>3.1.0</version>
+				<configuration>
+					<relocations>
+						<relocation>
+							<pattern>org.bstats</pattern>
+							<shadedPattern>fr.skytasul.music</shadedPattern>
+						</relocation>
+					</relocations>
+				</configuration>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>shade</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>

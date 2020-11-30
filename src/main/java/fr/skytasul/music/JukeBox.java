@@ -18,6 +18,7 @@ import java.util.Map;
 import java.util.Random;
 import java.util.function.Consumer;
 
+import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
@@ -107,6 +108,10 @@ public class JukeBox extends JavaPlugin implements Listener{
 		saveDefaultConfig();
 		
 		initAll();
+		
+		Metrics metrics = new Metrics(this, 9533);
+		metrics.addCustomChart(new Metrics.SimplePie("noteblockapi_version", () -> NoteBlockAPI.getAPI().getDescription().getVersion()));
+		metrics.addCustomChart(new Metrics.SingleLineChart("songs", () -> songs.size()));
 	}
 	
 	public void onDisable(){
