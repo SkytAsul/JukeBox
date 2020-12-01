@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>fr.skytasul</groupId>
 	<artifactId>jukebox</artifactId>
-	<version>1.20.1</version>
+	<version>1.20.2</version>
 	<name>JukeBox</name>
 
 	<repositories>
