@@ -10,6 +10,7 @@ import java.nio.charset.StandardCharsets;
 import java.sql.SQLException;
 import java.text.Collator;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -17,6 +18,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.function.Consumer;
+import java.util.stream.Collectors;
 
 import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
@@ -82,7 +84,7 @@ public class JukeBox extends JavaPlugin implements Listener{
 	public static boolean worlds;
 	public static boolean particles;
 	public static boolean actionBar;
-	public static Material songItem;
+	public static List<Material> songItems;
 	public static String itemFormat;
 	public static String itemFormatWithoutAuthor;
 	public static String itemFormatAdmin;
@@ -155,7 +157,15 @@ public class JukeBox extends JavaPlugin implements Listener{
 		radioOnJoin = radioEnabled && config.getBoolean("radioOnJoin");
 		autoReload = config.getBoolean("reloadOnJoin");
 		preventVanillaMusic = config.getBoolean("preventVanillaMusic") && version >= 13;
-		songItem = Material.matchMaterial(config.getString("songItem"));
+		songItems = config.getStringList("songItems").stream().map(Material::matchMaterial).collect(Collectors.toList());
+		songItems.removeIf(x -> x == null);
+		if (songItems.isEmpty()) {
+			String[] materials;
+			if (version > 12) {
+				materials = new String[] { /*"MUSIC_DISC_11", */"MUSIC_DISC_13", "MUSIC_DISC_BLOCKS", "MUSIC_DISC_CAT", "MUSIC_DISC_CHIRP", "MUSIC_DISC_FAR", "MUSIC_DISC_MALL", "MUSIC_DISC_MELLOHI", "MUSIC_DISC_STAL", "MUSIC_DISC_STRAD", "MUSIC_DISC_WAIT", "MUSIC_DISC_WARD" };
+			}else materials = new String[] { "RECORD_10", /*"RECORD_11", */"RECORD_12", "RECORD_3", "RECORD_4", "RECORD_5", "RECORD_6", "RECORD_7", "RECORD_8", "RECORD_9", "GOLD_RECORD", "GREEN_RECORD" };
+			songItems = Arrays.stream(materials).map(Material::valueOf).collect(Collectors.toList());
+		}
 		itemFormat = config.getString("itemFormat");
 		itemFormatWithoutAuthor = config.getString("itemFormatWithoutAuthor");
 		itemFormatAdmin = config.getString("itemFormatAdmin");
@@ -358,7 +368,7 @@ public class JukeBox extends JavaPlugin implements Listener{
 		if (e.getAction() == Action.RIGHT_CLICK_BLOCK && jukeboxClick){
 			if (e.getClickedBlock().getType() == Material.JUKEBOX){
 				String disc = e.getItem().getType().name();
-				if (version < 13 ? JukeBoxInventory.discs8.contains(disc) : JukeBoxInventory.discs13.contains(disc)) {
+				if (disc.contains("RECORD") || disc.contains("MUSIC_DISC_")) {
 					CommandMusic.open(e.getPlayer());
 					e.setCancelled(true);
 					return;

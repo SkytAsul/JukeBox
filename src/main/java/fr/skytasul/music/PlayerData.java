@@ -458,7 +458,7 @@ public class PlayerData implements Listener{
 		if (favorites != null) {
 			List<String> list = new ArrayList<>();
 			for (Song song : favorites.getSongList()) list.add(JukeBox.getInternal(song));
-			map.put("favorites", list);
+			if (!list.isEmpty()) map.put("favorites", list);
 		}
 
 		return map;

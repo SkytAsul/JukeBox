@@ -35,10 +35,6 @@ import fr.skytasul.music.utils.Playlists;
  */
 public class JukeBoxInventory implements Listener{
 	
-	public static List<String> discs13 =
-			new ArrayList<>(Arrays.asList(/*"MUSIC_DISC_11", */"MUSIC_DISC_13", "MUSIC_DISC_BLOCKS", "MUSIC_DISC_CAT", "MUSIC_DISC_CHIRP", "MUSIC_DISC_FAR", "MUSIC_DISC_MALL", "MUSIC_DISC_MELLOHI", "MUSIC_DISC_STAL", "MUSIC_DISC_STRAD", "MUSIC_DISC_WAIT", "MUSIC_DISC_WARD"));
-	public static List<String> discs8 = new ArrayList<>(Arrays.asList("RECORD_10", /*"RECORD_11", */"RECORD_12", "RECORD_3", "RECORD_4", "RECORD_5", "RECORD_6", "RECORD_7", "RECORD_8", "RECORD_9", "GOLD_RECORD", "GREEN_RECORD"));
-	
 	private static ItemStack stopItem = item(Material.BARRIER, Lang.STOP);
 	private static ItemStack menuItem = item(Material.TRAPPED_CHEST, Lang.MENU_ITEM);
 	private static ItemStack toggleItem = item(JukeBox.version < 9 ? Material.STONE_BUTTON : Material.valueOf("END_CRYSTAL"), Lang.TOGGLE_PLAYING);
@@ -68,10 +64,9 @@ public class JukeBoxInventory implements Listener{
 		this.pdata.linked = this;
 
 		Random ran = new Random();
-		Material defaultMat = JukeBox.songItem;
 		discs = new Material[JukeBox.getSongs().size()];
 		for (int i = 0; i < discs.length; i++){
-			discs[i] = defaultMat != null ? defaultMat : Material.valueOf(JukeBox.version > 12 ? discs13.get(ran.nextInt(discs13.size())) : discs8.get(ran.nextInt(discs8.size())));
+			discs[i] = JukeBox.songItems.get(ran.nextInt(JukeBox.songItems.size()));
 		}
 		
 		this.inv = Bukkit.createInventory(null, 54, Lang.INV_NAME);
@@ -152,7 +147,7 @@ public class JukeBoxInventory implements Listener{
 		int slot = e.getSlot();
 		
 		Material type = e.getCurrentItem().getType();
-		if (JukeBox.songItem == null ? type.name().contains("RECORD") || type.name().contains("DISC") : type == JukeBox.songItem) {
+		if (JukeBox.songItems.contains(type)) {
 			Song s = JukeBox.getSongs().get(page * 45 + slot);
 			if (e.getClick() == ClickType.MIDDLE){
 				if (pdata.isInPlaylist(s)) {

@@ -34,8 +34,8 @@ reloadOnJoin: true
 # periodically stops vanilla music - can cause a bit of lag - working with 1.13 and above
 preventVanillaMusic: false
 
-# material of songs in the GUI. Examples: DIRT, GOLD_INGOT. Any invalid material will lead to random records.
-songItem: RANDOM_RECORD
+# materials of songs in the GUI, separated by commas. Example: [DIRT, GOLD_INGOT]. Any invalid or empty list will lead to random records.
+songItems: []
 
 # name of songs items for everybody (variables: NAME, ID, AUTHOR)
 itemFormat: "{NAME}"
