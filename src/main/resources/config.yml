@@ -58,6 +58,12 @@ songFormatWithoutAuthor: "\"{NAME}\""
 # are player datas kept in a file when they quit - always enabled if database enabled
 savePlayerDatas: true
 
+# amount of ticks the song fades at the beginning (0 to disable)
+fadeInDuration: 0
+
+# amount of ticks the song fades at the end (0 to disable)
+fadeOutDuration: 20
+
 # database configuration
 database:
   enabled: false

@@ -2,6 +2,10 @@ package fr.skytasul.music;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.Proxy;
 import java.net.URL;
 import java.nio.file.Files;
 
@@ -147,22 +151,31 @@ public class CommandAdmin implements CommandExecutor{
 				return false;
 			}
 			try {
-				File file = new File(JukeBox.songsFolder, args[2] + ".nbs");
-				Files.copy(new URL(args[1]).openStream(), file.toPath());
-				boolean valid = true;
-				FileInputStream stream = new FileInputStream(file);
-				try{
-					Song song = NBSDecoder.parse(stream);
-					if (song == null) valid = false;
-				}catch (Throwable e){
-					valid = false;
-				}finally {
-					stream.close();
-					if (!valid) sender.sendMessage("§cDownloaded file is not a nbs song file.");
+				String fileName = args[2];
+				if (!fileName.toLowerCase().endsWith(".nbs")) fileName += ".nbs";
+				File file = new File(JukeBox.songsFolder, fileName);
+				if (file.exists()) {
+					sender.sendMessage("§cThe file " + fileName + " already exists.");
+					break;
 				}
-				if (valid){
-					sender.sendMessage("§aSong downloaded. To add it to the list, you must reload the plugin. (§o/amusic reload§r§a)");
-				}else file.delete();
+				String url = expandUrl(args[1]);
+				try (InputStream openStream = new URL(url).openStream()) {
+					Files.copy(openStream, file.toPath());
+					boolean valid = true;
+					FileInputStream stream = new FileInputStream(file);
+					try {
+						Song song = NBSDecoder.parse(stream);
+						if (song == null) valid = false;
+					}catch (Throwable e) {
+						valid = false;
+					}finally {
+						stream.close();
+						if (!valid) sender.sendMessage("§cDownloaded file is not a nbs song file.");
+					}
+					if (valid) {
+						sender.sendMessage("§aSong downloaded. To add it to the list, you must reload the plugin. (§o/amusic reload§r§a)");
+					}else file.delete();
+				}
 			} catch (Throwable e) {
 				sender.sendMessage("§cError when downloading file.");
 				e.printStackTrace();
@@ -384,6 +397,21 @@ public class CommandAdmin implements CommandExecutor{
 		Song song = pdata.playRandom();
 		if (song == null) return "§aShuffle: §cnothing to play";
 		return "§aShuffle: " + song.getTitle();
+	}
+	
+	private static String expandUrl(String shortenedUrl) throws IOException {
+		URL url = new URL(shortenedUrl);
+		// open connection
+		HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection(Proxy.NO_PROXY);
+		
+		// stop following browser redirect
+		httpURLConnection.setInstanceFollowRedirects(false);
+		
+		// extract location header containing the actual destination URL
+		String expandedURL = httpURLConnection.getHeaderField("Location");
+		httpURLConnection.disconnect();
+		
+		return expandedURL == null ? shortenedUrl : expandedURL.replace(" ", "%20");
 	}
 
 }

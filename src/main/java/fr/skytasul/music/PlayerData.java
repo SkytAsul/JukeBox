@@ -16,6 +16,7 @@ import com.xxmicloxx.NoteBlockAPI.NoteBlockAPI;
 import com.xxmicloxx.NoteBlockAPI.event.SongDestroyingEvent;
 import com.xxmicloxx.NoteBlockAPI.event.SongLoopEvent;
 import com.xxmicloxx.NoteBlockAPI.event.SongNextEvent;
+import com.xxmicloxx.NoteBlockAPI.model.FadeType;
 import com.xxmicloxx.NoteBlockAPI.model.Playlist;
 import com.xxmicloxx.NoteBlockAPI.model.RepeatMode;
 import com.xxmicloxx.NoteBlockAPI.model.Song;
@@ -112,7 +113,10 @@ public class PlayerData implements Listener{
 		
 		songPlayer = new CustomSongPlayer(list);
 		songPlayer.setParticlesEnabled(particles);
-		songPlayer.getFadeIn().setFadeDuration(0);
+		songPlayer.getFadeIn().setFadeDuration(JukeBox.fadeInDuration);
+		if (JukeBox.fadeInDuration != 0) songPlayer.getFadeIn().setType(FadeType.LINEAR);
+		songPlayer.getFadeOut().setFadeDuration(JukeBox.fadeOutDuration);
+		if (JukeBox.fadeOutDuration != 0) songPlayer.getFadeOut().setType(FadeType.LINEAR);
 		songPlayer.setAutoDestroy(true);
 		songPlayer.addPlayer(getPlayer());
 		songPlayer.setPlaying(true);
@@ -143,6 +147,7 @@ public class PlayerData implements Listener{
 			if (favorites == null){
 				favorites = new Playlist(song);
 			}else {
+				if (favorites.contains(song)) break;
 				if (playIndex && songPlayer != null){
 					favorites.insert(songPlayer.getPlayedSongIndex() + 1, song);
 					finishPlaying();

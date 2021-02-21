@@ -92,6 +92,7 @@ public class JukeBox extends JavaPlugin implements Listener{
 	public static String songFormat;
 	public static String songFormatWithoutAuthor;
 	public static boolean savePlayerDatas = true;
+	public static int fadeInDuration, fadeOutDuration;
 	
 	public ItemStack jukeboxItem;
 	
@@ -173,6 +174,8 @@ public class JukeBox extends JavaPlugin implements Listener{
 		songFormat = config.getString("songFormat");
 		songFormatWithoutAuthor = config.getString("songFormatWithoutAuthor");
 		savePlayerDatas = config.getBoolean("savePlayerDatas");
+		fadeInDuration = config.getInt("fadeInDuration");
+		fadeOutDuration = config.getInt("fadeOutDuration");
 		
 		worldsEnabled = config.getStringList("enabledWorlds");
 		worlds = !worldsEnabled.isEmpty();
@@ -218,12 +221,6 @@ public class JukeBox extends JavaPlugin implements Listener{
 						e1.printStackTrace();
 					}
 				};
-				
-				vanillaMusicTask = Bukkit.getScheduler().runTaskTimerAsynchronously(this, () -> {
-					for (PlayerData pdata : datas.getDatas()) {
-						if (pdata.isPlaying() && pdata.getPlayer() != null) stopVanillaMusic.accept(pdata.getPlayer());
-					}
-				}, 20L, 100l); // every 5 seconds
 			}catch (ReflectiveOperationException ex) {
 				ex.printStackTrace();
 			}
@@ -247,6 +244,14 @@ public class JukeBox extends JavaPlugin implements Listener{
 
 		for (Player p : Bukkit.getOnlinePlayers()) {
 			datas.joins(p);
+		}
+		
+		if (stopVanillaMusic != null) {
+			vanillaMusicTask = Bukkit.getScheduler().runTaskTimerAsynchronously(this, () -> {
+				for (PlayerData pdata : datas.getDatas()) {
+					if (pdata.isPlaying() && pdata.getPlayer() != null) stopVanillaMusic.accept(pdata.getPlayer());
+				}
+			}, 20L, 100l); // every 5 seconds
 		}
 	}
 	
