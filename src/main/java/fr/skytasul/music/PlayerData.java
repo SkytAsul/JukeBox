@@ -335,7 +335,11 @@ public class PlayerData implements Listener{
 		}
 		if (listening == Playlists.RADIO) return;
 		if (songPlayer == null){
-			if (hasJoinMusic()) playRandom();
+			if (hasJoinMusic()) {
+				if (JukeBox.songOnJoin != null) {
+					playSong(JukeBox.songOnJoin);
+				}else playRandom();
+			}
 		}else if (!songPlayer.adminPlayed && JukeBox.autoReload) {
 			songPlayer.setPlaying(true);
 			JukeBox.sendMessage(getPlayer(), Lang.RELOAD_MUSIC + " (" + JukeBox.getSongName(songPlayer.getSong()) + ")");
@@ -497,6 +501,8 @@ public class PlayerData implements Listener{
 		if (map.containsKey("playlist")) {
 			pdata.setPlaylist(Playlists.valueOf((String) map.get("playlist")), false);
 		}
+		
+		if (JukeBox.autoJoin) pdata.setJoinMusic(true);
 
 		return pdata;
 	}

@@ -4,6 +4,11 @@ lang: en
 # force the music played on join (players can't disable it)
 forceJoinMusic: false
 
+# song that should be automatically played when the player connects to the server -
+# requires forceJoinMusic to be enabled (null to disable the feature)
+# has to be the file name (i.e. "song.nbs")
+songOnJoin: null
+
 # open the plugin GUI when a player click on a jukebox block with a disc
 jukeboxClick: false
 
@@ -34,7 +39,8 @@ reloadOnJoin: true
 # periodically stops vanilla music - can cause a bit of lag - working with 1.13 and above
 preventVanillaMusic: false
 
-# materials of songs in the GUI, separated by commas. Example: [DIRT, GOLD_INGOT]. Any invalid or empty list will lead to random records.
+# materials of songs in the GUI, separated by commas. Example: [DIRT, GOLD_INGOT] -
+# any invalid or empty list will lead to random records.
 songItems: []
 
 # name of songs items for everybody (variables: NAME, ID, AUTHOR)
@@ -63,6 +69,9 @@ fadeInDuration: 0
 
 # amount of ticks the song fades at the end (0 to disable)
 fadeOutDuration: 20
+
+# decides whether JukeBox will enable the "extended notes range through resource pack" option of NoteBlockAPI
+useExtendedOctaveRange: false
 
 # database configuration
 database:

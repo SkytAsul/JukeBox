@@ -79,6 +79,8 @@ public class JukeBox extends JavaPlugin implements Listener{
 	public static boolean radioOnJoin = false;
 	public static boolean autoReload = true;
 	public static boolean preventVanillaMusic = false;
+	public static String songOnJoinName;
+	public static Song songOnJoin;
 	public static PlayerData defaultPlayer = null;
 	public static List<String> worldsEnabled;
 	public static boolean worlds;
@@ -93,6 +95,7 @@ public class JukeBox extends JavaPlugin implements Listener{
 	public static String songFormatWithoutAuthor;
 	public static boolean savePlayerDatas = true;
 	public static int fadeInDuration, fadeOutDuration;
+	public static boolean useExtendedOctaveRange = false;
 	
 	public ItemStack jukeboxItem;
 	
@@ -151,6 +154,7 @@ public class JukeBox extends JavaPlugin implements Listener{
 		sendMessages = config.getBoolean("sendMessages");
 		async = config.getBoolean("asyncLoading");
 		autoJoin = config.getBoolean("forceJoinMusic");
+		songOnJoinName = autoJoin ? config.getString("songOnJoin") : null;
 		defaultPlayer = PlayerData.deserialize(config.getConfigurationSection("defaultPlayerOptions").getValues(false), null);
 		particles = config.getBoolean("noteParticles") && version >= 9;
 		actionBar = config.getBoolean("actionBar") && version >= 9;
@@ -176,6 +180,7 @@ public class JukeBox extends JavaPlugin implements Listener{
 		savePlayerDatas = config.getBoolean("savePlayerDatas");
 		fadeInDuration = config.getInt("fadeInDuration");
 		fadeOutDuration = config.getInt("fadeOutDuration");
+		useExtendedOctaveRange = config.getBoolean("useExtendedOctaveRange");
 		
 		worldsEnabled = config.getStringList("enabledWorlds");
 		worlds = !worldsEnabled.isEmpty();
@@ -273,6 +278,7 @@ public class JukeBox extends JavaPlugin implements Listener{
 				}
 				fileNames.put(file.getName(), song);
 				internalNames.put(n, song);
+				if (file.getName().equals(songOnJoinName)) songOnJoin = song;
 			}
 		}
 		getLogger().info(internalNames.size() + " songs loadeds. Sorting by name... ");

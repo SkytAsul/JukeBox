@@ -23,6 +23,7 @@ public class CustomSongPlayer extends RadioSongPlayer{
 		}catch (Exception ex) {
 			JukeBox.getInstance().getLogger().warning("It looks like you're using an old version of NoteBlockAPI. Please update as fast as possible to version 1.5.0 or greater.");
 		}
+		if (JukeBox.useExtendedOctaveRange) super.setEnable10Octave(true);
 	}
 	
 	public void setParticlesEnabled(boolean particles){
