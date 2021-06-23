@@ -324,7 +324,7 @@ public class JukeBoxInventory implements Listener{
 		im.setDisplayName(name);
 		List<String> loreList = new ArrayList<>(lore.length);
 		for (String loreLine : lore) {
-			for (String loreSplit : StringUtils.splitByWholeSeparator(loreLine, "\\n")) {
+			for (String loreSplit : loreLine.replace("\\n", "\n").split("(\n|\\n|\\\\n)")) {
 				loreList.add(loreSplit);
 			}
 		}
@@ -356,9 +356,6 @@ public class JukeBoxInventory implements Listener{
     static {
         GameProfile profile = new GameProfile(UUID.randomUUID(), null);
         PropertyMap propertyMap = profile.getProperties();
-        if (propertyMap == null) {
-            throw new IllegalStateException("Profile doesn't contain a property map");
-        }
         propertyMap.put("textures", new Property("textures", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMTQ4YThjNTU4OTFkZWM3Njc2NDQ0OWY1N2JhNjc3YmUzZWU4OGEwNjkyMWNhOTNiNmNjN2M5NjExYTdhZiJ9fX0="));
         ItemStack item;
         if (JukeBox.version < 13){
