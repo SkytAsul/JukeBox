@@ -1,5 +1,6 @@
 NEXT_PAGE: §b次のページ
 LATER_PAGE: §b前のページ
+CURRENT_PAGE: §3§o %d/%d
 PLAYER: §cそのコマンドはプレイヤーのみ使えます。
 RELOAD_MUSIC: §a音楽を再読込しました。
 INV_NAME: §d§lJukebox !
@@ -10,10 +11,14 @@ LEFT_CLICK: '§e左クリック: 音量を10%上げる'
 RANDOM_MUSIC: §3ランダム再生
 STOP: §c音楽停止
 MUSIC_STOPPED: §a音楽を停止しました。
-ENABLE: ON
-DISABLE: OFF
+ENABLE: '[有効]'
+DISABLE: '[無効]'
+ENABLED: 有効
+DISABLED: 無効
 SHUFFLE_MODE: シャッフル再生
+LOOP_MODE: ループモード
 CONNEXION_MUSIC: サーバー接続時の再生
+PARTICLES: パーティクル
 MUSIC_PLAYING: '§a再生中の曲名:'
 INCORRECT_SYNTAX: §c構文が正しくありません。
 RELOAD_LAUNCH: §aリロード中です
@@ -21,4 +26,19 @@ RELOAD_FINISH: §aリロードが完了しました。
 AVAILABLE_COMMANDS: '§a使用可能なコマンド:'
 INVALID_NUMBER: §c無効な数値です。
 PLAYER_MUSIC_STOPPED: '§aプレイヤーの音楽を停止しました: §b'
-# Translated by kotarobo
+IN_PLAYLIST: §9§oプレイリストに登録
+PLAYLIST_ITEM: §dプレイリスト
+OPTIONS_ITEM: §bオプション
+MENU_ITEM: §6メニューに戻る
+CLEAR_PLAYLIST: §c現在のプレイリストの消去
+NEXT_ITEM: §e次の曲
+CHANGE_PLAYLIST: '§6§lプレイリストの切り替え: §r'
+CHANGE_PLAYLIST_LORE: |-
+  §e音楽ディスクを中クリックして
+  §e 曲を追加/削除する
+PLAYLIST: §5プレイリスト
+FAVORITES: §4お気に入り
+RADIO: §3ラジオ
+UNAVAILABLE_RADIO: §cラジオを聴いているときは、この操作はできません。
+NONE: §c無し
+# Translated by kotarobo, fa0311
