@@ -15,10 +15,10 @@ ENABLE: Activer
 DISABLE: Désactiver
 ENABLED: Activé
 DISABLED: Désactivé
-SHUFFLE_MODE: le mode mélange
-LOOP_MODE: le mode boucle
-CONNEXION_MUSIC: la musique lors de la connexion
-PARTICLES: les particules
+TOGGLE_SHUFFLE_MODE: '{TOGGLE} le mode mélange'
+TOGGLE_LOOP_MODE: '{TOGGLE} le mode boucle'
+TOGGLE_CONNEXION_MUSIC: '{TOGGLE} la musique lors de la connexion'
+TOGGLE_PARTICLES: '{TOGGLE} les particules'
 MUSIC_PLAYING: '§aMusique en cours de lecture :'
 INCORRECT_SYNTAX: §cSyntaxe incorrecte.
 RELOAD_LAUNCH: §aEssai de rechargement.

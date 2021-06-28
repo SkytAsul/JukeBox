@@ -14,10 +14,10 @@ ENABLE: Включить
 DISABLE: Выключить
 ENABLED: Включен
 DISABLED: Выключен
-SHUFFLE_MODE: режим случайного воспроизведения
-LOOP_MODE: режим повтора
-CONNEXION_MUSIC: режим музыки при подключении
-PARTICLES: режим частиц
+TOGGLE_SHUFFLE_MODE: '{TOGGLE} режим случайного воспроизведения'
+TOGGLE_LOOP_MODE: '{TOGGLE} режим повтора'
+TOGGLE_CONNEXION_MUSIC: '{TOGGLE} режим музыки при подключении'
+TOGGLE_PARTICLES: '{TOGGLE} режим частиц'
 MUSIC_PLAYING: '§aМузыка во время игры:'
 INCORRECT_SYNTAX: §cНеверный синтаксис.
 RELOAD_LAUNCH: §aПопытка перезагрузки.

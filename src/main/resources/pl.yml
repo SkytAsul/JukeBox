@@ -13,9 +13,9 @@ MUSIC_STOPPED: §aMuzyka zatrzymana.
 ENABLE: Aktywuj
 DISABLE: Dezaktywuj
 SHUFFLE_MODE: Tryb Losowy
-LOOP_MODE: Tryb Zapętlania
-CONNEXION_MUSIC: Muzyka kiedy się zalogujesz
-PARTICLES: Cząsteczki
+TOGGLE_LOOP_MODE: '{TOGGLE} Tryb Zapętlania'
+TOGGLE_CONNEXION_MUSIC: '{TOGGLE} Muzyka kiedy się zalogujesz'
+TOGGLE_PARTICLES: '{TOGGLE} Cząsteczki'
 MUSIC_PLAYING: '§aMuzyka podczas odtwarzania:'
 INCORRECT_SYNTAX: §cNiepoprawna Składnia.
 RELOAD_LAUNCH: §aSpróbuj odświeżyć.

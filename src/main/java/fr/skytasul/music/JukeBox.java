@@ -107,6 +107,7 @@ public class JukeBox extends JavaPlugin implements Listener{
 	private BukkitTask vanillaMusicTask = null;
 	public Consumer<Player> stopVanillaMusic = null;
 	
+	@Override
 	public void onEnable(){
 		instance = this;
 		
@@ -122,6 +123,7 @@ public class JukeBox extends JavaPlugin implements Listener{
 		metrics.addCustomChart(new SingleLineChart("songs", () -> songs.size()));
 	}
 	
+	@Override
 	public void onDisable(){
 		if (!disable) disableAll();
 	}
@@ -331,7 +333,7 @@ public class JukeBox extends JavaPlugin implements Listener{
 				if (defConfigStream != null) {
 					YamlConfiguration defConfig = YamlConfiguration.loadConfiguration(new InputStreamReader(defConfigStream, StandardCharsets.UTF_8));
 					defConfig.save(lang);
-					Lang.loadFromConfig(defConfig);
+					Lang.loadFromConfig(lang, defConfig);
 					getLogger().info("Created language file " + s);
 					return defConfig;
 				}
@@ -347,12 +349,12 @@ public class JukeBox extends JavaPlugin implements Listener{
 		YamlConfiguration conf = YamlConfiguration.loadConfiguration(lang);
 		try {
 			Lang.saveFile(conf, lang);
-		} catch(IOException | IllegalArgumentException | IllegalAccessException e) {
+		}catch (IOException | ReflectiveOperationException e) {
 			getLogger().warning("Failed to save lang.yml.");
 			getLogger().warning("Report this stack trace to SkytAsul on SpigotMC.");
 			e.printStackTrace();
 		}
-		Lang.loadFromConfig(conf);
+		Lang.loadFromConfig(lang, conf);
 		getLogger().info("Loaded language file " + s);
 		return conf;
 	}

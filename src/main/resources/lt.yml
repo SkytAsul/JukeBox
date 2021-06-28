@@ -12,9 +12,9 @@ STOP: §cNustoti groti
 MUSIC_STOPPED: §aMuzika nustojo groti.
 ENABLE: Įjungti
 DISABLE: Išjungti
-SHUFFLE_MODE: atsitiktinių dainų rėžimą
-CONNEXION_MUSIC: prisijungimo muziką
-PARTICLES: papuošimus
+TOGGLE_SHUFFLE_MODE: '{TOGGLE} atsitiktinių dainų rėžimą'
+TOGGLE_CONNEXION_MUSIC: '{TOGGLE} prisijungimo muziką'
+TOGGLE_PARTICLES: '{TOGGLE} papuošimus'
 MUSIC_PLAYING: '§aDabar groja:'
 INCORRECT_SYNTAX: §cNeteisinga sintaksė.
 RELOAD_LAUNCH: §aBandome perkrauti.

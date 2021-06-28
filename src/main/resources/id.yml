@@ -12,10 +12,10 @@ STOP: §cHentikan musik
 MUSIC_STOPPED: §aMusik berhenti.
 ENABLE: Nyalakan
 DISABLE: Matikan
-SHUFFLE_MODE: mode acak
-LOOP_MODE: mode pengulangan
-CONNEXION_MUSIC: musik saat terhubung
-PARTICLES: partikel
+TOGGLE_SHUFFLE_MODE: '{TOGGLE} mode acak'
+TOGGLE_LOOP_MODE: '{TOGGLE} mode pengulangan'
+TOGGLE_CONNEXION_MUSIC: '{TOGGLE} musik saat terhubung'
+TOGGLE_PARTICLES: '{TOGGLE} partikel'
 MUSIC_PLAYING: '§aSedang memutar:'
 INCORRECT_SYNTAX: §cSyntax salah.
 RELOAD_LAUNCH: §aSedang memuat ulang.

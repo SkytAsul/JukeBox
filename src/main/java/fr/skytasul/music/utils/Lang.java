@@ -3,6 +3,8 @@ package fr.skytasul.music.utils;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -30,10 +32,10 @@ public class Lang{
 	public static String DISABLE = "Disable";
 	public static String ENABLED = "Enabled";
 	public static String DISABLED = "Disabled";
-	public static String SHUFFLE_MODE = "the shuffle mode";
-	public static String LOOP_MODE = "the loop mode";
-	public static String CONNEXION_MUSIC = "music when connecting";
-	public static String PARTICLES = "particles";
+	public static String TOGGLE_SHUFFLE_MODE = "{TOGGLE} the shuffle mode";
+	public static String TOGGLE_LOOP_MODE = "{TOGGLE} the loop mode";
+	public static String TOGGLE_CONNEXION_MUSIC = "{TOGGLE} music when connecting";
+	public static String TOGGLE_PARTICLES = "{TOGGLE} particles";
 	public static String MUSIC_PLAYING = ChatColor.GREEN + "Music while playing:";
 	public static String INCORRECT_SYNTAX = ChatColor.RED + "Incorrect syntax.";
 	public static String RELOAD_LAUNCH = ChatColor.GREEN + "Trying to reload.";
@@ -55,7 +57,7 @@ public class Lang{
 	public static String UNAVAILABLE_RADIO = ChatColor.RED + "This action is unavailable while listening to the radio.";
 	public static String NONE = ChatColor.RED + "none";
 
-	public static void saveFile(YamlConfiguration cfg, File file) throws IllegalArgumentException, IllegalAccessException, IOException {
+	public static void saveFile(YamlConfiguration cfg, File file) throws ReflectiveOperationException, IOException {
 		for (Field f : Lang.class.getDeclaredFields()){
 			if (f.getType() != String.class) continue;
 			if (!cfg.contains(f.getName())) cfg.set(f.getName(), f.get(null));
@@ -63,19 +65,25 @@ public class Lang{
 		cfg.save(file);
 	}
 	
-	public static void loadFromConfig(YamlConfiguration cfg){
+	public static void loadFromConfig(File file, YamlConfiguration cfg) {
+		List<String> inexistant = new ArrayList<>();
 		for (String key : cfg.getValues(false).keySet()){
 			try {
 				String str = cfg.getString(key);
 				str = ChatColor.translateAlternateColorCodes('&', str);
 				if (JukeBox.version >= 16) str = translateHexColorCodes("(&|§)#", "", str);
-				Lang.class.getDeclaredField(key).set(key, str);
+				Field field = Lang.class.getDeclaredField(key);
+				if (field != null) {
+					field.set(key, str);
+				}else inexistant.add(key);
 			}catch (Exception e) {
 				JukeBox.getInstance().getLogger().warning("Error when loading language value \"" + key + "\".");
 				e.printStackTrace();
 				continue;
 			}
 		}
+		if (!inexistant.isEmpty())
+			JukeBox.getInstance().getLogger().warning("Found " + inexistant.size() + " inexistant string(s) in " + file.getName() + ": " + String.join(" ", inexistant));
 	}
 	
 	private static final char COLOR_CHAR = '\u00A7';

@@ -14,10 +14,10 @@ ENABLE: 켜짐
 DISABLE: 꺼짐
 ENABLED: 활성화됨
 DISABLED: 비활성화됨
-SHUFFLE_MODE: 셔플 재생 모드
-LOOP_MODE: 반복 재생 모드
-CONNEXION_MUSIC: 서버 연결시 음악 재생
-PARTICLES: 파티클 모드
+TOGGLE_SHUFFLE_MODE: '{TOGGLE} 셔플 재생 모드'
+TOGGLE_LOOP_MODE: '{TOGGLE} 반복 재생 모드'
+TOGGLE_CONNEXION_MUSIC: '{TOGGLE} 서버 연결시 음악 재생'
+TOGGLE_PARTICLES: '{TOGGLE} 파티클 모드'
 MUSIC_PLAYING: '§a재생중인 곡명 : '
 INCORRECT_SYNTAX: §c명령어 구문이 올바르지 않습니다.
 RELOAD_LAUNCH: §a리로드 중

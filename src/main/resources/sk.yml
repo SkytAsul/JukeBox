@@ -12,9 +12,9 @@ STOP: §cZastavit hudbu
 MUSIC_STOPPED: §aHudba zastavena.
 ENABLE: Zapnout
 DISABLE: Vypnout
-SHUFFLE_MODE: náhodný mod
-CONNEXION_MUSIC: hudba při připojení na server
-PARTICLES: doplňky
+TOGGLE_SHUFFLE_MODE: '{TOGGLE} náhodný mod'
+TOGGLE_CONNEXION_MUSIC: '{TOGGLE} hudba při připojení na server'
+TOGGLE_PARTICLES: '{TOGGLE} doplňky'
 MUSIC_PLAYING: '§aHrající hudba:'
 INCORRECT_SYNTAX: §cNeznámý příkaz či zle napsané.
 RELOAD_LAUNCH: §aResetovávání pluginu.

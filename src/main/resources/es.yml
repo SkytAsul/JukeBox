@@ -14,9 +14,9 @@ ENABLE: Activar
 DISABLE: Desactivar
 ENABLED: Activado
 DISABLED: Desactivado
-SHUFFLE_MODE: el modo aleatorio
-CONNEXION_MUSIC: música al conectar
-PARTICLES: particulas
+TOGGLE_SHUFFLE_MODE: '{TOGGLE} el modo aleatorio'
+TOGGLE_CONNEXION_MUSIC: '{TOGGLE} música al conectar'
+TOGGLE_PARTICLES: '{TOGGLE} particulas'
 MUSIC_PLAYING: '§aMúsica mientras juegas:'
 INCORRECT_SYNTAX: §cSintaxis incorrecta.
 RELOAD_LAUNCH: §aIntentado recargar...

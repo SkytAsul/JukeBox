@@ -12,8 +12,7 @@ STOP: §cMusik Anhalten
 MUSIC_STOPPED: Die Musik ist Angehalten
 ENABLE: §aAktivieren
 DISABLE: §cDeaktivieren
-SHUFFLE_MODE: §eShuffle Modus
-CONNEXION_MUSIC: music when connecting
+SHUFFLE_MODE: '§e{TOGGLE} Shuffle Modus'
 MUSIC_PLAYING: '§aDerzeit Spielt: '
 INCORRECT_SYNTAX: §cIncorrect syntax.
 RELOAD_LAUNCH: §aTrying to reload.

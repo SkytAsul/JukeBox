@@ -15,10 +15,10 @@ ENABLE: Attiva
 DISABLE: Disattiva
 ENABLED: Attivato
 DISABLED: Disattivato
-SHUFFLE_MODE: la modalità casuale
-LOOP_MODE: modalità senza fine
-CONNEXION_MUSIC: musica durate la connessione
-PARTICLES: particelle
+TOGGLE_SHUFFLE_MODE: '{TOGGLE} la modalità casuale'
+TOGGLE_LOOP_MODE: '{TOGGLE} modalità senza fine'
+TOGGLE_CONNEXION_MUSIC: '{TOGGLE} musica durate la connessione'
+TOGGLE_PARTICLES: '{TOGGLE} particelle'
 MUSIC_PLAYING: '§aCanzone in riproduzione:'
 INCORRECT_SYNTAX: §cSintassi incorretta.
 RELOAD_LAUNCH: §aRicaricando il plugin.

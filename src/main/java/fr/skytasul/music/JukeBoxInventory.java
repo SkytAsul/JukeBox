@@ -278,19 +278,23 @@ public class JukeBoxInventory implements Listener{
 		if (menu != ItemsMenu.OPTIONS) return;
 		if (!JukeBox.particles) return;
 		if (!JukeBox.particles) inv.setItem(48, null);
-		name(inv.getItem(48), ChatColor.AQUA + (pdata.hasParticles() ? Lang.DISABLE : Lang.ENABLE) + " " + Lang.PARTICLES);
+		name(inv.getItem(48), ChatColor.AQUA + replaceToggle(Lang.TOGGLE_PARTICLES, pdata.hasParticles()));
 	}
 	
 	public void joinItem(){
-		if (menu == ItemsMenu.OPTIONS) name(inv.getItem(49), ChatColor.GREEN + (pdata.hasJoinMusic() ? Lang.DISABLE : Lang.ENABLE) + " " + Lang.CONNEXION_MUSIC);
+		if (menu == ItemsMenu.OPTIONS) name(inv.getItem(49), ChatColor.GREEN + replaceToggle(Lang.TOGGLE_CONNEXION_MUSIC, pdata.hasJoinMusic()));
 	}
 	
 	public void shuffleItem(){
-		if (menu == ItemsMenu.OPTIONS) name(inv.getItem(50), ChatColor.YELLOW + (pdata.isShuffle() ? Lang.DISABLE : Lang.ENABLE) + " " + Lang.SHUFFLE_MODE);
+		if (menu == ItemsMenu.OPTIONS) name(inv.getItem(50), ChatColor.YELLOW + replaceToggle(Lang.TOGGLE_SHUFFLE_MODE, pdata.isShuffle()));
 	}
 	
 	public void repeatItem(){
-		if (menu == ItemsMenu.OPTIONS) name(inv.getItem(51), ChatColor.GOLD + (pdata.isRepeatEnabled() ? Lang.DISABLE : Lang.ENABLE) + " " + Lang.LOOP_MODE);
+		if (menu == ItemsMenu.OPTIONS) name(inv.getItem(51), ChatColor.GOLD + replaceToggle(Lang.TOGGLE_LOOP_MODE, pdata.isRepeatEnabled()));
+	}
+	
+	private String replaceToggle(String string, boolean enabled) {
+		return string.replace("{TOGGLE}", enabled ? Lang.DISABLE : Lang.ENABLE);
 	}
 	
 	public void playingStarted() {
