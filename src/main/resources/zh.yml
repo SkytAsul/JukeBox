@@ -1,0 +1,43 @@
+NEXT_PAGE: §b下一頁
+LATER_PAGE: §b上一頁
+PLAYER: §c你必須是玩家才能這麽做.
+RELOAD_MUSIC: §a紅石音樂已重新加載.
+INV_NAME: §d§l紅石音樂
+TOGGLE_PLAYING: §6暫停/播放
+VOLUME: '§9當前音量 : §b'
+RIGHT_CLICK: §e右擊：減少10%音量
+LEFT_CLICK: §e點擊：增加10%音量
+RANDOM_MUSIC: §3隨機音樂
+STOP: §c停止音樂
+MUSIC_STOPPED: §a你停止播放音樂.
+ENABLE: 開啓
+DISABLE: 關閉
+TOGGLE_SHUFFLE_MODE: '{TOGGLE} 登入遊戲時播放音樂'
+TOGGLE_CONNEXION_MUSIC: '{TOGGLE} 隨機播放模式'
+TOGGLE_PARTICLES: '{TOGGLE} 粒子'
+MUSIC_PLAYING: '§a正在播放:'
+INCORRECT_SYNTAX: §c用法錯誤.
+RELOAD_LAUNCH: §a嘗試重載中.
+RELOAD_FINISH: §a已完成重載.
+AVAILABLE_COMMANDS: '§a可用指令:'
+INVALID_NUMBER: §c無效的數字.
+PLAYER_MUSIC_STOPPED: '§a已停止該玩家的音樂: §b'
+IN_PLAYLIST: §9§o在歌單中
+PLAYLIST_ITEM: §d歌單
+OPTIONS_ITEM: §b選項
+MENU_ITEM: §6返回菜單
+CLEAR_PLAYLIST: §c清空歌單
+NEXT_ITEM: §e下一首
+CHANGE_PLAYLIST: '§6§l切換歌單: §r'
+PLAYLIST: §5歌單
+FAVORITES: §4喜愛的音樂
+RADIO: §3電台
+UNAVAILABLE_RADIO: §c收聽電台時你不能這麽做.
+ENABLED: 已啟用
+DISABLED: 已關閉
+LOOP_MODE: 循環模式
+CHANGE_PLAYLIST_LORE: |-
+  §e在音樂光盤上單擊鼠標中鍵
+  §e添加/刪除歌曲
+NONE: §c無
+# Translated by Kirsme on the basis of qsefthuopq
