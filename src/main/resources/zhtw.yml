@@ -16,7 +16,7 @@ DISABLE: 關閉
 ENABLED: 已開啟
 DISABLED: 已關閉
 SHUFFLE_MODE: 登入遊戲時播放音樂
-LOOP_MODE: 循環模式
+LOOP_MODE: 循環播放模式
 CONNEXION_MUSIC: 隨機播放模式
 PARTICLES: 粒子
 MUSIC_PLAYING: '§a正在播放 ： '
