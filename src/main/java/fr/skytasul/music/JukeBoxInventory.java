@@ -266,7 +266,7 @@ public class JukeBoxInventory implements Listener{
 	
 	public ItemStack getSongItem(Song s, Player p) {
 		ItemStack is = item(discs[JukeBox.getSongs().indexOf(s)], JukeBox.getItemName(s, p));
-		if (!StringUtils.isEmpty(s.getDescription())) loreAdd(is, splitOnSpace(s.getDescription(), 30));
+		if (!StringUtils.isEmpty(s.getDescription())) loreAdd(is, splitOnSpace(JukeBox.format(JukeBox.descriptionFormat, JukeBox.descriptionFormatWithoutAuthor, s), 30));
 		return is;
 	}
 	

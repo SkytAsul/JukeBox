@@ -52,6 +52,7 @@ import fr.skytasul.music.utils.JukeBoxRadio;
 import fr.skytasul.music.utils.Lang;
 import fr.skytasul.music.utils.Placeholders;
 import fr.skytasul.music.utils.Playlists;
+
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 
@@ -95,6 +96,8 @@ public class JukeBox extends JavaPlugin implements Listener{
 	public static String itemFormatAdminWithoutAuthor;
 	public static String songFormat;
 	public static String songFormatWithoutAuthor;
+	public static String descriptionFormat;
+	public static String descriptionFormatWithoutAuthor;
 	public static boolean savePlayerDatas = true;
 	public static int fadeInDuration, fadeOutDuration;
 	public static boolean useExtendedOctaveRange = false;
@@ -181,6 +184,8 @@ public class JukeBox extends JavaPlugin implements Listener{
 		itemFormatAdminWithoutAuthor = config.getString("itemFormatAdminWithoutAuthor");
 		songFormat = config.getString("songFormat");
 		songFormatWithoutAuthor = config.getString("songFormatWithoutAuthor");
+		descriptionFormat = config.getString("descriptionFormat");
+		descriptionFormatWithoutAuthor = config.getString("descriptionFormatWithoutAuthor");
 		savePlayerDatas = config.getBoolean("savePlayerDatas");
 		fadeInDuration = config.getInt("fadeInDuration");
 		fadeOutDuration = config.getInt("fadeOutDuration");
@@ -456,13 +461,12 @@ public class JukeBox extends JavaPlugin implements Listener{
 	}
 	
 	public static String format(String base, String noAuthorBase, Song song) {
-		String name = song.getTitle().isEmpty() ? removeFileExtension(song.getPath().getName()) : song.getTitle();
 		String author = song.getAuthor();
-		String id = String.valueOf(songs.indexOf(song));
-		if(author == null || author.isEmpty()) {
-			return noAuthorBase.replace("{NAME}", name).replace("{ID}", id);
-		}
-		return base.replace("{NAME}", name).replace("{AUTHOR}", author).replace("{ID}", id);
+		String format = (author == null || author.isEmpty()) ? noAuthorBase : base.replace("{AUTHOR}", author);
+		return format
+				.replace("{NAME}", song.getTitle().isEmpty() ? removeFileExtension(song.getPath().getName()) : song.getTitle())
+				.replace("{ID}", String.valueOf(songs.indexOf(song)))
+				.replace("{DESCRIPTION}", song.getDescription());
 	}
 	
 	public static boolean sendMessage(Player p, String msg){

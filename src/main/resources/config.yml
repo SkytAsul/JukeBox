@@ -61,6 +61,12 @@ songFormat: "\"{NAME}\", {AUTHOR}"
 # formatted songs name when no author is found (variables: NAME, ID)
 songFormatWithoutAuthor: "\"{NAME}\""
 
+# format of the item description for songs (variables: NAME, ID, AUTHOR, DESCRIPTION)
+descriptionFormat: "§7{DESCRIPTION}"
+
+# format of the item description for songs (variables: NAME, ID, DESCRIPTION)
+descriptionFormatWithoutAuthor: "§7{DESCRIPTION}"
+
 # are player datas kept in a file when they quit - always enabled if database enabled
 savePlayerDatas: true
 
