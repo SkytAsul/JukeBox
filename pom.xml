@@ -13,11 +13,11 @@
 
 	<repositories>
 		<repository>
-			<id>spigot-repo</id>
+			<id>spigotmc-repo</id>
 			<url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
 		</repository>
 		<repository>
-			<id>minecraft-repo</id>
+			<id>minecraft-libraries</id>
 			<url>https://libraries.minecraft.net</url>
 		</repository>
 		<repository>
@@ -87,7 +87,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-shade-plugin</artifactId>
-				<version>3.1.0</version>
+				<version>3.2.4</version>
 				<configuration>
 					<relocations>
 						<relocation>
