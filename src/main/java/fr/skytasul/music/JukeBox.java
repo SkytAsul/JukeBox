@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.function.Consumer;
+import java.util.logging.Level;
 import java.util.stream.Collectors;
 
 import org.bstats.bukkit.Metrics;
@@ -42,6 +43,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 
+import com.tchristofferson.configupdater.ConfigUpdater;
 import com.xxmicloxx.NoteBlockAPI.NoteBlockAPI;
 import com.xxmicloxx.NoteBlockAPI.model.Playlist;
 import com.xxmicloxx.NoteBlockAPI.model.Song;
@@ -118,6 +120,11 @@ public class JukeBox extends JavaPlugin implements Listener{
 		getLogger().info("This JukeBox version requires NoteBlockAPI version 1.5.0 or more. Please ensure you have the right version before using JukeBox (you are using NBAPI ver. " + getPlugin(NoteBlockAPI.class).getDescription().getVersion() + ")");
 		
 		saveDefaultConfig();
+		try {
+			ConfigUpdater.update(this, "config.yml", new File(getDataFolder(), "config.yml"));
+		}catch (IOException e) {
+			getLogger().log(Level.WARNING, "Failed to update the configuration file.", e);
+		}
 		
 		initAll();
 		
@@ -224,7 +231,7 @@ public class JukeBox extends JavaPlugin implements Listener{
 				String cb = "org.bukkit.craftbukkit";
 				Method getHandle = getVersionedClass(cb, "entity.CraftPlayer").getDeclaredMethod("getHandle");
 				Field playerConnection = getVersionedClass(nms, "EntityPlayer").getDeclaredField("playerConnection");
-				Method sendPacket = getVersionedClass(nms, "PlayerConnection").getDeclaredMethod("sendPacket", getVersionedClass(nms, "Packet"));
+				Method sendPacket = getVersionedClass(nms, "PlayerConnection").getDeclaredMethod(version < 18 ? "sendPacket" : "a", getVersionedClass(nms, "Packet"));
 				Class<?> soundCategory = getVersionedClass(nms, "SoundCategory");
 				Object packet = getVersionedClass(nms, "PacketPlayOutStopSound").getDeclaredConstructor(getVersionedClass(nms, "MinecraftKey"), soundCategory).newInstance(null, soundCategory.getDeclaredField("MUSIC").get(null));
 				
