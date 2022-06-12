@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.UUID;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -35,7 +36,7 @@ import fr.skytasul.music.utils.Playlists;
  */
 public class JukeBoxInventory implements Listener{
 	
-	private static final Pattern NEWLINE_REGEX = Pattern.compile("\\\\n");
+	private static final Pattern NEWLINE_REGEX = Pattern.compile("\\\\n|\\n");
 	
 	private static ItemStack stopItem = item(Material.BARRIER, Lang.STOP);
 	private static ItemStack menuItem = item(Material.TRAPPED_CHEST, Lang.MENU_ITEM);
@@ -328,13 +329,7 @@ public class JukeBoxInventory implements Listener{
 		ItemStack is = new ItemStack(type);
 		ItemMeta im = is.getItemMeta();
 		im.setDisplayName(name);
-		List<String> loreList = new ArrayList<>(lore.length);
-		for (String loreLine : lore) {
-			for (String loreSplit : loreLine.replace("\\n", "\n").split("(\n|\\n|\\\\n)")) {
-				loreList.add(loreSplit);
-			}
-		}
-		im.setLore(Arrays.asList(lore));
+		im.setLore(Arrays.stream(lore).flatMap(NEWLINE_REGEX::splitAsStream).collect(Collectors.toList()));
 		im.addItemFlags(ItemFlag.values());
 		is.setItemMeta(im);
 		return is;
