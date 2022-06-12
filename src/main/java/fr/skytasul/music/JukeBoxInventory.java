@@ -6,8 +6,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 import java.util.UUID;
+import java.util.regex.Pattern;
 
-import org.apache.commons.lang.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -34,6 +34,8 @@ import fr.skytasul.music.utils.Playlists;
  * @author SkytAsul
  */
 public class JukeBoxInventory implements Listener{
+	
+	private static final Pattern NEWLINE_REGEX = Pattern.compile("\\\\n");
 	
 	private static ItemStack stopItem = item(Material.BARRIER, Lang.STOP);
 	private static ItemStack menuItem = item(Material.TRAPPED_CHEST, Lang.MENU_ITEM);
@@ -266,7 +268,7 @@ public class JukeBoxInventory implements Listener{
 	
 	public ItemStack getSongItem(Song s, Player p) {
 		ItemStack is = item(discs[JukeBox.getSongs().indexOf(s)], JukeBox.getItemName(s, p));
-		if (!StringUtils.isEmpty(s.getDescription())) loreAdd(is, splitOnSpace(JukeBox.format(JukeBox.descriptionFormat, JukeBox.descriptionFormatWithoutAuthor, s), 30));
+		if (s.getDescription() != null && !s.getDescription().isEmpty()) loreAdd(is, splitOnSpace(JukeBox.format(JukeBox.descriptionFormat, JukeBox.descriptionFormatWithoutAuthor, s), 30));
 		return is;
 	}
 	
@@ -390,7 +392,7 @@ public class JukeBoxInventory implements Listener{
 			return ls;
 		}
 		
-		for (String str : StringUtils.splitByWholeSeparator(string, "\\n")) {
+		for (String str : NEWLINE_REGEX.split(string)) {
 			int lastI = 0;
 			int ic = 0;
 			for (int i = 0; i < str.length(); i++){

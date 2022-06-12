@@ -95,6 +95,23 @@ public class CommandAdmin implements CommandExecutor{
 			}
 			break;
 			
+		case "playlist":
+			if (args.length < 3) {
+				sender.sendMessage(Lang.INCORRECT_SYNTAX);
+				return false;
+			}
+			if (args[1].equals("@a")) {
+				for (Player p : Bukkit.getOnlinePlayers()) {
+					args[1] = p.getName();
+					String msg = playlist(args);
+					if (!msg.isEmpty()) sender.sendMessage(p.getName() + " : " + msg);
+				}
+			}else {
+				String msg = playlist(args);
+				if (!msg.isEmpty()) sender.sendMessage(msg);
+			}
+			break;
+		
 		case "stop":
 			if (args.length < 2){
 				sender.sendMessage(Lang.INCORRECT_SYNTAX);
@@ -326,7 +343,7 @@ public class CommandAdmin implements CommandExecutor{
 			break;
 			
 		default:
-			sender.sendMessage(Lang.AVAILABLE_COMMANDS + " <reload|player|play|stop|toggle|setitem|download|shuffle|particles|join|random|volume|loop|next> ...");
+			sender.sendMessage(Lang.AVAILABLE_COMMANDS + " <reload|player|play|playlist|stop|toggle|setitem|download|shuffle|particles|join|random|volume|loop|next> ...");
 			break;
 		
 		}
@@ -359,6 +376,20 @@ public class CommandAdmin implements CommandExecutor{
 		pdata.playSong(song);
 		pdata.songPlayer.adminPlayed = true;
 		return "";
+	}
+	
+	private String playlist(String[] args) {
+		Player cp = Bukkit.getPlayer(args[1]);
+		if (cp == null) return "§cUnknown player.";
+		if (JukeBox.worlds && !JukeBox.worldsEnabled.contains(cp.getWorld().getName())) return "§cMusic isn't enabled in the world the player is into.";
+		try {
+			Playlists list = Playlists.valueOf(args[2].toUpperCase());
+			PlayerData pdata = JukeBox.getInstance().datas.getDatas(cp);
+			pdata.setPlaylist(list, true);
+			return "";
+		}catch (IllegalArgumentException ex) {
+			return "§cUnknown playlist: " + args[2];
+		}
 	}
 	
 	private String stop(Player cp){

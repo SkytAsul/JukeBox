@@ -72,10 +72,11 @@ public class Lang{
 				String str = cfg.getString(key);
 				str = ChatColor.translateAlternateColorCodes('&', str);
 				if (JukeBox.version >= 16) str = translateHexColorCodes("(&|§)#", "", str);
-				Field field = Lang.class.getDeclaredField(key);
-				if (field != null) {
-					field.set(key, str);
-				}else inexistant.add(key);
+				try {
+					Lang.class.getDeclaredField(key).set(key, str);
+				}catch (NoSuchFieldException ex) {
+					inexistant.add(key);
+				}
 			}catch (Exception e) {
 				JukeBox.getInstance().getLogger().warning("Error when loading language value \"" + key + "\".");
 				e.printStackTrace();
