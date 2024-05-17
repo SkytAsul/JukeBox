@@ -60,7 +60,7 @@ import net.md_5.bungee.api.chat.TextComponent;
 
 public class JukeBox extends JavaPlugin implements Listener{
 
-	public static int version = Integer.parseInt(Bukkit.getServer().getClass().getPackage().getName().replace(".", ",").split(",")[3].split("_")[1]);
+	public static int version = Integer.parseInt(Bukkit.getServer().getBukkitVersion().split("-")[0]);
 	private static JukeBox instance;
 	private boolean disable = false;
 
