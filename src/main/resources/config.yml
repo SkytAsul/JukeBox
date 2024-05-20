@@ -36,7 +36,7 @@ radioOnJoin: false
 # reload the song the player was listening to before it left the server
 reloadOnJoin: true
 
-# periodically stops vanilla music - can cause a bit of lag - working with 1.13 and above
+# periodically stops vanilla music - can cause a bit of lag - working between 1.13 and 1.18
 preventVanillaMusic: false
 
 # materials of songs in the GUI, separated by commas. Example: [DIRT, GOLD_INGOT] -

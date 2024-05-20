@@ -1,26 +1,13 @@
 package fr.skytasul.music;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
-import java.nio.charset.StandardCharsets;
-import java.sql.SQLException;
-import java.text.Collator;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
-import java.util.function.Consumer;
-import java.util.logging.Level;
-import java.util.stream.Collectors;
-
+import com.tchristofferson.configupdater.ConfigUpdater;
+import com.xxmicloxx.NoteBlockAPI.NoteBlockAPI;
+import com.xxmicloxx.NoteBlockAPI.model.Playlist;
+import com.xxmicloxx.NoteBlockAPI.model.Song;
+import com.xxmicloxx.NoteBlockAPI.utils.NBSDecoder;
+import fr.skytasul.music.utils.*;
+import net.md_5.bungee.api.ChatMessageType;
+import net.md_5.bungee.api.chat.TextComponent;
 import org.bstats.bukkit.Metrics;
 import org.bstats.charts.SimplePie;
 import org.bstats.charts.SingleLineChart;
@@ -42,21 +29,19 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
-
-import com.tchristofferson.configupdater.ConfigUpdater;
-import com.xxmicloxx.NoteBlockAPI.NoteBlockAPI;
-import com.xxmicloxx.NoteBlockAPI.model.Playlist;
-import com.xxmicloxx.NoteBlockAPI.model.Song;
-import com.xxmicloxx.NoteBlockAPI.utils.NBSDecoder;
-
-import fr.skytasul.music.utils.Database;
-import fr.skytasul.music.utils.JukeBoxRadio;
-import fr.skytasul.music.utils.Lang;
-import fr.skytasul.music.utils.Placeholders;
-import fr.skytasul.music.utils.Playlists;
-
-import net.md_5.bungee.api.ChatMessageType;
-import net.md_5.bungee.api.chat.TextComponent;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+import java.nio.charset.StandardCharsets;
+import java.sql.SQLException;
+import java.text.Collator;
+import java.util.*;
+import java.util.function.Consumer;
+import java.util.logging.Level;
+import java.util.stream.Collectors;
 
 public class JukeBox extends JavaPlugin implements Listener{
 
@@ -67,14 +52,14 @@ public class JukeBox extends JavaPlugin implements Listener{
 	private static File playersFile;
 	public static FileConfiguration players;
 	public static File songsFolder;
-	
+
 	public static JukeBoxRadio radio = null;
-	
+
 	private static LinkedList<Song> songs;
 	private static Map<String, Song> fileNames;
 	private static Map<String, Song> internalNames;
 	private static Playlist playlist;
-	
+
 	public static int maxPage;
 	public static boolean jukeboxClick = false;
 	public static boolean sendMessages = true;
@@ -103,41 +88,41 @@ public class JukeBox extends JavaPlugin implements Listener{
 	public static boolean savePlayerDatas = true;
 	public static int fadeInDuration, fadeOutDuration;
 	public static boolean useExtendedOctaveRange = false;
-	
+
 	public ItemStack jukeboxItem;
-	
+
 	private Database db;
 	public JukeBoxDatas datas;
-	
+
 	private BukkitTask vanillaMusicTask = null;
 	public Consumer<Player> stopVanillaMusic = null;
-	
+
 	@Override
 	public void onEnable(){
 		instance = this;
-		
+
 		if (getServer().getPluginManager().isPluginEnabled("PlaceholderAPI")) Placeholders.registerPlaceholders();
 		getLogger().info("This JukeBox version requires NoteBlockAPI version 1.5.0 or more. Please ensure you have the right version before using JukeBox (you are using NBAPI ver. " + getPlugin(NoteBlockAPI.class).getDescription().getVersion() + ")");
-		
+
 		saveDefaultConfig();
 		try {
 			ConfigUpdater.update(this, "config.yml", new File(getDataFolder(), "config.yml"));
 		}catch (IOException e) {
 			getLogger().log(Level.WARNING, "Failed to update the configuration file.", e);
 		}
-		
+
 		initAll();
-		
+
 		Metrics metrics = new Metrics(this, 9533);
 		metrics.addCustomChart(new SimplePie("noteblockapi_version", () -> NoteBlockAPI.getAPI().getDescription().getVersion()));
 		metrics.addCustomChart(new SingleLineChart("songs", () -> songs.size()));
 	}
-	
+
 	@Override
 	public void onDisable(){
 		if (!disable) disableAll();
 	}
-	
+
 	public void disableAll(){
 		if (radio != null){
 			radio.stop();
@@ -156,13 +141,13 @@ public class JukeBox extends JavaPlugin implements Listener{
 		if (db != null) db.closeConnection();
 		HandlerList.unregisterAll((JavaPlugin) this);
 	}
-	
+
 	public void initAll(){
 		reloadConfig();
-		
+
 		loadLang();
 		if (disable) return;
-		
+
 		FileConfiguration config = getConfig();
 		jukeboxClick = config.getBoolean("jukeboxClick");
 		sendMessages = config.getBoolean("sendMessages");
@@ -175,7 +160,11 @@ public class JukeBox extends JavaPlugin implements Listener{
 		radioEnabled = config.getBoolean("radio");
 		radioOnJoin = radioEnabled && config.getBoolean("radioOnJoin");
 		autoReload = config.getBoolean("reloadOnJoin");
-		preventVanillaMusic = config.getBoolean("preventVanillaMusic") && version >= 13;
+		preventVanillaMusic = config.getBoolean("preventVanillaMusic");
+		if (preventVanillaMusic && (version < 13 || version >= 18)) {
+			preventVanillaMusic = false;
+			getLogger().warning("preventVanillaMusic is enabled in config.yml but is not support in your server version.");
+		}
 		songItems = config.getStringList("songItems").stream().map(Material::matchMaterial).collect(Collectors.toList());
 		songItems.removeIf(x -> x == null);
 		if (songItems.isEmpty()) {
@@ -197,10 +186,10 @@ public class JukeBox extends JavaPlugin implements Listener{
 		fadeInDuration = config.getInt("fadeInDuration");
 		fadeOutDuration = config.getInt("fadeOutDuration");
 		useExtendedOctaveRange = config.getBoolean("useExtendedOctaveRange");
-		
+
 		worldsEnabled = config.getStringList("enabledWorlds");
 		worlds = !worldsEnabled.isEmpty();
-		
+
 		ConfigurationSection dbConfig = config.getConfigurationSection("database");
 		if (dbConfig.getBoolean("enabled")) {
 			db = new Database(dbConfig);
@@ -211,7 +200,7 @@ public class JukeBox extends JavaPlugin implements Listener{
 				db = null;
 			}
 		}
-		
+
 		if (async){
 			new BukkitRunnable() {
 				@Override
@@ -224,7 +213,7 @@ public class JukeBox extends JavaPlugin implements Listener{
 			loadDatas();
 			finishEnabling();
 		}
-		
+
 		if (preventVanillaMusic) {
 			try {
 				String nms = "net.minecraft.server";
@@ -234,7 +223,7 @@ public class JukeBox extends JavaPlugin implements Listener{
 				Method sendPacket = getVersionedClass(nms, "PlayerConnection").getDeclaredMethod(version < 18 ? "sendPacket" : "a", getVersionedClass(nms, "Packet"));
 				Class<?> soundCategory = getVersionedClass(nms, "SoundCategory");
 				Object packet = getVersionedClass(nms, "PacketPlayOutStopSound").getDeclaredConstructor(getVersionedClass(nms, "MinecraftKey"), soundCategory).newInstance(null, soundCategory.getDeclaredField("MUSIC").get(null));
-				
+
 				stopVanillaMusic = player -> {
 					try {
 						sendPacket.invoke(playerConnection.get(getHandle.invoke(player)), packet);
@@ -247,17 +236,17 @@ public class JukeBox extends JavaPlugin implements Listener{
 			}
 		}
 	}
-	
+
 	private Class<?> getVersionedClass(String packageName, String className) throws ClassNotFoundException {
 		return Class.forName(packageName + "." + Bukkit.getServer().getClass().getPackage().getName().replace(".", ",").split(",")[3] + "." + className);
 	}
-	
+
 	private void finishEnabling(){
 		getCommand("music").setExecutor(new CommandMusic());
 		getCommand("adminmusic").setExecutor(new CommandAdmin());
 
 		getServer().getPluginManager().registerEvents(this, this);
-		
+
 		radioEnabled = radioEnabled && !songs.isEmpty();
 		if (radioEnabled){
 			radio = new JukeBoxRadio(playlist);
@@ -266,7 +255,7 @@ public class JukeBox extends JavaPlugin implements Listener{
 		for (Player p : Bukkit.getOnlinePlayers()) {
 			datas.joins(p);
 		}
-		
+
 		if (stopVanillaMusic != null) {
 			vanillaMusicTask = Bukkit.getScheduler().runTaskTimerAsynchronously(this, () -> {
 				for (PlayerData pdata : datas.getDatas()) {
@@ -275,7 +264,7 @@ public class JukeBox extends JavaPlugin implements Listener{
 			}, 20L, 100l); // every 5 seconds
 		}
 	}
-	
+
 	private void loadDatas(){
 		/* --------------------------------------------- SONGS ------- */
 		songs = new LinkedList<>();
@@ -303,7 +292,7 @@ public class JukeBox extends JavaPlugin implements Listener{
 		for (String str : names){
 			songs.add(internalNames.get(str));
 		}
-		
+
 		setMaxPage();
 		getLogger().info("Songs sorted ! " + songs.size() + " songs. Number of pages : " + maxPage);
 		if (!songs.isEmpty()) playlist = new Playlist(songs.toArray(new Song[0]));
@@ -327,11 +316,11 @@ public class JukeBox extends JavaPlugin implements Listener{
 			}
 		}
 	}
-	
+
 	void setMaxPage(){
 		maxPage = (int) StrictMath.ceil(songs.size() * 1.0 / 45);
 	}
-	
+
 
 	private YamlConfiguration loadLang() {
 		String s = "en.yml";
@@ -371,17 +360,17 @@ public class JukeBox extends JavaPlugin implements Listener{
 		return conf;
 	}
 
-	
+
 	@EventHandler
 	public void onJoin(PlayerJoinEvent e){
 		datas.joins(e.getPlayer());
 	}
-	
+
 	@EventHandler
 	public void onQuit(PlayerQuitEvent e){
 		datas.quits(e.getPlayer());
 	}
-	
+
 	@EventHandler
 	public void onInteract(PlayerInteractEvent e){
 		if (e.getItem() == null) return;
@@ -403,7 +392,7 @@ public class JukeBox extends JavaPlugin implements Listener{
 			}
 		}
 	}
-	
+
 	@EventHandler
 	public void onTeleport(PlayerTeleportEvent e){
 		if (!worlds) return;
@@ -414,49 +403,49 @@ public class JukeBox extends JavaPlugin implements Listener{
 		if (pdata.songPlayer != null) pdata.stopPlaying(true);
 		if (pdata.getPlaylistType() == Playlists.RADIO) pdata.setPlaylist(Playlists.PLAYLIST, false);
 	}
-	
-	
+
+
 	public static JukeBox getInstance(){
 		return instance;
 	}
-	
+
 	public static boolean canSaveDatas(Player p) {
 		return savePlayerDatas && p.hasPermission("music.save-datas");
 	}
-	
+
 	private static Random random = new Random();
 	public static Song randomSong() {
 		if (songs.isEmpty()) return null;
 		if (songs.size() == 1) return songs.get(0);
 		return songs.get(random.nextInt(songs.size() - 1));
 	}
-	
+
 	public static Playlist getPlaylist(){
 		return playlist;
 	}
-	
+
 	public static List<Song> getSongs(){
 		return songs;
 	}
-	
+
 	public static Song getSongByFile(String fileName){
 		return fileNames.get(fileName);
 	}
-	
+
 	public static Song getSongByInternalName(String internalName) {
 		return internalNames.get(internalName);
 	}
-	
+
 	public static String getInternal(Song s) {
 		if (s.getTitle() == null || s.getTitle().isEmpty()) return s.getPath().getName();
 		return s.getTitle();
 	}
-	
+
 	public static String getItemName(Song s, Player p) {
 		boolean admin = p.hasPermission("music.adminItem");
 		return format(admin ? itemFormatAdmin : itemFormat, admin ? itemFormatAdminWithoutAuthor : itemFormatWithoutAuthor, s);
 	}
-	
+
 	public static String getSongName(Song song) {
 		return format(songFormat, songFormatWithoutAuthor, song);
 	}
@@ -466,7 +455,7 @@ public class JukeBox extends JavaPlugin implements Listener{
 		if(dot == -1) return path;
 		return path.substring(0, dot);
 	}
-	
+
 	public static String format(String base, String noAuthorBase, Song song) {
 		String author = song.getAuthor();
 		String format = (author == null || author.isEmpty()) ? noAuthorBase : base.replace("{AUTHOR}", author);
@@ -475,7 +464,7 @@ public class JukeBox extends JavaPlugin implements Listener{
 				.replace("{ID}", String.valueOf(songs.indexOf(song)))
 				.replace("{DESCRIPTION}", song.getDescription());
 	}
-	
+
 	public static boolean sendMessage(Player p, String msg){
 		if (JukeBox.sendMessages){
 			if (JukeBox.actionBar){
@@ -487,5 +476,5 @@ public class JukeBox extends JavaPlugin implements Listener{
 		}
 		return false;
 	}
-	
+
 }

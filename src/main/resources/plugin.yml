@@ -1,7 +1,7 @@
 name: JukeBox
 author: SkytAsul
 version: ${project.version}
-description: A plugin who allows you to propose note block songs/musics to your players.
+description: A plugin which allows you to propose note block songs to your players.
 main: fr.skytasul.music.JukeBox
 api-version: 1.13
 website: https://www.spigotmc.org/resources/jukebox-music-plugin.40580/
