@@ -45,7 +45,7 @@ import java.util.stream.Collectors;
 
 public class JukeBox extends JavaPlugin implements Listener{
 
-	public static int version = Integer.parseInt(Bukkit.getServer().getBukkitVersion().split("-")[0]);
+	public static int version = Integer.parseInt(Bukkit.getBukkitVersion().split("-R")[0].split("\\.")[1]);
 	private static JukeBox instance;
 	private boolean disable = false;
 
@@ -88,6 +88,7 @@ public class JukeBox extends JavaPlugin implements Listener{
 	public static boolean savePlayerDatas = true;
 	public static int fadeInDuration, fadeOutDuration;
 	public static boolean useExtendedOctaveRange = false;
+	public static boolean forceMono = false;
 
 	public ItemStack jukeboxItem;
 
@@ -186,6 +187,7 @@ public class JukeBox extends JavaPlugin implements Listener{
 		fadeInDuration = config.getInt("fadeInDuration");
 		fadeOutDuration = config.getInt("fadeOutDuration");
 		useExtendedOctaveRange = config.getBoolean("useExtendedOctaveRange");
+		forceMono = config.getBoolean("forceMono");
 
 		worldsEnabled = config.getStringList("enabledWorlds");
 		worlds = !worldsEnabled.isEmpty();

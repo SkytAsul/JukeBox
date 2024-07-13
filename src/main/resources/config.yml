@@ -79,6 +79,9 @@ fadeOutDuration: 20
 # decides whether JukeBox will enable the "extended notes range through resource pack" option of NoteBlockAPI
 useExtendedOctaveRange: false
 
+# should JukeBox enforce the mono playback for stereo songs
+forceMono: false
+
 # database configuration
 database:
   enabled: false
