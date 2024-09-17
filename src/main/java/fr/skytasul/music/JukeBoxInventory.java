@@ -1,9 +1,8 @@
 package fr.skytasul.music;
 
-import java.lang.reflect.Field;
-import java.util.*;
-import java.util.regex.Pattern;
-import java.util.stream.Collectors;
+import com.xxmicloxx.NoteBlockAPI.model.Song;
+import fr.skytasul.music.utils.Lang;
+import fr.skytasul.music.utils.Playlists;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -16,18 +15,24 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import com.mojang.authlib.GameProfile;
-import com.mojang.authlib.properties.Property;
-import com.mojang.authlib.properties.PropertyMap;
-import com.xxmicloxx.NoteBlockAPI.model.Song;
-import fr.skytasul.music.utils.Lang;
-import fr.skytasul.music.utils.Playlists;
+import org.bukkit.inventory.meta.SkullMeta;
+import org.bukkit.profile.PlayerProfile;
+import org.bukkit.profile.PlayerTextures;
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.*;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 /**
  * Thanks to <i>xigsag</i> and <I>SBPrime</I> for the custom skull utility
  * @author SkytAsul
  */
 public class JukeBoxInventory implements Listener{
+
+	private static final String RADIO_TEXTURE_URL =
+			"http://textures.minecraft.net/texture/148a8c55891dec76764449f57ba677be3ee88a06921ca93b6cc7c9611a7af";
 
 	private static final Pattern NEWLINE_REGEX = Pattern.compile("\\\\n|\\n");
 
@@ -348,25 +353,20 @@ public class JukeBoxInventory implements Listener{
 
 	public static final ItemStack radioItem;
     static {
-		GameProfile profile = new GameProfile(UUID.randomUUID(), "randomName");
-        PropertyMap propertyMap = profile.getProperties();
-        propertyMap.put("textures", new Property("textures", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMTQ4YThjNTU4OTFkZWM3Njc2NDQ0OWY1N2JhNjc3YmUzZWU4OGEwNjkyMWNhOTNiNmNjN2M5NjExYTdhZiJ9fX0="));
-        ItemStack item;
-        if (JukeBox.version < 13){
-        	item = new ItemStack(Material.valueOf("SKULL_ITEM"), 1, (short) 3);
-        }else item = new ItemStack(Material.valueOf("PLAYER_HEAD"));
-        ItemMeta headMeta = item.getItemMeta();
-        Field profileField;
+        ItemStack item = new ItemStack(Material.valueOf("PLAYER_HEAD"));
+        SkullMeta headMeta = (SkullMeta) item.getItemMeta();
+		UUID uuid = UUID.randomUUID();
+		PlayerProfile playerProfile = Bukkit.createPlayerProfile(uuid, uuid.toString().substring(0, 16));
+		PlayerTextures textures = playerProfile.getTextures();
 		try {
-			profileField = headMeta.getClass().getDeclaredField("profile");
-			profileField.setAccessible(true);
-			profileField.set(headMeta, profile);
-		}catch (ReflectiveOperationException e) {
-			e.printStackTrace();
-			JukeBox.getInstance().getLogger().severe("An error occured during initialization of Radio item. Please report it to an administrator !");
-			item = new ItemStack(Material.TORCH);
-			headMeta = item.getItemMeta();
+			textures.setSkin(new URI(RADIO_TEXTURE_URL).toURL());
+		} catch (MalformedURLException | URISyntaxException ex) {
+			JukeBox.getInstance().getLogger()
+					.severe("An error occured during initialization of Radio item. Please report it to an administrator !");
+			ex.printStackTrace();
 		}
+		playerProfile.setTextures(textures);
+		headMeta.setOwnerProfile(playerProfile);
         headMeta.setDisplayName(Lang.CHANGE_PLAYLIST + Lang.RADIO);
         item.setItemMeta(headMeta);
         radioItem = item;
