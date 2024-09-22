@@ -31,6 +31,9 @@ public class Database {
 			properties.setProperty("verifyServerCertificate", "false");
 			properties.setProperty("useSSL", "false");
 		}
+		if(config.getBoolean("allowPublicKeyRetrieval")){
+			properties.setProperty("allowPublicKeyRetrieval", "true");
+		}
 	}
 
 	public String getDatabase() {

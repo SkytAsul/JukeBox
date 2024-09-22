@@ -91,6 +91,8 @@ database:
   username: "unknown"
   password: "unknown"
   ssl: false
+  # If you don't know what this means, don't edit it.
+  allowPublicKeyRetrieval: false
 
 # player options gived to new players
 defaultPlayerOptions:
