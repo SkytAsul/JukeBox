@@ -1,17 +1,5 @@
 package fr.skytasul.music;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
-
-import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerQuitEvent;
-
 import com.xxmicloxx.NoteBlockAPI.NoteBlockAPI;
 import com.xxmicloxx.NoteBlockAPI.event.SongDestroyingEvent;
 import com.xxmicloxx.NoteBlockAPI.event.SongLoopEvent;
@@ -20,15 +8,20 @@ import com.xxmicloxx.NoteBlockAPI.model.FadeType;
 import com.xxmicloxx.NoteBlockAPI.model.Playlist;
 import com.xxmicloxx.NoteBlockAPI.model.RepeatMode;
 import com.xxmicloxx.NoteBlockAPI.model.Song;
-
 import fr.skytasul.music.utils.CustomSongPlayer;
 import fr.skytasul.music.utils.Lang;
 import fr.skytasul.music.utils.Playlists;
+import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerQuitEvent;
+import java.util.*;
 
 public class PlayerData implements Listener{
-	
+
 	boolean created = false;
-	
+
 	private UUID id;
 	private boolean join = false;
 	private boolean shuffle = false;
@@ -39,10 +32,10 @@ public class PlayerData implements Listener{
 	private boolean favoritesRemoved = false;
 	private Playlist favorites;
 	private Playlists listening = Playlists.PLAYLIST;
-	
+
 	public CustomSongPlayer songPlayer;
 	private Player p;
-	
+
 	private List<Integer> randomPlaylist = new ArrayList<>();
 	JukeBoxInventory linked = null;
 
@@ -50,7 +43,7 @@ public class PlayerData implements Listener{
 		this.id = id;
 		Bukkit.getPluginManager().registerEvents(this, JukeBox.getInstance());
 	}
-	
+
 	private PlayerData(UUID id, PlayerData defaults){
 		this(id);
 		this.created = true;
@@ -60,7 +53,7 @@ public class PlayerData implements Listener{
 		setParticles(defaults.hasParticles());
 		setRepeat(defaults.isRepeatEnabled());
 	}
-	
+
 	@EventHandler
 	public void onSongDestroy(SongDestroyingEvent e) {
 		if (e.getSongPlayer() == songPlayer) {
@@ -74,7 +67,7 @@ public class PlayerData implements Listener{
 			}
 		}
 	}
-	
+
 	@EventHandler
 	public void onLoop(SongLoopEvent e){
 		if (e.getSongPlayer() == songPlayer){
@@ -85,7 +78,7 @@ public class PlayerData implements Listener{
 			playSong(true);
 		}
 	}
-	
+
 	@EventHandler
 	public void onSongNext(SongNextEvent e){
 		if (e.getSongPlayer() == songPlayer){
@@ -94,7 +87,7 @@ public class PlayerData implements Listener{
 			}else playSong(true);
 		}
 	}
-	
+
 	@EventHandler
 	public void onLeave(PlayerQuitEvent e){
 		Player p = e.getPlayer();
@@ -110,7 +103,7 @@ public class PlayerData implements Listener{
 		}
 		if (songPlayer != null) stopPlaying(false);
 		if (list == null) return;
-		
+
 		songPlayer = new CustomSongPlayer(list);
 		songPlayer.setParticlesEnabled(particles);
 		songPlayer.getFadeIn().setFadeDuration(JukeBox.fadeInDuration);
@@ -122,9 +115,9 @@ public class PlayerData implements Listener{
 		songPlayer.setPlaying(true);
 		songPlayer.setRandom(shuffle);
 		songPlayer.setRepeatMode(repeat ? RepeatMode.ONE : RepeatMode.ALL);
-		
+
 		playSong(false);
-		
+
 		if (JukeBox.getInstance().stopVanillaMusic != null) JukeBox.getInstance().stopVanillaMusic.accept(p);
 		if (linked != null) linked.playingStarted();
 	}
@@ -139,7 +132,7 @@ public class PlayerData implements Listener{
 		addSong(song, true);
 		return listening == Playlists.FAVORITES;
 	}
-	
+
 	public boolean addSong(Song song, boolean playIndex) {
 		Playlist toPlay = null;
 		switch (listening){
@@ -169,7 +162,7 @@ public class PlayerData implements Listener{
 		}
 		return true;
 	}
-	
+
 	public void removeSong(Song song){
 		switch (listening){
 		case FAVORITES:
@@ -186,7 +179,7 @@ public class PlayerData implements Listener{
 			break;
 		}
 	}
-	
+
 	public boolean isInPlaylist(Song song){
 		switch (listening){
 		case FAVORITES:
@@ -216,7 +209,7 @@ public class PlayerData implements Listener{
 			break;
 		}
 	}
-	
+
 	public Song playRandom() {
 		if (JukeBox.getSongs().isEmpty()) return null;
 		setPlaylist(Playlists.PLAYLIST, false);
@@ -224,7 +217,7 @@ public class PlayerData implements Listener{
 		playSong(song);
 		return song;
 	}
-	
+
 	public void stopPlaying(boolean msg) {
 		if (songPlayer == null) {
 			if (listening == Playlists.RADIO) {
@@ -240,14 +233,14 @@ public class PlayerData implements Listener{
 		if (msg && p != null && p.isOnline()) JukeBox.sendMessage(getPlayer(), Lang.MUSIC_STOPPED);
 		if (linked != null) linked.playingStopped();
 	}
-	
+
 	public Playlists getPlaylistType(){
 		return listening;
 	}
-	
+
 	public void nextPlaylist(){
 		Playlists toPlay = null;
-		
+
 		switch (listening) {
 		case PLAYLIST:
 			if (Playlists.FAVORITES.hasPermission(p)) {
@@ -266,7 +259,7 @@ public class PlayerData implements Listener{
 		if (toPlay == null) return;
 		setPlaylist(toPlay, true);
 	}
-	
+
 	public void setPlaylist(Playlists list, boolean play){
 		stopPlaying(false);
 		this.listening = list;
@@ -288,11 +281,11 @@ public class PlayerData implements Listener{
 			break;
 		}
 	}
-	
+
 	public boolean isListening() {
 		return songPlayer != null || listening == Playlists.RADIO;
 	}
-	
+
 	public boolean isPlaying() {
 		return p != null && (songPlayer == null ? listening == Playlists.RADIO : songPlayer.isPlaying());
 	}
@@ -302,7 +295,7 @@ public class PlayerData implements Listener{
 		songPlayer.setTick((short) (songPlayer.getSong().getLength() + 1));
 		if (!songPlayer.isPlaying()) songPlayer.setPlaying(true);
 	}
-	
+
 	public void nextSong() {
 		if (listening == Playlists.RADIO){
 			JukeBox.sendMessage(getPlayer(), Lang.UNAVAILABLE_RADIO);
@@ -314,20 +307,21 @@ public class PlayerData implements Listener{
 			finishPlaying();
 		}
 	}
-	
+
 	public Song getListeningTo() {
 		if (songPlayer != null) return songPlayer.getSong();
 		if (getPlaylistType() == Playlists.RADIO) return JukeBox.radio.getSong();
 		return null;
 	}
-	
+
 	public String getListeningSongName() {
 		Song song = getListeningTo();
 		return song == null ? null : JukeBox.getSongName(song);
 	}
-	
+
 	public void playerJoin(Player player, boolean replay){
 		this.p = player;
+		setVolume(volume); // to refresh the volume in NoteBlockAPI
 		if (!replay) return;
 		if (JukeBox.radioOnJoin){
 			setPlaylist(Playlists.RADIO, true);
@@ -343,9 +337,9 @@ public class PlayerData implements Listener{
 		}else if (!songPlayer.adminPlayed && JukeBox.autoReload) {
 			songPlayer.setPlaying(true);
 			JukeBox.sendMessage(getPlayer(), Lang.RELOAD_MUSIC + " (" + JukeBox.getSongName(songPlayer.getSong()) + ")");
-		}	
+		}
 	}
-	
+
 	public void togglePlaying() {
 		if (songPlayer != null) {
 			songPlayer.setPlaying(!songPlayer.isPlaying());
@@ -363,7 +357,7 @@ public class PlayerData implements Listener{
 		if (!JukeBox.autoReload) stopPlaying(false);
 		p = null;
 	}
-	
+
 	private void playSong(boolean next){
 		if (listening == Playlists.PLAYLIST && !randomPlaylist.isEmpty()){
 			songPlayer.playSong(randomPlaylist.get(0));
@@ -372,7 +366,7 @@ public class PlayerData implements Listener{
 		}
 		JukeBox.sendMessage(getPlayer(), Lang.MUSIC_PLAYING + " " + JukeBox.getSongName(songPlayer.getSong()));
 	}
-	
+
 
 	public UUID getID(){
 		return id;
@@ -424,22 +418,22 @@ public class PlayerData implements Listener{
 		if (linked != null) linked.particlesItem();
 		return particles;
 	}
-	
+
 	public boolean isRepeatEnabled(){
 		return repeat;
 	}
-	
+
 	public boolean setRepeat(boolean repeat){
 		this.repeat = repeat;
 		if (songPlayer != null) songPlayer.setRepeatMode(repeat ? RepeatMode.ONE : (listening == Playlists.FAVORITES && favorites == null ? RepeatMode.NO : RepeatMode.ALL));
 		if (linked != null) linked.repeatItem();
 		return repeat;
 	}
-	
+
 	public Playlist getFavorites() {
 		return favorites;
 	}
-	
+
 	public void setFavorites(Song... songs) {
 		favorites = new Playlist(songs);
 	}
@@ -463,7 +457,7 @@ public class PlayerData implements Listener{
 		map.put("particles", hasParticles());
 		map.put("repeat", isRepeatEnabled());
 		map.put("playlist", listening.name());
-		
+
 		if (favorites != null) {
 			List<String> list = new ArrayList<>();
 			for (Song song : favorites.getSongList()) list.add(JukeBox.getInternal(song));
@@ -487,7 +481,7 @@ public class PlayerData implements Listener{
 		if (map.containsKey("volume")) pdata.setVolume((int) map.get("volume"));
 		if (map.containsKey("particles")) pdata.setParticles((boolean) map.get("particles"));
 		if (map.containsKey("repeat")) pdata.setRepeat((boolean) map.get("repeat"));
-		
+
 		if (map.containsKey("favorites")) {
 			pdata.setPlaylist(Playlists.FAVORITES, false);
 			for (String s : (List<String>) map.get("favorites")) {
@@ -501,10 +495,10 @@ public class PlayerData implements Listener{
 		if (map.containsKey("playlist")) {
 			pdata.setPlaylist(Playlists.valueOf((String) map.get("playlist")), false);
 		}
-		
+
 		if (JukeBox.autoJoin) pdata.setJoinMusic(true);
 
 		return pdata;
 	}
-	
+
 }
