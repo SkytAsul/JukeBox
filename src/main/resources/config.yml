@@ -1,4 +1,4 @@
-# language - available by default : en, fr, de, se, cn, es, ja, sk, lt, hu, pl, id, ru, zh, ko, nl, it
+# language - available by default : en, fr, de, se, es, ja, sk, lt, hu, pl, id, ru, ko, nl, it, zh_CN, zh_TW
 lang: en
 
 # force the music played on join (players can't disable it)

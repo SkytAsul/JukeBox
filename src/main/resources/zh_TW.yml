@@ -1,0 +1,44 @@
+NEXT_PAGE: §b下一頁
+LATER_PAGE: §b上一頁
+CURRENT_PAGE: §3§o第 %d/%d 頁
+PLAYER: §c你必須是玩家才能執行此指令。
+RELOAD_MUSIC: §a已重新載入音樂。
+INV_NAME: §d§l唱片機！
+TOGGLE_PLAYING: §6暫停/播放
+VOLUME: '§9音樂音量：§b'
+RIGHT_CLICK: '§e點擊右鍵：降低音量 10%'
+LEFT_CLICK: '§e點擊左鍵：增加音量 10%'
+RANDOM_MUSIC: §3隨機播放音樂
+STOP: §c停止音樂
+MUSIC_STOPPED: §a已停止音樂。
+ENABLE: 啟用
+DISABLE: 停用
+ENABLED: 已啟用
+DISABLED: 已停用
+TOGGLE_SHUFFLE_MODE: '{TOGGLE}隨機播放模式'
+TOGGLE_LOOP_MODE: '{TOGGLE}循環播放模式'
+TOGGLE_CONNEXION_MUSIC: '{TOGGLE}登入播放音樂'
+TOGGLE_PARTICLES: '{TOGGLE}粒子效果'
+MUSIC_PLAYING: '§a正在播放音樂。'
+INCORRECT_SYNTAX: §c語法不正確。
+RELOAD_LAUNCH: §a正在嘗試重新載入。
+RELOAD_FINISH: §a已完成重新載入。
+AVAILABLE_COMMANDS: '§a可供使用的指令：'
+INVALID_NUMBER: §c無效的數字。
+PLAYER_MUSIC_STOPPED: '§a已停止此玩家的音樂：§b'
+IN_PLAYLIST: §9§o在播放清單中
+PLAYLIST_ITEM: §d播放清單
+OPTIONS_ITEM: §b選項
+MENU_ITEM: §6返回選單
+CLEAR_PLAYLIST: §c清空目前的播放清單
+NEXT_ITEM: §e下一首
+CHANGE_PLAYLIST: '§6§l切換播放清單：§r'
+CHANGE_PLAYLIST_LORE: |-
+  §e對唱片點擊中鍵
+  §e以從播放清單新增/移除歌曲
+PLAYLIST: §5播放清單
+FAVORITES: §4我的最愛
+RADIO: §3廣播電臺
+UNAVAILABLE_RADIO: §c聆聽廣播電臺時，無法執行此動作。
+NONE: §c無
+# 繁體中文由 flandretw 翻譯，你可以在 GitHub、Crowdin、Discord 甚至是 YouTube 上找到我。
