@@ -5,7 +5,7 @@ RELOAD_MUSIC: §aNeuladen
 INV_NAME: §aMusikBox
 TOGGLE_PLAYING: §aStart/Stop
 VOLUME: §9Lautstärke
-RIGHT_CLICK: §aRechtsklick
+RIGHT_CLICK: §aLinksklick
 LEFT_CLICK: §aLinksklick
 RANDOM_MUSIC: §9Random Musik
 STOP: §cMusik Anhalten

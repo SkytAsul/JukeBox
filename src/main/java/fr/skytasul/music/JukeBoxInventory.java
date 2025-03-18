@@ -114,7 +114,8 @@ public class JukeBoxInventory implements Listener{
 			inv.setItem(50, optionsMenuItem);
 			break;
 		case OPTIONS:
-			inv.setItem(47, item(Material.BEACON, "§cerror", Lang.RIGHT_CLICK, Lang.LEFT_CLICK));
+			inv.setItem(46, item(Material.REDSTONE_BLOCK, "§cerror", Lang.RIGHT_CLICK));
+			inv.setItem(47, item(Material.BEACON, "§cerror", Lang.LEFT_CLICK));
 			volumeItem();
 			if (pdata.getPlaylistType() != Playlists.RADIO) {
 				if (JukeBox.particles && pdata.getPlayer().hasPermission("music.particles")) inv.setItem(48, item(particles, "§cerror"));
@@ -216,13 +217,12 @@ public class JukeBoxInventory implements Listener{
 
 			case OPTIONS:
 				switch (slot) {
-				case 47:
-					if (e.getClick() == ClickType.RIGHT || e.getAction().equals(InventoryAction.MOVE_TO_OTHER_INVENTORY) || e.getClick() == ClickType.DROP) {
-						pdata.setVolume((byte) (pdata.getVolume() - 10));
-					}else if(e.getClick() == ClickType.LEFT){ 
-						pdata.setVolume((byte) (pdata.getVolume() + 10));
-					}
+				case 46:
+					if(e.getClick() == ClickType.LEFT) pdata.setVolume((byte) (pdata.getVolume() - 10));
 					if (pdata.getVolume() < 0) pdata.setVolume((byte) 0);
+					break;
+				case 47:
+					if(e.getClick() == ClickType.LEFT) pdata.setVolume((byte) (pdata.getVolume() + 10)); 
 					if (pdata.getVolume() > 100) pdata.setVolume((byte) 100);
 					break;
 
@@ -277,6 +277,7 @@ public class JukeBoxInventory implements Listener{
 
 	public void volumeItem(){
 		if (menu == ItemsMenu.OPTIONS) name(inv.getItem(47), Lang.VOLUME + pdata.getVolume() + "%");
+		if (menu == ItemsMenu.OPTIONS) name(inv.getItem(46), Lang.VOLUME + pdata.getVolume() + "%");
 	}
 
 	public void particlesItem(){

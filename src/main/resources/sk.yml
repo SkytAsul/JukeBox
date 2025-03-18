@@ -5,7 +5,7 @@ RELOAD_MUSIC: §aHudba resetována.
 INV_NAME: §d§lJukebox!
 TOGGLE_PLAYING: §6Pauza/hrát
 VOLUME: '§9Hlasitost hudby : §b'
-RIGHT_CLICK: '§ePravým kliknutím: snížit o 10%'
+RIGHT_CLICK: '§eLevým kliknutím: snížit o 10%'
 LEFT_CLICK: '§eLevým kliknutím: zvýšit 10%'
 RANDOM_MUSIC: §3Náhodná hudba.
 STOP: §cZastavit hudbu

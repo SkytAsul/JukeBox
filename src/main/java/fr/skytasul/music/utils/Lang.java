@@ -23,7 +23,7 @@ public class Lang{
 	public static String INV_NAME = ChatColor.LIGHT_PURPLE + "§lJukebox !";
 	public static String TOGGLE_PLAYING = ChatColor.GOLD + "Pause/play";
 	public static String VOLUME = ChatColor.BLUE + "Music volume : §b";
-	public static String RIGHT_CLICK = "§eRight click: decrease by 10%";
+	public static String RIGHT_CLICK = "§eLeft click: decrease by 10%";
 	public static String LEFT_CLICK = "§eLeft click: increase by 10%";
 	public static String RANDOM_MUSIC = ChatColor.DARK_AQUA + "Random music";
 	public static String STOP = ChatColor.RED + "Stop the music";

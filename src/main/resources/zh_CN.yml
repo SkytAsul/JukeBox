@@ -6,7 +6,7 @@ RELOAD_MUSIC: §a红石音乐已重新加载.
 INV_NAME: §d§l红石音乐
 TOGGLE_PLAYING: §6暂停/播放
 VOLUME: '§9当前音量 : §b'
-RIGHT_CLICK: §e右击：减少10%音量
+RIGHT_CLICK: §e点击：减少10%音量
 LEFT_CLICK: §e点击：增加10%音量
 RANDOM_MUSIC: §3随机播放音乐
 STOP: §c停止音乐播放

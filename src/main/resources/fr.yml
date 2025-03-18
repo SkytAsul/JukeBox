@@ -6,7 +6,7 @@ RELOAD_MUSIC: §aMusique relancée.
 INV_NAME: §d§lJukebox !
 TOGGLE_PLAYING: §6Mettre en pause/reprendre
 VOLUME: '§9Volume de la musique : §b'
-RIGHT_CLICK: '§eClic droit : baisser de 10%'
+RIGHT_CLICK: '§eClic gauche : baisser de 10%'
 LEFT_CLICK: '§eClic gauche : monter de 10%'
 RANDOM_MUSIC: §3Musique aléatoire
 STOP: §cArrêter la musique

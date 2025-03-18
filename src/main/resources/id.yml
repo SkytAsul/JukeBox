@@ -5,7 +5,7 @@ RELOAD_MUSIC: §aMusic dimuat ulang.
 INV_NAME: §d§lJukebox !
 TOGGLE_PLAYING: §6Jeda/main
 VOLUME: '§9Volume musik : §b'
-RIGHT_CLICK: '§eKlik kanan: mengurangi 10%'
+RIGHT_CLICK: '§eKlik kiri: mengurangi 10%'
 LEFT_CLICK: '§eKlik kiri: menambah 10%'
 RANDOM_MUSIC: §3Musik acak
 STOP: §cHentikan musik

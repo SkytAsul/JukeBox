@@ -6,7 +6,7 @@ RELOAD_MUSIC: §a音楽を再読込しました。
 INV_NAME: §d§lJukebox !
 TOGGLE_PLAYING: §6一時停止/再生
 VOLUME: '§9音量 : §b'
-RIGHT_CLICK: '§e右クリック: 音量を10%下げる'
+RIGHT_CLICK: '§e左クリック: 音量を10%下げる'
 LEFT_CLICK: '§e左クリック: 音量を10%上げる'
 RANDOM_MUSIC: §3ランダム再生
 STOP: §c音楽停止

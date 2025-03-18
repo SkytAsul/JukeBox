@@ -5,7 +5,7 @@ RELOAD_MUSIC: §a음악을 새로고침했습니다.
 INV_NAME: §d§lJukebox !
 TOGGLE_PLAYING: §6정지 / 재생
 VOLUME: '§9볼륨 : §b'
-RIGHT_CLICK: '§e우클릭 : 볼륨 10% 감소'
+RIGHT_CLICK: '§e좌클릭 : 볼륨 10% 감소'
 LEFT_CLICK: '§e좌클릭 : 볼륨 10% 증가'
 RANDOM_MUSIC: §3랜덤 재생 모드
 STOP: §c멈춤

@@ -5,7 +5,7 @@ RELOAD_MUSIC: §aMuzyka Odświeżona.
 INV_NAME: §d§lRADIO!
 TOGGLE_PLAYING: §6Pauza/Graj
 VOLUME: '§9Głośność : §b'
-RIGHT_CLICK: '§ePrawy Przycisk: Zmniejsza o 10%'
+RIGHT_CLICK: '§eLewy Przycisk: Zmniejsza o 10%'
 LEFT_CLICK: '§eLewy Przycisk: Zwiększa o 10%'
 RANDOM_MUSIC: §3Losowa Muzyka
 STOP: §cZatrzymaj Muzyke

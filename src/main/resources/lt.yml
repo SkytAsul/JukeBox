@@ -5,7 +5,7 @@ RELOAD_MUSIC: §aMuzika perkrauta.
 INV_NAME: §d§lMuzika
 TOGGLE_PLAYING: §6Sustabdyti/Groti
 VOLUME: '§9Muzikos garsas : §b'
-RIGHT_CLICK: '§eDešinysis pelės mygtukas: padidina garsą 10%'
+RIGHT_CLICK: '§eKairysis pelės mygtukas: padidina garsą 10%'
 LEFT_CLICK: '§eKairysis pelės mygtukas: sumažina garsą 10%'
 RANDOM_MUSIC: §3Atsitiktinė daina
 STOP: §cNustoti groti
