@@ -216,7 +216,7 @@ public class JukeBoxInventory implements Listener{
 			case OPTIONS:
 				switch (slot) {
 				case 47:
-					if (e.getClick() == ClickType.RIGHT) pdata.setVolume((byte) (pdata.getVolume() - 10));
+					if (e.getClick() == ClickType.RIGHT || e.getClick() == ClickType.SHIFT_LEFT || e.getClick() == ClickType.SHIFT_RIGHT) pdata.setVolume((byte) (pdata.getVolume() - 10));
 					if (e.getClick() == ClickType.LEFT) pdata.setVolume((byte) (pdata.getVolume() + 10));
 					if (pdata.getVolume() < 0) pdata.setVolume((byte) 0);
 					if (pdata.getVolume() > 100) pdata.setVolume((byte) 100);
