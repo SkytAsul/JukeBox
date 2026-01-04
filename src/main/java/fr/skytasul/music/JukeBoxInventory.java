@@ -142,7 +142,10 @@ public class JukeBoxInventory implements Listener{
 	public void onClick(InventoryClickEvent e){
 		Player p = (Player) e.getWhoClicked();
 		if (e.getClickedInventory() != inv) return;
-		if (e.getCurrentItem() == null) return;
+		if (e.getCurrentItem() == null){
+			e.setCancelled(true);
+			return;
+		}
 		if (!p.getUniqueId().equals(id)) return;
 		e.setCancelled(true);
 		int slot = e.getSlot();
