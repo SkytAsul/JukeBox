@@ -1,15 +1,9 @@
 package fr.skytasul.music.utils;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.Properties;
-
-import org.bukkit.configuration.ConfigurationSection;
-
 import fr.skytasul.music.JukeBox;
+import org.bukkit.configuration.ConfigurationSection;
+import java.sql.*;
+import java.util.Properties;
 
 public class Database {
 
@@ -59,14 +53,19 @@ public class Database {
 		}
 		return true;
 	}
-	
-	public boolean isClosed() {
+
+	private boolean isClosed() {
 		try {
 			return connection == null || connection.isClosed() || !connection.isValid(0);
 		}catch (SQLException e) {
 			e.printStackTrace();
 			return true;
 		}
+	}
+
+	public Connection getConnection() {
+		openConnection();
+		return connection;
 	}
 
 	public void closeConnection() {
@@ -81,23 +80,9 @@ public class Database {
 		}
 	}
 
-	public PreparedStatement prepareStatement(String sql) throws SQLException {
-		return connection.prepareStatement(sql);
-	}
-
-	public PreparedStatement prepareStatementGeneratedKeys(String sql) throws SQLException {
-		return connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-	}
-
-	public Connection getConnection() {
-		return connection;
-	}
-
 	public class JBStatement {
 		private final String statement;
 		private boolean returnGeneratedKeys;
-
-		private PreparedStatement prepared;
 
 		public JBStatement(String statement) {
 			this(statement, false);
@@ -109,11 +94,9 @@ public class Database {
 		}
 
 		public PreparedStatement getStatement() throws SQLException {
-			if (prepared == null || prepared.isClosed() || isClosed()) {
-				openConnection();
-				prepared = returnGeneratedKeys ? connection.prepareStatement(statement, Statement.RETURN_GENERATED_KEYS) : connection.prepareStatement(statement);
-			}
-			return prepared;
+			openConnection();
+			return returnGeneratedKeys ? connection.prepareStatement(statement, Statement.RETURN_GENERATED_KEYS)
+					: connection.prepareStatement(statement);
 		}
 
 		public String getStatementCommand() {
