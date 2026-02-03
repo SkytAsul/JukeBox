@@ -129,8 +129,8 @@ public class JukeBox extends JavaPlugin implements Listener{
 			radio.stop();
 			radio = null;
 		}
+		players.set("players", datas.getSerializedList());
 		if (datas != null) {
-			if (savePlayerDatas && db == null) players.set("players", datas.getSerializedList());
 			players.set("item", (jukeboxItem == null) ? null : jukeboxItem.serialize());
 			try {
 				players.save(playersFile);
