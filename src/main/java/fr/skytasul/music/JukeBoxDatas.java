@@ -67,7 +67,6 @@ public class JukeBoxDatas {
 		List<Map<String, Object>> list = new ArrayList<>();
 		for (PlayerData pdata : players.values()) {
 			if (pdata.getPlayer() != null && !JukeBox.canSaveDatas(pdata.getPlayer())) continue;
-			if (pdata.songPlayer != null) pdata.stopPlaying(true);
 			if (!pdata.isDefault(JukeBox.defaultPlayer)) list.add(pdata.serialize());
 		}
 		return list;
