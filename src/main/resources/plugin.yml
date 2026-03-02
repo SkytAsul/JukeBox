@@ -6,7 +6,7 @@ main: fr.skytasul.music.JukeBox
 api-version: 1.21
 website: https://www.spigotmc.org/resources/jukebox-music-plugin.40580/
 depend: [NoteBlockAPI]
-softdepend: [PlaceholderAPI]
+softdepend: [PlaceholderAPI,floodgate]
 commands:
   music:
     description: Main command for musics

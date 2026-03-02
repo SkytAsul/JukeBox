@@ -38,3 +38,41 @@ RADIO: §3Радио
 UNAVAILABLE_RADIO: §cДействие недоступно во время прослушивания радио.
 NONE: §cничего
 # Translated by Astrogue
+
+# Bedrock Edition Form Strings
+BEDROCK_FORM_TITLE: §lМузыкальная шкатулка
+BEDROCK_FORM_CONTENT: 'Выберите желаемое действие:'
+BEDROCK_BUTTON_SONG_LIST: Список музыки
+BEDROCK_BUTTON_PLAYBACK_OPTIONS: Параметры воспроизведения
+BEDROCK_BUTTON_RADIO_ON: Режим радио
+BEDROCK_BUTTON_RADIO_OFF: Остановить радио
+BEDROCK_BUTTON_SETTINGS: Настройки
+BEDROCK_PLAYBACK_TITLE: §lПараметры воспроизведения
+BEDROCK_PLAYBACK_CONTENT: 'Выберите действие управления воспроизведением:'
+BEDROCK_BUTTON_RANDOM: Случайное воспроизведение
+BEDROCK_BUTTON_PAUSE_RESUME: Пауза/Продолжить
+BEDROCK_BUTTON_STOP: Остановить музыку
+BEDROCK_BUTTON_BACK: « Вернуться в главное меню
+BEDROCK_SONG_SELECT_TITLE: §lВыбрать песню (страница %d/%d)
+BEDROCK_SONG_SELECT_CONTENT: 'Выберите песню для воспроизведения:'
+BEDROCK_BUTTON_PREV_PAGE: ⬅ Предыдущая страница
+BEDROCK_BUTTON_NEXT_PAGE: Следующая страница ➡
+BEDROCK_PLAYLIST_TITLE: §lПлейлист
+BEDROCK_PLAYLIST_CONTENT: 'Управляйте вашим плейлистом:'
+BEDROCK_PLAYLIST_CURRENT: 'Текущий плейлист: §l'
+BEDROCK_BUTTON_SWITCH_PLAYLIST: Переключить плейлист
+BEDROCK_BUTTON_NEXT_SONG: ⏭ Следующая песня
+BEDROCK_BUTTON_CLEAR_PLAYLIST: Очистить плейлист
+BEDROCK_CLEAR_CONFIRM_TITLE: Подтверждение действия
+BEDROCK_CLEAR_CONFIRM_CONTENT: Вы уверены, что хотите очистить текущий плейлист? Это действие нельзя отменить.
+BEDROCK_BUTTON_CONFIRM: Подтвердить
+BEDROCK_BUTTON_CANCEL: Отмена
+BEDROCK_PLAYLIST_CLEARED: §aПлейлист очищен
+BEDROCK_SETTINGS_TITLE: §lНастройки музыки
+BEDROCK_SETTINGS_VOLUME: Громкость
+BEDROCK_SETTINGS_PARTICLES: Эффекты частиц
+BEDROCK_SETTINGS_JOIN_MUSIC: Воспроизводить музыку при подключении
+BEDROCK_SETTINGS_SHUFFLE: Режим случайного воспроизведения
+BEDROCK_SETTINGS_LOOP: Режим повтора
+BEDROCK_SETTINGS_SAVED: §aНастройки сохранены
+BEDROCK_ERROR_FORM_DISPLAY: '§cНе удалось отобразить интерфейс формы:'

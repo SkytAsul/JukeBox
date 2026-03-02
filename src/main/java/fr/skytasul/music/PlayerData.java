@@ -93,6 +93,10 @@ public class PlayerData implements Listener{
 		Player p = e.getPlayer();
 		if (!p.getUniqueId().equals(id)) return;
 		if (songPlayer != null) songPlayer.setPlaying(false);
+		if (listening == Playlists.RADIO) {
+			JukeBox.radio.leave(p);
+			this.listening = Playlists.PLAYLIST;
+		}
 		p = null;
 	}
 

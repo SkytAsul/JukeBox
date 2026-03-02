@@ -49,6 +49,8 @@ public class JukeBox extends JavaPlugin implements Listener{
 	private static JukeBox instance;
 	private boolean disable = false;
 
+	public static boolean floodgateAvailable = false;
+
 	private static File playersFile;
 	public static FileConfiguration players;
 	public static File songsFolder;
@@ -102,6 +104,9 @@ public class JukeBox extends JavaPlugin implements Listener{
 	public void onEnable(){
 		instance = this;
 
+		// Check Floodgate
+		checkFloodgateAvailability();
+		
 		if (getServer().getPluginManager().isPluginEnabled("PlaceholderAPI")) Placeholders.registerPlaceholders();
 		getLogger().info("This JukeBox version requires NoteBlockAPI version 1.5.0 or more. Please ensure you have the right version before using JukeBox (you are using NBAPI ver. " + getPlugin(NoteBlockAPI.class).getDescription().getVersion() + ")");
 
@@ -482,4 +487,21 @@ public class JukeBox extends JavaPlugin implements Listener{
 		return false;
 	}
 
+	/**
+	 * Check Floodgate
+	 */
+	private void checkFloodgateAvailability() {
+		try {
+			Class.forName("org.geysermc.floodgate.api.FloodgateApi");
+			floodgateAvailable = true;
+			getLogger().info("Floodgate detected, Bedrock Edition form functionality enabled");
+		} catch (ClassNotFoundException e) {
+			floodgateAvailable = false;
+			getLogger().info("Floodgate not detected, only Java Edition players supported");
+		}
+	}
+	
+	public static boolean isFloodgateAvailable() {
+		return floodgateAvailable;
+	}
 }

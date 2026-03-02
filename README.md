@@ -6,6 +6,10 @@ JukeBox is a plugin that allows you to listen to music on your Minecraft server.
 > Important bugs that prevent the use of the plugin will still get fixed, but please note that there is no
 > point in making feature requests, except if you are willing to program them yourself and propose Pull Requests.
 
+## Geyser Bedrock Support！
+What's New?
+The plugin now supports player forms for Bedrock Edition, and you only need to install floodgate to use it. : )
+
 ## How to download?
 The official page for this project is on [SpigotMC](https://www.spigotmc.org/resources/jukebox-music-plugin.40580/).
 

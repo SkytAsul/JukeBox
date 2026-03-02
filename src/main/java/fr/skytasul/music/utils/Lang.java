@@ -56,6 +56,44 @@ public class Lang{
 	public static String RADIO = ChatColor.DARK_AQUA + "Radio";
 	public static String UNAVAILABLE_RADIO = ChatColor.RED + "This action is unavailable while listening to the radio.";
 	public static String NONE = ChatColor.RED + "none";
+	
+	// Bedrock Edition Form Strings -!!AI Translated!!
+    public static String BEDROCK_FORM_TITLE = ChatColor.LIGHT_PURPLE + "§lMusic Box";
+    public static String BEDROCK_FORM_CONTENT = "Select the operation you want:";
+    public static String BEDROCK_BUTTON_SONG_LIST = "Song List";
+    public static String BEDROCK_BUTTON_PLAYBACK_OPTIONS = "Playback Options";
+    public static String BEDROCK_BUTTON_RADIO_ON = "Radio Mode";
+    public static String BEDROCK_BUTTON_RADIO_OFF = "Stop Radio";
+    public static String BEDROCK_BUTTON_SETTINGS = "Settings";
+    public static String BEDROCK_PLAYBACK_TITLE = "§lPlayback Options";
+    public static String BEDROCK_PLAYBACK_CONTENT = "Select playback control operation:";
+    public static String BEDROCK_BUTTON_RANDOM = "Shuffle";
+    public static String BEDROCK_BUTTON_PAUSE_RESUME = "Pause/Resume";
+    public static String BEDROCK_BUTTON_STOP = "Stop Music";
+    public static String BEDROCK_BUTTON_BACK = "« Back to Main Menu";
+    public static String BEDROCK_SONG_SELECT_TITLE = "§lSelect Song (Page %d/%d)";
+    public static String BEDROCK_SONG_SELECT_CONTENT = "Please select a song to play:";
+    public static String BEDROCK_BUTTON_PREV_PAGE = "⬅ Previous Page";
+    public static String BEDROCK_BUTTON_NEXT_PAGE = "Next Page ➡";
+    public static String BEDROCK_PLAYLIST_TITLE = "§lPlaylist";
+    public static String BEDROCK_PLAYLIST_CONTENT = "Manage your playlists:";
+    public static String BEDROCK_PLAYLIST_CURRENT = "Current Playlist: §l";
+    public static String BEDROCK_BUTTON_SWITCH_PLAYLIST = "Switch Playlist";
+    public static String BEDROCK_BUTTON_NEXT_SONG = "⏭ Next Song";
+    public static String BEDROCK_BUTTON_CLEAR_PLAYLIST = "Clear Playlist";
+    public static String BEDROCK_CLEAR_CONFIRM_TITLE = "Confirm Action";
+    public static String BEDROCK_CLEAR_CONFIRM_CONTENT = "Are you sure you want to clear the current playlist? This action cannot be undone.";
+    public static String BEDROCK_BUTTON_CONFIRM = "Confirm";
+    public static String BEDROCK_BUTTON_CANCEL = "Cancel";
+    public static String BEDROCK_PLAYLIST_CLEARED = "§aPlaylist cleared successfully";
+    public static String BEDROCK_SETTINGS_TITLE = "§lMusic Settings";
+    public static String BEDROCK_SETTINGS_VOLUME = "Volume";
+    public static String BEDROCK_SETTINGS_PARTICLES = "Particle Effects";
+    public static String BEDROCK_SETTINGS_JOIN_MUSIC = "Play Music on Join";
+    public static String BEDROCK_SETTINGS_SHUFFLE = "Shuffle Mode";
+    public static String BEDROCK_SETTINGS_LOOP = "Loop Playback";
+    public static String BEDROCK_SETTINGS_SAVED = "§aSettings saved successfully";
+    public static String BEDROCK_ERROR_FORM_DISPLAY = "§cUnable to display form interface: ";
 
 	public static void saveFile(YamlConfiguration cfg, File file) throws ReflectiveOperationException, IOException {
 		for (Field f : Lang.class.getDeclaredFields()){
