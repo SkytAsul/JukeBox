@@ -38,15 +38,12 @@ public class JukeBoxInventory implements Listener{
 
 	private static ItemStack stopItem = item(Material.BARRIER, Lang.STOP);
 	private static ItemStack menuItem = item(Material.TRAPPED_CHEST, Lang.MENU_ITEM);
-	private static ItemStack toggleItem = item(JukeBox.version < 9 ? Material.STONE_BUTTON : Material.valueOf("END_CRYSTAL"), Lang.TOGGLE_PLAYING);
-	private static ItemStack randomItem = item(Material.valueOf(JukeBox.version > 12 ? "FIRE_CHARGE" : "FIREBALL"), Lang.RANDOM_MUSIC);
+	private static ItemStack toggleItem = item(Material.END_CRYSTAL, Lang.TOGGLE_PLAYING);
+	private static ItemStack randomItem = item(Material.FIRE_CHARGE, Lang.RANDOM_MUSIC);
 	private static ItemStack playlistMenuItem = item(Material.CHEST, Lang.PLAYLIST_ITEM);
-	private static ItemStack optionsMenuItem = item(Material.valueOf(JukeBox.version > 12 ? "COMPARATOR" : "REDSTONE_COMPARATOR"), Lang.OPTIONS_ITEM);
+	private static ItemStack optionsMenuItem = item(Material.COMPARATOR, Lang.OPTIONS_ITEM);
 	private static ItemStack nextSongItem = item(Material.FEATHER, Lang.NEXT_ITEM);
 	private static ItemStack clearItem = item(Material.LAVA_BUCKET, Lang.CLEAR_PLAYLIST);
-	private static Material particles = JukeBox.version < 13 ? Material.valueOf("FIREWORK") : Material.valueOf("FIREWORK_ROCKET");
-	private static Material sign = JukeBox.version < 14 ? Material.valueOf("SIGN") : Material.valueOf("OAK_SIGN");
-	private static Material lead = JukeBox.version < 13 ? Material.valueOf("LEASH") : Material.valueOf("LEAD");
 	private static List<String> playlistLore = Arrays.asList("", Lang.IN_PLAYLIST);
 
 	private Material[] discs;
@@ -116,13 +113,13 @@ public class JukeBoxInventory implements Listener{
 			inv.setItem(47, item(Material.BEACON, "§cerror", Lang.RIGHT_CLICK, Lang.LEFT_CLICK));
 			volumeItem();
 			if (pdata.getPlaylistType() != Playlists.RADIO) {
-				if (JukeBox.particles && pdata.getPlayer().hasPermission("music.particles")) inv.setItem(48, item(particles, "§cerror"));
+				if (JukeBox.particles && pdata.getPlayer().hasPermission("music.particles")) inv.setItem(48, item(Material.FIREWORK_ROCKET, "§cerror"));
 				particlesItem();
-				if (pdata.getPlayer().hasPermission("music.play-on-join")) inv.setItem(49, item(sign, "§cerror"));
+				if (pdata.getPlayer().hasPermission("music.play-on-join")) inv.setItem(49, item(Material.OAK_SIGN, "§cerror"));
 				joinItem();
 				if (pdata.getPlayer().hasPermission("music.shuffle")) inv.setItem(50, item(Material.BLAZE_POWDER, "§cerror"));
 				shuffleItem();
-				if (pdata.getPlayer().hasPermission("music.loop")) inv.setItem(51, item(lead, "§cerror"));
+				if (pdata.getPlayer().hasPermission("music.loop")) inv.setItem(51, item(Material.LEAD, "§cerror"));
 				repeatItem();
 			}
 			break;

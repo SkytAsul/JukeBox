@@ -71,7 +71,7 @@ public class Lang{
 			try {
 				String str = cfg.getString(key);
 				str = ChatColor.translateAlternateColorCodes('&', str);
-				if (JukeBox.version >= 16) str = translateHexColorCodes("(&|§)#", "", str);
+				str = translateHexColorCodes("(&|§)#", "", str);
 				try {
 					Lang.class.getDeclaredField(key).set(key, str);
 				}catch (NoSuchFieldException ex) {

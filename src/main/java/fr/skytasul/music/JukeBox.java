@@ -45,7 +45,6 @@ import java.util.stream.Collectors;
 
 public class JukeBox extends JavaPlugin implements Listener{
 
-	public static int version = Integer.parseInt(Bukkit.getBukkitVersion().split("-R")[0].split("\\.")[1]);
 	private static JukeBox instance;
 	private boolean disable = false;
 
@@ -68,7 +67,6 @@ public class JukeBox extends JavaPlugin implements Listener{
 	public static boolean radioEnabled = true;
 	public static boolean radioOnJoin = false;
 	public static boolean autoReload = true;
-	public static boolean preventVanillaMusic = false;
 	public static String songOnJoinName;
 	public static Song songOnJoin;
 	public static PlayerData defaultPlayer = null;
@@ -159,24 +157,19 @@ public class JukeBox extends JavaPlugin implements Listener{
 		autoJoin = config.getBoolean("forceJoinMusic");
 		songOnJoinName = autoJoin ? config.getString("songOnJoin") : null;
 		defaultPlayer = PlayerData.deserialize(config.getConfigurationSection("defaultPlayerOptions").getValues(false), null);
-		particles = config.getBoolean("noteParticles") && version >= 9;
-		actionBar = config.getBoolean("actionBar") && version >= 9;
+		particles = config.getBoolean("noteParticles");
+		actionBar = config.getBoolean("actionBar");
 		radioEnabled = config.getBoolean("radio");
 		radioOnJoin = radioEnabled && config.getBoolean("radioOnJoin");
 		autoReload = config.getBoolean("reloadOnJoin");
-		preventVanillaMusic = config.getBoolean("preventVanillaMusic");
-		if (preventVanillaMusic && (version < 13 || version >= 18)) {
-			preventVanillaMusic = false;
-			getLogger().warning("preventVanillaMusic is enabled in config.yml but is not support in your server version.");
+		if (config.getBoolean("preventVanillaMusic")) {
+			getLogger().warning("preventVanillaMusic is enabled in config.yml but is not supported anymore on newer server versions.");
 		}
 		songItems = config.getStringList("songItems").stream().map(Material::matchMaterial).collect(Collectors.toList());
 		songItems.removeIf(x -> x == null);
 		if (songItems.isEmpty()) {
-			String[] materials;
-			if (version > 12) {
-				materials = new String[] { /*"MUSIC_DISC_11", */"MUSIC_DISC_13", "MUSIC_DISC_BLOCKS", "MUSIC_DISC_CAT", "MUSIC_DISC_CHIRP", "MUSIC_DISC_FAR", "MUSIC_DISC_MALL", "MUSIC_DISC_MELLOHI", "MUSIC_DISC_STAL", "MUSIC_DISC_STRAD", "MUSIC_DISC_WAIT", "MUSIC_DISC_WARD" };
-			}else materials = new String[] { "RECORD_10", /*"RECORD_11", */"RECORD_12", "RECORD_3", "RECORD_4", "RECORD_5", "RECORD_6", "RECORD_7", "RECORD_8", "RECORD_9", "GOLD_RECORD", "GREEN_RECORD" };
-			songItems = Arrays.stream(materials).map(Material::valueOf).collect(Collectors.toList());
+			songItems = Arrays.stream(Material.values())
+					.filter(mat -> mat.name().startsWith("MUSIC_DISC_") && mat != Material.MUSIC_DISC_11).toList();
 		}
 		itemFormat = config.getString("itemFormat");
 		itemFormatWithoutAuthor = config.getString("itemFormatWithoutAuthor");
@@ -218,32 +211,6 @@ public class JukeBox extends JavaPlugin implements Listener{
 			loadDatas();
 			finishEnabling();
 		}
-
-		if (preventVanillaMusic) {
-			try {
-				String nms = "net.minecraft.server";
-				String cb = "org.bukkit.craftbukkit";
-				Method getHandle = getVersionedClass(cb, "entity.CraftPlayer").getDeclaredMethod("getHandle");
-				Field playerConnection = getVersionedClass(nms, "EntityPlayer").getDeclaredField("playerConnection");
-				Method sendPacket = getVersionedClass(nms, "PlayerConnection").getDeclaredMethod(version < 18 ? "sendPacket" : "a", getVersionedClass(nms, "Packet"));
-				Class<?> soundCategory = getVersionedClass(nms, "SoundCategory");
-				Object packet = getVersionedClass(nms, "PacketPlayOutStopSound").getDeclaredConstructor(getVersionedClass(nms, "MinecraftKey"), soundCategory).newInstance(null, soundCategory.getDeclaredField("MUSIC").get(null));
-
-				stopVanillaMusic = player -> {
-					try {
-						sendPacket.invoke(playerConnection.get(getHandle.invoke(player)), packet);
-					}catch (ReflectiveOperationException e1) {
-						e1.printStackTrace();
-					}
-				};
-			}catch (ReflectiveOperationException ex) {
-				ex.printStackTrace();
-			}
-		}
-	}
-
-	private Class<?> getVersionedClass(String packageName, String className) throws ClassNotFoundException {
-		return Class.forName(packageName + "." + Bukkit.getServer().getClass().getPackage().getName().replace(".", ",").split(",")[3] + "." + className);
 	}
 
 	private void finishEnabling(){
